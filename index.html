@@ -3,195 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jin Lyu | 刘津</title>
+    <title>Jin</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --bg: #faf9f7;
-            --card-bg: #ffffff;
-            --text: #1a1a2e;
-            --text-secondary: #6b7280;
-            --accent: #6c5ce7;
-            --accent-light: #a29bfe;
-            --accent-bg: #f0edff;
+            --bg: #ffffff;
+            --sidebar: #f7f6f3;
+            --text: #37352f;
+            --text-secondary: #9ca3af;
+            --text-tertiary: #d1d5db;
             --border: #e5e7eb;
-            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-hover: 0 10px 25px rgba(108,92,231,0.15), 0 4px 10px rgba(0,0,0,0.06);
+            --hover-bg: #f5f5f4;
+            --accent: #37352f;
+            --link: #6b7280;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
+            line-height: 1.5;
             min-height: 100vh;
+            font-size: 15px;
         }
 
-        .container {
+        .page {
             max-width: 900px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 96px;
+        }
+
+        @media (max-width: 768px) {
+            .page { padding: 0 24px; }
         }
 
         /* Header */
         header {
-            padding: 60px 0 40px;
-            text-align: center;
+            padding: 80px 0 40px;
         }
 
-        .avatar {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 36px;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(108,92,231,0.3);
+        .page-icon {
+            font-size: 64px;
+            line-height: 1;
+            margin-bottom: 16px;
+            user-select: none;
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 6px;
             color: var(--text);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
         }
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 16px;
+            font-size: 15px;
             margin-bottom: 20px;
         }
 
         .tags {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .tag {
-            background: var(--accent-bg);
-            color: var(--accent);
-            padding: 4px 14px;
-            border-radius: 20px;
+            background: var(--hover-bg);
+            color: var(--text);
+            padding: 3px 10px;
+            border-radius: 4px;
             font-size: 13px;
-            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0;
+            border: none;
         }
 
         /* Section */
         section {
-            padding: 20px 0 40px;
+            padding: 32px 0;
         }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .section-header {
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        /* Cards Grid */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 16px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: var(--shadow);
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent-light);
-        }
-
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
+        .toggle-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 2px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .card-desc {
-            font-size: 14px;
             color: var(--text-secondary);
+            font-size: 13px;
+            transition: transform 0.2s;
+        }
+
+        .toggle-btn.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        /* Notion-style list */
+        .notion-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notion-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 6px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.1s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .notion-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .notion-bullet {
+            width: 24px;
+            min-width: 24px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-top: -1px;
+        }
+
+        .notion-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notion-title {
+            font-size: 15px;
+            color: var(--text);
             line-height: 1.5;
         }
 
-        .card-arrow {
-            margin-top: auto;
-            font-size: 14px;
-            color: var(--accent);
-            font-weight: 500;
+        .notion-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        .notion-arrow {
+            color: var(--text-tertiary);
+            font-size: 13px;
+            margin-left: 8px;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .notion-item:hover .notion-arrow {
+            opacity: 1;
+        }
+
+        /* Callout block (Notion style) */
+        .callout {
             display: flex;
-            align-items: center;
-            gap: 4px;
+            align-items: flex-start;
+            gap: 12px;
+            background: var(--sidebar);
+            border-radius: 4px;
+            padding: 16px;
+            margin: 24px 0;
+        }
+
+        .callout-icon {
+            font-size: 20px;
+            line-height: 1.4;
+        }
+
+        .callout-text {
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .callout-text a {
+            color: var(--text);
+            text-decoration: underline;
+            text-underline-offset: 2px;
         }
 
         /* Footer */
         footer {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-secondary);
-            font-size: 13px;
-            border-top: 1px solid var(--border);
+            padding: 32px 0 80px;
+            text-align: left;
+        }
+
+        footer p {
+            color: var(--text-tertiary);
+            font-size: 12px;
         }
 
         footer a {
-            color: var(--accent);
+            color: var(--text-secondary);
             text-decoration: none;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            header { padding: 40px 0 24px; }
-            h1 { font-size: 22px; }
-            .cards { grid-template-columns: 1fr; }
-            .avatar { width: 72px; height: 72px; font-size: 28px; }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="page">
         <header>
-            <div class="avatar">津</div>
-            <h1>Jin Lyu | 刘津</h1>
+            <div class="page-icon">👤</div>
+            <h1>Jin</h1>
             <p class="subtitle">复旦大学 · 应用心理学 · AI教育</p>
             <div class="tags">
                 <span class="tag">🎓 K-12/AI教育</span>
@@ -201,57 +245,101 @@
             </div>
         </header>
 
-        <section>
-            <div class="section-title">🧩 互动工具</div>
-            <div class="cards">
-                <a class="card" href="/counseling-game/">
-                    <div class="card-icon" style="background: #f0edff;">🧠</div>
-                    <div class="card-title">心理咨询术语连连看</div>
-                    <div class="card-desc">中英文配对游戏，支持团队竞赛模式，帮助学生快速记忆咨询专业术语</div>
-                    <div class="card-arrow">进入游戏 →</div>
-                </a>
-                <a class="card" href="/ai-mental-health-workshop/">
-                    <div class="card-icon" style="background: #fef3c7;">🏠</div>
-                    <div class="card-title">AI心理健康工作坊</div>
-                    <div class="card-desc">AI伴侣与亲密关系支持系统、DBT自我安抚、睡眠行为干预等互动展示</div>
-                    <div class="card-arrow">查看详情 →</div>
-                </a>
-            </div>
-        </section>
+        <hr class="divider">
 
         <section>
-            <div class="section-title">📄 项目与报告</div>
-            <div class="cards">
-                <a class="card" href="/jin-story-collection/">
-                    <div class="card-icon" style="background: #dcfce7;">📚</div>
-                    <div class="card-title">铁粉故事集</div>
-                    <div class="card-desc">AI教育产品的用户故事与粘性分析，投资人路演材料</div>
-                    <div class="card-arrow">查看详情 →</div>
-                </a>
-                <a class="card" href="/ai-mental-health-proposal/">
-                    <div class="card-icon" style="background: #fce7f3;">💡</div>
-                    <div class="card-title">AI心理健康提案</div>
-                    <div class="card-desc">AI+心理健康领域项目计划书与发展蓝图</div>
-                    <div class="card-arrow">查看详情 →</div>
-                </a>
-                <a class="card" href="/teaching-statement/">
-                    <div class="card-icon" style="background: #e0f2fe;">📖</div>
-                    <div class="card-title">教学理念</div>
-                    <div class="card-desc">个人教学声明与教育理念阐述</div>
-                    <div class="card-arrow">查看详情 →</div>
-                </a>
-                <a class="card" href="/jinlyu-resume/">
-                    <div class="card-icon" style="background: #f5f3ff;">📋</div>
-                    <div class="card-title">个人简历</div>
-                    <div class="card-desc">教育背景、研究经历与专业资质</div>
-                    <div class="card-arrow">查看详情 →</div>
-                </a>
+            <div class="section-header">
+                <button class="toggle-btn" onclick="toggleSection(this)">▼</button>
+                <span>互动工具</span>
             </div>
+            <ul class="notion-list">
+                <li>
+                    <a class="notion-item" href="/counseling-game/">
+                        <span class="notion-bullet">🧠</span>
+                        <div class="notion-text">
+                            <div class="notion-title">心理咨询术语连连看 <span class="notion-arrow">→</span></div>
+                            <div class="notion-desc">中英文配对游戏，支持团队竞赛模式，帮助学生快速记忆咨询专业术语</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a class="notion-item" href="/ai-mental-health-workshop/">
+                        <span class="notion-bullet">🏠</span>
+                        <div class="notion-text">
+                            <div class="notion-title">AI心理健康工作坊 <span class="notion-arrow">→</span></div>
+                            <div class="notion-desc">AI伴侣与亲密关系支持系统、DBT自我安抚、睡眠行为干预等互动展示</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </section>
+
+        <hr class="divider">
+
+        <section>
+            <div class="section-header">
+                <button class="toggle-btn" onclick="toggleSection(this)">▼</button>
+                <span>项目与报告</span>
+            </div>
+            <ul class="notion-list">
+                <li>
+                    <a class="notion-item" href="/jin-story-collection/">
+                        <span class="notion-bullet">📚</span>
+                        <div class="notion-text">
+                            <div class="notion-title">铁粉故事集 <span class="notion-arrow">→</span></div>
+                            <div class="notion-desc">AI教育产品的用户故事与粘性分析，投资人路演材料</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a class="notion-item" href="/ai-mental-health-proposal/">
+                        <span class="notion-bullet">💡</span>
+                        <div class="notion-text">
+                            <div class="notion-title">AI心理健康提案 <span class="notion-arrow">→</span></div>
+                            <div class="notion-desc">AI+心理健康领域项目计划书与发展蓝图</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a class="notion-item" href="/teaching-statement/">
+                        <span class="notion-bullet">📖</span>
+                        <div class="notion-text">
+                            <div class="notion-title">教学理念 <span class="notion-arrow">→</span></div>
+                            <div class="notion-desc">个人教学声明与教育理念阐述</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a class="notion-item" href="/jinlyu-resume/">
+                        <span class="notion-bullet">📋</span>
+                        <div class="notion-text">
+                            <div class="notion-title">个人简历 <span class="notion-arrow">→</span></div>
+                            <div class="notion-desc">教育背景、研究经历与专业资质</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <div class="callout">
+            <span class="callout-icon">💡</span>
+            <div class="callout-text">
+                所有页面均托管于 <a href="https://pages.github.com" target="_blank">GitHub Pages</a>，免费、快速、自动部署。
+            </div>
+        </div>
 
         <footer>
-            <p>© 2026 Jin Lyu · Powered by <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+            <p>© 2026 Jin · <a href="https://jinlyu.com">jinlyu.com</a></p>
         </footer>
     </div>
+
+    <script>
+        function toggleSection(btn) {
+            const section = btn.closest('section');
+            const list = section.querySelector('.notion-list');
+            btn.classList.toggle('collapsed');
+            list.style.display = btn.classList.contains('collapsed') ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
