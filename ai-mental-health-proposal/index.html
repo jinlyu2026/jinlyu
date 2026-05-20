@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI，让你变得不可替代 · 两天项目式工作坊</title>
+<style>
+  :root {
+    --c1: #4361ee; --c2: #7209b7; --c3: #f77f00; --c4: #06d6a0;
+    --gold: #e9b741; --red: #ef476f;
+    --ink: #1a1a2e; --muted: #5a6c7d; --bg: #f8f9fc;
+    --card-bg: #ffffff; --border: #e8ecf1;
+    --radius: 16px; --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,.06);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,.10);
+    --font: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", -apple-system, sans-serif;
+    --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family:var(--font); background:var(--bg); color:var(--ink);
+    line-height:1.75; padding:0; -webkit-font-smoothing:antialiased;
+  }
+  .page { max-width:1000px; margin:0 auto; padding:0 24px 80px; }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #0a0a1a 0%, #12122a 25%, #0d1b3e 50%, #051a2e 100%);
+    color:#fff; border-radius:0 0 32px 32px;
+    padding:72px 52px 56px; margin:0 -24px 52px;
+    position:relative; overflow:hidden;
+  }
+  .hero::after {
+    content:""; position:absolute; top:-120px; right:-80px;
+    width:420px; height:420px;
+    background:radial-gradient(circle, rgba(67,97,238,.25) 0%, transparent 70%);
+    border-radius:50%; animation: float 12s ease-in-out infinite;
+  }
+  .hero::before {
+    content:""; position:absolute; bottom:-100px; left:-60px;
+    width:340px; height:340px;
+    background:radial-gradient(circle, rgba(6,214,160,.2) 0%, transparent 70%);
+    border-radius:50%; animation: float 15s ease-in-out infinite reverse;
+  }
+  @keyframes float {
+    0%,100% { transform:translate(0,0) scale(1); }
+    33% { transform:translate(20px,-20px) scale(1.05); }
+    66% { transform:translate(-10px,15px) scale(0.97); }
+  }
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .hero-inner { position:relative; z-index:1; max-width:860px; }
+  .hero h1 {
+    font-size:clamp(32px,5vw,52px); font-weight:900; letter-spacing:-1px;
+    line-height:1.15; animation: fadeInUp .8s ease-out;
+    background: linear-gradient(135deg, #fff 0%, #c0d0ff 50%, #9df0d0 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero .oneliner {
+    font-size:clamp(16px,2vw,19px); margin-top:18px;
+    color:rgba(255,255,255,.62); line-height:1.7; animation: fadeInUp .8s ease-out .15s both;
+  }
+  .hero .oneliner em { color:#f0c060; font-style:normal; font-weight:600; }
+  .hero-meta {
+    display:flex; gap:10px; flex-wrap:wrap; margin-top:28px;
+    animation: fadeInUp .8s ease-out .3s both;
+  }
+  .hero-meta span {
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+    padding:8px 18px; border-radius:24px; font-size:14px;
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    transition:var(--transition);
+  }
+  .hero-meta span:hover { background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.25); }
+
+  /* ── Section ── */
+  .sec { margin-bottom:60px; }
+  .sec-h {
+    font-size:clamp(20px,3vw,26px); font-weight:800; margin-bottom:22px;
+    display:flex; align-items:center; gap:10px;
+    letter-spacing:-0.5px;
+  }
+  .card {
+    background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:30px 34px; margin-bottom:18px; transition:var(--transition);
+  }
+  .card:hover { box-shadow:var(--shadow-lg); transform:translateY(-1px); }
+
+  /* ── Big Question ── */
+  .big-question {
+    background: linear-gradient(160deg, #fefdf8, #fdf6e8, #fef9f0);
+    border: 2px solid #e8d5a8; border-radius: var(--radius);
+    padding:44px 40px; margin-bottom:52px; text-align: center;
+    box-shadow: 0 8px 40px rgba(180,130,40,.08);
+  }
+  .big-question .q { font-size:clamp(22px,3.5vw,32px); font-weight:900; color:#4a3000; margin-bottom:16px; letter-spacing:-0.5px; }
+  .big-question .sub { font-size:15px; color:#7a5820; line-height:1.8; }
+  .big-question .poles { display:flex; justify-content:center; gap:32px; margin-top:24px; align-items:center; flex-wrap:wrap; }
+  .big-question .pole {
+    background:#fff; border:1px solid #e8d5a8; border-radius:16px;
+    padding:22px 26px; text-align:center; min-width:180px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.03); transition:var(--transition);
+  }
+  .big-question .pole:hover { transform:translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,.08); }
+  .big-question .pole .label { font-size:12px; color:#999; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+  .big-question .pole .text { font-size:17px; font-weight:700; line-height:1.6; }
+  .big-question .pole .text.bad { color:var(--red); }
+  .big-question .pole .text.good { color:#0d9e6c; }
+  .big-question .vs {
+    font-size:28px; font-weight:900; color:#c9a44b;
+    background:#fff; width:48px; height:48px; display:flex;
+    align-items:center; justify-content:center; border-radius:50%;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06); line-height:1;
+  }
+
+  /* ── Tension row ── */
+  .tension-row { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
+  .tension-card {
+    flex:1; min-width:220px; background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:20px 24px; transition:var(--transition);
+  }
+  .tension-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-2px); }
+  .tension-card .t-body { font-size:15px; line-height:1.7; }
+
+  /* ── 4-steps ── */
+  .steps-row { display:flex; gap:16px; flex-wrap:wrap; margin:24px 0; }
+  .step-block {
+    flex:1; min-width:200px; background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:28px 20px; text-align:center; position:relative; overflow:hidden;
+    transition:var(--transition);
+  }
+  .step-block::before {
+    content:""; position:absolute; top:0; left:0; right:0; height:5px;
+  }
+  .step-block.s1::before { background:var(--c1); }
+  .step-block.s2::before { background:var(--c2); }
+  .step-block.s3::before { background:var(--c3); }
+  .step-block.s4::before { background:var(--c4); }
+  .step-block:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+  .step-block .s-num {
+    font-size:36px; font-weight:900; margin-bottom:2px; letter-spacing:-1px;
+  }
+  .step-block.s1 .s-num { color:var(--c1); } .step-block.s2 .s-num { color:var(--c2); }
+  .step-block.s3 .s-num { color:var(--c3); } .step-block.s4 .s-num { color:var(--c4); }
+  .step-block .s-icon { font-size:32px; margin-bottom:8px; }
+  .step-block .s-title { font-weight:800; font-size:18px; margin-bottom:8px; }
+  .step-block .s-sub { font-size:14px; color:var(--muted); line-height:1.6; }
+  .step-block .s-tool { font-size:12px; color:#aaa; margin-top:10px; background:#f5f6f8; display:inline-block; padding:3px 12px; border-radius:10px; }
+  .step-block .s-output { font-size:14px; font-weight:700; margin-top:10px; color:#0d9e6c; }
+
+  /* ── Audience cards w/ gradient borders ── */
+  .audience-grid { display:flex; gap:14px; flex-wrap:wrap; }
+  .aud-card {
+    flex:1; min-width:170px; background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:22px 16px; text-align:center; transition:var(--transition);
+    position:relative; overflow:hidden;
+  }
+  .aud-card::after {
+    content:""; position:absolute; bottom:0; left:20%; right:20%; height:3px;
+    border-radius:4px 4px 0 0;
+    background:linear-gradient(90deg, var(--c1), var(--c4)); opacity:0;
+    transition:var(--transition);
+  }
+  .aud-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+  .aud-card:hover::after { opacity:1; left:10%; right:10%; }
+  .aud-card .icon { font-size:30px; margin-bottom:6px; }
+  .aud-card .label { font-weight:700; font-size:15px; }
+  .aud-card .pain { font-size:13px; color:var(--muted); margin-top:6px; line-height:1.5; }
+
+  /* ── Benefit cards ── */
+  .benefit-card {
+    background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:28px 30px; margin-bottom:16px; transition:var(--transition);
+    border-left:4px solid; position:relative;
+  }
+  .benefit-card:hover { box-shadow:var(--shadow-lg); transform:translateX(3px); }
+  .benefit-card.bc1 { border-left-color:var(--c1); }
+  .benefit-card.bc2 { border-left-color:var(--c2); }
+  .benefit-card.bc3 { border-left-color:var(--c3); }
+  .benefit-card h3 { font-size:18px; margin-bottom:10px; }
+  .benefit-card p { font-size:15px; color:var(--muted); line-height:2; }
+
+  /* ── Half-day cards ── */
+  .halfday {
+    background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    margin-bottom:24px; overflow:hidden; transition:var(--transition);
+  }
+  .halfday:hover { box-shadow:var(--shadow-lg); }
+  .halfday-header {
+    padding:20px 30px; color:#fff; display:flex;
+    justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+  }
+  .halfday-header.h1 {
+    background:linear-gradient(135deg, #4361ee, #3a56d4);
+  }
+  .halfday-header.h2 {
+    background:linear-gradient(135deg, #7209b7, #5a078f);
+  }
+  .halfday-header.h3 {
+    background:linear-gradient(135deg, #f77f00, #e06e00);
+  }
+  .halfday-header.h4 {
+    background:linear-gradient(135deg, #06d6a0, #05b88a);
+  }
+  .halfday-header h3 { font-size:19px; font-weight:700; }
+  .halfday-header .meta { font-size:13px; opacity:.85; font-weight:500; }
+  .halfday-body { padding:0; }
+
+  /* ── Tables ── */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  thead th {
+    background:#f6f8fa; padding:12px 14px; text-align:left;
+    font-weight:700; font-size:12px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.5px; border-bottom:2px solid #e4e8ec;
+  }
+  tbody td { padding:12px 14px; border-bottom:1px solid #f2f4f6; vertical-align:top; }
+  tbody tr { transition:background .15s; }
+  tbody tr:hover { background:#fafbfc; }
+  tbody tr:last-child td { border-bottom:none; }
+  .t-time {
+    white-space:nowrap; color:var(--muted);
+    font-family:"SF Mono","Menlo","Consolas",monospace; font-size:13px;
+    font-weight:600;
+  }
+  .t-sec td {
+    font-weight:700; font-size:14px;
+    background:rgba(0,0,0,.015); letter-spacing:.5px;
+  }
+  .t-break td {
+    background:#fafbfb; color:#bbb; text-align:center;
+    font-size:13px; font-style:italic; padding:8px;
+  }
+
+  /* ── Tags ── */
+  .tag {
+    display:inline-block; font-size:11px; padding:4px 10px;
+    border-radius:12px; font-weight:700; white-space:nowrap;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .tag.dem { background:#fff3e0; color:#e67e22; }
+  .tag.hands { background:#e0f7ef; color:#0d9e6c; }
+  .tag.lec { background:#e3ecff; color:#4361ee; }
+  .tag.shr { background:#f3e5f7; color:#7209b7; }
+  .tag.gam { background:#fff9e6; color:#f77f00; }
+  .tag.vid { background:#ffe8ec; color:#ef476f; }
+  .tag.kwt { background:#fef9f0; color:#b8860b; border:1px solid #e8d5a8; }
+
+  /* ── Compare table ── */
+  .cmp-table td:first-child { font-weight:700; }
+  .new { color:#0d9e6c; font-weight:700; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align:center; color:#bbb; font-size:12px;
+    margin-top:64px; padding-top:28px; border-top:1px solid var(--border);
+    letter-spacing:.5px;
+  }
+
+  @media (max-width:640px) {
+    .hero { padding:44px 24px 36px; border-radius:0 0 20px 20px; }
+    .hero h1 { font-size:28px; }
+    .card { padding:20px 18px; }
+    table { font-size:11px; }
+    thead th, tbody td { padding:8px 6px; }
+    .big-question { padding:28px 18px; }
+    .big-question .poles { flex-direction:column; gap:16px; }
+    .big-question .vs { width:40px; height:40px; font-size:22px; }
+    .steps-row { flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+  <h1>AI，让你变得不可替代</h1>
+  <p class="oneliner">
+    两天项目式工作坊 · 面向应用心理学硕士与泛心理学从业者<br>
+    四个半天 · 三项技术 · 无限可能：豆包智能体 → 扣子编程 → AI硬件 → 职业发展工坊<br>
+    <em>你的专业能力 + AI = 不可替代</em>
+  </p>
+  <div class="hero-meta">
+    <span>⏱ 2天 · 4个半天</span>
+    <span>🤖 豆包智能体</span>
+    <span>🧩 扣子氛围编程</span>
+    <span>📟 AI硬件烧制</span>
+    <span>🏆 职业发展工坊</span>
+  </div>
+</div>
+
+
+<!-- ═══════ WHAT AI CAN DO FOR YOU ═══════ -->
+<div class="sec">
+  <div class="sec-h">🪄 心理学背景下，AI可以做什么</div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.8;">
+    这个工作坊的四个半天教你从软件到硬件搭建AI工具。
+  </p>
+
+  <div class="card" style="border-left:4px solid var(--c1);margin-bottom:14px;">
+    <h3 style="font-size:16px;color:var(--c1);margin-bottom:8px;">🧑‍⚕️ 如果你是心理咨询师 / 治疗师</h3>
+    <p style="font-size:14px;color:var(--muted);line-height:2;">
+      <strong>AI可以帮你做个人IP。</strong>写小红书文案、写公众号文章、做个人主页——用氛围编程十分钟生成一个网页，把你的专业形象立起来。你不是不会写，是没时间写。AI替你做。<br>
+      <strong>AI可以帮你做文书。</strong>案例记录、治疗报告、个案概念化的整理——你说思路，AI帮你结构化。不是替代你的临床判断，是把你的判断变成清晰可交付的文字。<br>
+      <strong>AI可以帮你整理思考。</strong>一个复杂的来访，你已经见了八次。把笔记扔给AI，让它帮你看到一个你没有注意到的模式。它不是在做督导，是在做你的外部工作记忆。<br>
+      <strong>AI可以帮你和来访共创工具。</strong>来访说"我不知道怎么跟我爸说话"——你们在咨询室里，现场用豆包做一个"我爸"的智能体，让来访在一个安全的环境里练习。从聊一个小时，到带走一个能每天练的工具。
+    </p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--c2);margin-bottom:14px;">
+    <h3 style="font-size:16px;color:var(--c2);margin-bottom:8px;">🏛 如果你是心理健康机构</h3>
+    <p style="font-size:14px;color:var(--muted);line-height:2;">
+      <strong>AI可以帮你做成果转化。</strong>机构积累的治疗经验、团体方案、危机处理流程——这些不是只能写在结项报告里的。用扣子氛围编程，把一套成熟的干预方案变成一个AI工具。你的机构IP从"我们提供咨询"变成"我们还有自己的心理工具产品"。<br>
+      <strong>AI可以帮你做论文。</strong>文献检索、数据分析整理、初稿生成——不是让你抄，是让你从"面对空白文档不知道从哪里开始"变成"有一个结构可以改、可以推翻、可以优化"。<br>
+      <strong>AI可以帮你规模化。</strong>一个督导带十个新手，每个人手上的来访都不一样。给每个新手配一个AI助手——标准化地做筛查和日常陪伴，把人的精力留给深度治疗。
+    </p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--c3);margin-bottom:14px;">
+    <h3 style="font-size:16px;color:var(--c3);margin-bottom:8px;">🧠 如果你想把心理学用在生活中</h3>
+    <p style="font-size:14px;color:var(--muted);line-height:2;">
+      <strong>AI可以帮你开发自己的心理产品。</strong>讲师用氛围编程做了JIN、AI伴侣、萍萍吃了啥——你脑子里也有一个"要是我能做一个XX就好了"的想法。这个工作坊就是让你把这个想法做成能跑的东西。不需要学编程。<br>
+      <strong>AI可以在场景里帮你用心理学。</strong>你知道熬夜不好，你知道暴食不是真的饿，你知道该跟那个NPD说不了——但知道和做到之间隔着一条很宽的河。AI就是那条河上的桥。它在你最脆弱的那一刻出现，替你说出你心里知道、但此刻说不出来的话。
+    </p>
+  </div>
+</div>
+
+<!-- ═══════ FRAMEWORK ═══════ -->
+<div class="sec">
+  <div class="sec-h">🧠 心理干预 × AI</div>
+  <p style="font-size:15px;color:var(--muted);margin-bottom:20px;line-height:1.7;text-align:center;">
+    一个从临床实践中长出来的原创框架。<strong>搭情境、做干预、智能提醒。</strong>
+  </p>
+
+  <style>
+    .framework-viz { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+    .fw-layer {
+      flex:1; min-width:240px; background:#fff; border-radius:18px;
+      padding:28px 24px; text-align:center; position:relative; overflow:hidden;
+      box-shadow:0 4px 24px rgba(0,0,0,.06); transition:transform .3s,box-shadow .3s;
+    }
+    .fw-layer:hover { transform:translateY(-6px); box-shadow:0 12px 40px rgba(0,0,0,.12); }
+    .fw-layer .fw-badge {
+      display:inline-block; padding:4px 14px; border-radius:20px;
+      font-size:11px; font-weight:700; letter-spacing:1px; margin-bottom:14px;
+      color:#fff;
+    }
+    .fw-layer.fw1 .fw-badge { background:linear-gradient(135deg, #4361ee, #3a56d4); }
+    .fw-layer.fw2 .fw-badge { background:linear-gradient(135deg, #7209b7, #5a078f); }
+    .fw-layer.fw3 .fw-badge { background:linear-gradient(135deg, #f77f00, #e06e00); }
+    .fw-layer .fw-icon { font-size:44px; margin-bottom:10px; }
+    .fw-layer .fw-title { font-size:20px; font-weight:800; margin-bottom:6px; }
+    .fw-layer .fw-eng { font-size:12px; color:#aaa; margin-bottom:12px; letter-spacing:1px; }
+    .fw-layer .fw-desc { font-size:14px; color:var(--muted); line-height:1.65; }
+    .fw-layer .fw-tag {
+      display:inline-block; margin-top:12px; padding:4px 12px; border-radius:10px;
+      font-size:12px; font-weight:600; background:#f5f6f8; color:var(--muted);
+    }
+    .fw-layer::before {
+      content:""; position:absolute; top:0; left:0; right:0; height:4px;
+    }
+    .fw-layer.fw1::before { background:linear-gradient(90deg, #4361ee, #6090ff); }
+    .fw-layer.fw2::before { background:linear-gradient(90deg, #7209b7, #a040e0); }
+    .fw-layer.fw3::before { background:linear-gradient(90deg, #f77f00, #ffa040); }
+
+    .fw-arrow-row { display:flex; justify-content:center; gap:40px; margin:14px 0; }
+    .fw-arrow-row span { font-size:24px; color:#ccc; }
+
+    .fw-product-link { text-align:center; margin-top:20px; font-size:13px; color:#aaa; }
+    .fw-product-link strong { color:var(--muted); }
+  </style>
+
+  <div class="framework-viz">
+    <div class="fw-layer fw1">
+      <div class="fw-badge">LAYER 1</div>
+      <div class="fw-icon">🏗️</div>
+      <div class="fw-title">情境搭建</div>
+      <div class="fw-eng">Context Building</div>
+      <div class="fw-desc">
+        创造可控的微情境。<br>
+        暴露疗法 · 虚拟陪伴 · 游戏化。<br>
+        <em>"情境是虚拟的，任务是真实的。"</em>
+      </div>
+      <div class="fw-tag">🎯 暴露陪练 · AI伴侣催睡</div>
+    </div>
+
+    <div class="fw-layer fw2">
+      <div class="fw-badge">LAYER 2</div>
+      <div class="fw-icon">🎯</div>
+      <div class="fw-title">个性化干预</div>
+      <div class="fw-eng">In-Context Intervention</div>
+      <div class="fw-desc">
+        问题在情境中解决。<br>
+        行为链分析 · 替代行为 · 疏导与拦截。<br>
+        <em>"冲动来临的瞬间，AI提供一个替代路径。"</em>
+      </div>
+      <div class="fw-tag">🍽️ 肚肚饿还是嘴嘴馋 · 阻止暴食</div>
+    </div>
+
+    <div class="fw-layer fw3">
+      <div class="fw-badge">LAYER 3</div>
+      <div class="fw-icon">⌚</div>
+      <div class="fw-title">智能监测</div>
+      <div class="fw-eng">Passive Monitoring</div>
+      <div class="fw-desc">
+        提醒来找你，不是你去找提醒。<br>
+        多模态感知 · 零摩擦 · 零门槛。<br>
+        <em>"复杂流程 = 失败。人太懒了。"</em>
+      </div>
+      <div class="fw-tag">❤️ 心跳监测 → DBT吹气球提醒</div>
+    </div>
+  </div>
+
+  <p class="fw-product-link">
+    讲师的每一个产品都是这个框架的注脚：<strong>JIN</strong> = 情境+干预 · <strong>AI伴侣</strong> = 情境+监测 · <strong>萍萍吃了啥</strong> = 干预+监测
+  </p>
+</div>
+
+<!-- ═══════ 4 HALF-DAYS OVERVIEW ═══════ -->
+<div class="sec">
+  <div class="sec-h">🗺 四个半天 · 三项技术 · 无限可能</div>
+  <div class="steps-row">
+    <div class="step-block s1">
+      <div class="s-num">01</div>
+      <div class="s-icon">🎯</div>
+      <div class="s-title">豆包智能体</div>
+      <div class="s-sub">暴露疗法小试牛刀<br>创建可控暴露环境 · 提示词即角色设定</div>
+      <div class="s-tool">平台：豆包</div>
+      <div class="s-output">✓ 产出：一个属于你的暴露陪练智能体</div>
+    </div>
+    <div class="step-block s2">
+      <div class="s-num">02</div>
+      <div class="s-icon">🧩</div>
+      <div class="s-title">扣子氛围编程</div>
+      <div class="s-sub">可视化编程<br>多轮记忆 · 情境干预 · 安全协议</div>
+      <div class="s-tool">平台：扣子</div>
+      <div class="s-output">✓ 产出：一个多模块协作的AI心理Bot</div>
+    </div>
+    <div class="step-block s3">
+      <div class="s-num">03</div>
+      <div class="s-icon">📟</div>
+      <div class="s-title">AI硬件</div>
+      <div class="s-sub">小智AI固件烧制 · 软硬件打通<br>离线场景 · 可触摸的AI心理工具</div>
+      <div class="s-tool">硬件：小智AI（~100元/套）</div>
+      <div class="s-output">✓ 产出：一个属于自己的AI硬件设备</div>
+    </div>
+    <div class="step-block s4">
+      <div class="s-num">04</div>
+      <div class="s-icon">🏆</div>
+      <div class="s-title">职业发展工坊</div>
+      <div class="s-sub">作品路演 · 压力测试 · 同行互评<br>路演展示你的完整作品</div>
+      <div class="s-tool">整合 · 展示 · 带走</div>
+      <div class="s-output">✓ 产出：一个完整作品 + 一套方法论</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ COMPARE ═══════ -->
+<div class="sec">
+  <div class="sec-h">🔀 本工作坊 vs 常规AI心理课程</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table class="cmp-table">
+      <thead><tr><th style="width:18%">维度</th><th>常规课程</th><th style="color:var(--c4);">本工作坊</th></tr></thead>
+      <tbody>
+        <tr><td>核心驱动</td><td>"AI很厉害，你应该学"</td><td class="new">"AI来了，更好还是更坏？你来决定"</td></tr>
+        <tr><td>学习路径</td><td>听讲座 / 看视频</td><td class="new">豆包（对话）→ 扣子（编程）→ 硬件（烧制）→ 展示（整合）——从易到难</td></tr>
+        <tr><td>学员产出</td><td>听完就忘</td><td class="new">三个属于学员自己的作品：智能体 + Bot + 硬件设备</td></tr>
+        <tr><td>技术栈</td><td>单一工具</td><td class="new">豆包 + 扣子 + 小智AI硬件——软件到硬件的完整链路</td></tr>
+        <tr><td>伦理与安全</td><td>最后5分钟提一嘴</td><td class="new">扣子半天末尾装安全刹车 + 硬件半天讲离线隐私 + 攻防对抗一票否决</td></tr>
+        <tr><td>教学方式</td><td>听讲为主</td><td class="new">每个半天：知识铺垫(15-20min) → 动手搭建(70-75min) → 测试验证(30-45min)</td></tr>
+        <tr><td>讲师独特性</td><td>讲别人的论文和案例</td><td class="new">6+个自研AI产品一手案例 + 30+场教师培训经验 + 全AIGC内容生产</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════ AUDIENCE ═══════ -->
+<div class="sec">
+  <div class="sec-h">👥 目标学员</div>
+  <div class="tension-row">
+    <div class="tension-card" style="text-align:center;">
+      <div style="font-size:26px;">🎓</div>
+      <strong>应用心理学硕士</strong>
+      <p style="font-size:13px;color:var(--muted);margin-top:4px;">学了理论，不知道怎么在AI时代落地<br>→ 两天，把理论变成能跑、能摸到的AI工具</p>
+    </div>
+    <div class="tension-card" style="text-align:center;">
+      <div style="font-size:26px;">🧑‍⚕️</div>
+      <strong>心理咨询师 / 治疗师</strong>
+      <p style="font-size:13px;color:var(--muted);margin-top:4px;">AI会不会抢走来访者？<br>→ 理解AI的能与不能，让它成为你的延伸</p>
+    </div>
+    <div class="tension-card" style="text-align:center;">
+      <div style="font-size:26px;">🏫</div>
+      <strong>心理老师 / 教育者</strong>
+      <p style="font-size:13px;color:var(--muted);margin-top:4px;">学生有心理需求，自己分身乏术<br>→ 做一个AI工具，扩展你做不到的日常陪伴</p>
+    </div>
+    <div class="tension-card" style="text-align:center;">
+      <div style="font-size:26px;">🔬</div>
+      <strong>心理学研究者</strong>
+      <p style="font-size:13px;color:var(--muted);margin-top:4px;">论文发了很多，不知道怎么产品化<br>→ 看讲师怎么把治疗框架变成软硬件产品</p>
+    </div>
+    <div class="tension-card" style="text-align:center;">
+      <div style="font-size:26px;">👨‍💻</div>
+      <strong>AI开发者 / 产品经理</strong>
+      <p style="font-size:13px;color:var(--muted);margin-top:4px;">想做心理方向，但缺乏临床视角<br>→ 获得CBT/DBT/人本主义的AI实现方法论</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+
+<!-- ═══════ DAY 1 ═══════ -->
+<div class="sec">
+  <div class="sec-h">📅 Day 1 · 豆包智能体 + 扣子氛围编程</div>
+
+  <!-- Half-day 1 -->
+  <div class="halfday">
+    <div class="halfday-header h1">
+      <h3>🤖 第一个半天 · 豆包智能体 —— 暴露疗法小试牛刀</h3>
+      <span class="meta">3h &nbsp;|&nbsp; 平台：豆包 &nbsp;|&nbsp; 核心：可控暴露环境 &nbsp;|&nbsp; 难度：★☆☆</span>
+    </div>
+    <div class="halfday-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">09:00–09:15</td><td>🧵 开场叙事</td><td>15min</td>
+            <td>
+              <strong>"AI，让你变得不可替代"</strong> — 这就是这两天要做的事。<br>
+              讲师故事：在美国研究（虚拟现实暴露疗法）→ 用ChatGPT做社恐暴露练习 → 发现AI本质上是<strong>可控的暴露环境</strong>。十二年来技术载体变了，原理没变。<br>
+              预告四个半天的路线：暴露疗法（豆包）→ 氛围编程（扣子）→ 硬件烧制 → 路演。
+            </td>
+            <td><span class="tag lec">故事</span></td>
+          </tr>
+          <tr><td class="t-time">09:15–09:35</td><td>📖 知识窗</td><td>20min</td>
+            <td>
+              <strong>暴露疗法101 —— 每一个心理学人都懂，但很少有机会亲手做一个暴露工具。</strong><br>
+              三要素：①<strong>可控环境</strong>——不会被真实伤害的安全空间 ②<strong>分级暴露</strong>——从低到高逐步接近恐惧源 ③<strong>安全练习</strong>——反复尝试直到脱敏<br>
+              从VR到ChatGPT到豆包：技术载体在变，三要素不变。<br>
+              今天要做的：用豆包智能体，创造一个<strong>能激发你情绪反应、但不会真正伤害你的人</strong>——一个暴露陪练。<br>
+              场景示例：NPD人格 / 权威恐惧 / 社交焦虑 / 亲密关系中的难对话——你选你需要的。
+            </td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr><td class="t-time">09:35–09:50</td><td>🎬 现场Demo</td><td>15min</td>
+            <td>
+              <strong>讲师现场搭建一个"社恐暴露场景"智能体：</strong><br>
+              投屏演示：打开豆包 → 创建智能体 → 注入提示词（设定一个<em>冷漠、挑剔、不给好脸色的面试官</em>）→ 现场对话演示 → 调整（"太凶了，温和一点但依然有压迫感"）→ 再测试。<br>
+              展示提示词的核心：<strong>不是"写指令"，是"设定一个角色"</strong>——这个人格越具体，暴露效果越好。
+            </td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr><td class="t-time">09:50–09:55</td><td>🛠 豆包速成</td><td>5min</td>
+            <td>学员同步操作：注册豆包 → 打开智能体创建界面。确保人人就绪。</td>
+            <td><span class="tag dem">操作</span></td>
+          </tr>
+          <tr class="t-break"><td colspan="5">☕ 茶歇 15min</td></tr>
+          <tr><td class="t-time">10:10–11:15</td><td>🤖 <strong>动手搭建</strong></td><td>65min</td>
+            <td>
+              <strong>创建你自己的暴露陪练智能体：</strong><br>
+              ① <strong>选场景：</strong>你想练习应对谁？NPD人格 / 权威恐惧 / 社交焦虑 / 亲密关系中的难对话<br>
+              ② <strong>设定人格：</strong>用提示词给AI一个具体的人设。不只是"挑剔"——TA用什么语气？爱说什么口头禅？什么时候会突然变得刻薄？<br>
+              ③ <strong>分级暴露：</strong>让智能体支持不同难度——"今天温和一点" vs "今天火力全开"。学员可以根据自己的舒适度调整<br>
+              ④ <strong>测试→调整→再测试：</strong>对话一轮，感觉太假？修改提示词。感觉太强？调低难度。直到"像真的，但又不至于让你想跑"<br>
+              <strong>讲师已有教案支撑：</strong>豆包智能体快速上手（35min版/3h版），将"创建角色"的流程从家校沟通迁移到暴露疗法场景。<br>
+              <strong>核心心法（反复强调）：</strong>你不是在做心理咨询，你是在做一个<strong>可控的暴露环境</strong>。AI扮演的是"让你紧张的人"，不是"治疗你紧张的人"。
+            </td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">11:15–11:45</td><td>🔄 暴露练习+交叉测试</td><td>30min</td>
+            <td>
+              ① <strong>自我练习（10min）：</strong>每个人用自己的暴露陪练做一次分级暴露——从简单对话开始，逐步加大难度<br>
+              ② <strong>交换测试（15min）：</strong>把智能体分享给旁边的同学——"你来试试我的NPD人格陪练，看我做的像不像？"<br>
+              ③ <strong>快速分享（5min）：</strong>谁做的暴露场景最逼真？谁的难度分级最合理？哪个提示词技巧最有效？<br>
+              打分维度：人格真实感 / 分级合理性 / 对话自然度 / 暴露效果（你真的觉得紧张了吗？）
+            </td>
+            <td><span class="tag gam">暴露练习</span></td>
+          </tr>
+          <tr><td class="t-time">11:45–12:00</td><td>📌 收束 + 预告</td><td>15min</td>
+            <td>
+              ① 提炼：<strong>"暴露疗法的原理没变，你只是多了一个新工具。心理学的根基在你手里，AI是工具箱里的新成员。"</strong><br>
+              ② 预告第二个半天：<em>"上午你做了一个暴露陪练。下午我们用扣子氛围编程，做一个更复杂的东西——一个能记住你、能调用专业知识、能在你脆弱时刻主动干预的AI心理工具。"</em>
+            </td>
+            <td><span class="tag shr">收束</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Half-day 2 -->
+  <div class="halfday">
+    <div class="halfday-header h2">
+      <h3>🧩 第二个半天 · 扣子氛围编程</h3>
+      <span class="meta">3h &nbsp;|&nbsp; 平台：扣子 &nbsp;|&nbsp; 难度：★★☆</span>
+    </div>
+    <div class="halfday-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">13:30–13:45</td><td>📖 知识铺垫</td><td>15min</td>
+            <td>从"对话"到"编程"——为什么需要编程？知识窗：AI心理健康的研究证据（RCT·效果边界·人机协作模式）。引出："好的AI心理工具不是聊出来的，是设计出来的。"</td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr><td class="t-time">13:45–14:00</td><td>🧩 扣子速成</td><td>15min</td>
+            <td>投屏演示：Bot创建→编程节点（开始/对话/条件/变量/结束）→→。只讲心理场景需要的功能。</td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr><td class="t-time">14:00–15:15</td><td>🧩 <strong>动手搭建</strong></td><td>75min</td>
+            <td>
+              <strong>搭建多模块AI心理Bot：</strong><br>
+              ① <strong>情绪识别模块：</strong>输入→情绪分类节点→匹配共情回应<br>
+              ② <strong>知识库模块：</strong>上传心理健康文档（危机热线、呼吸法、CBT记录表）→→自动调用<br>
+              ③ <strong>情境干预模块：</strong>变量节点（多轮记忆）→条件分支（不同情绪→不同干预策略）→定时触发（主动关怀）<br>
+              ④ <strong>安全刹车：</strong>最前端添加危机检测（关键词+语义）→最高优先级→触发后强制跳转安全分支→从知识库调取紧急联系方式<br>
+              <strong>讲师已有教案支撑：</strong>扣子编程编程（2h版）+ 攻防对抗安全测试
+            </td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr class="t-break"><td colspan="5">☕ 茶歇 15min</td></tr>
+          <tr><td class="t-time">15:30–16:15</td><td>🔄 联调+红队测试</td><td>45min</td>
+            <td>全链路联调：安全检测→情绪识别→知识库→情境干预→输出。红队测试：组员扮演"想绕过安全检测的用户"，验证安全协议是否真的有效。记录Bug。</td>
+            <td><span class="tag gam">测试</span></td>
+          </tr>
+          <tr><td class="t-time">16:15–16:30</td><td>📌 收束</td><td>15min</td>
+            <td>预告Day 2硬件半天：<em>"明天，你的Bot会从屏幕里走出来，变成一个你能摸到的设备。"</em></td>
+            <td><span class="tag shr">预告</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ DAY 2 ═══════ -->
+<div class="sec">
+  <div class="sec-h">📅 Day 2 · AI硬件 + 职业发展工坊</div>
+
+  <!-- Half-day 3 -->
+  <div class="halfday">
+    <div class="halfday-header h3">
+      <h3>📟 第三个半天 · AI硬件</h3>
+      <span class="meta">3h &nbsp;|&nbsp; 硬件：小智AI &nbsp;|&nbsp; 费用：~100元/套 &nbsp;|&nbsp; 难度：★★★</span>
+    </div>
+    <div class="halfday-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">09:00–09:20</td><td>📖 知识铺垫</td><td>20min</td>
+            <td>
+              <strong>为什么要硬件？</strong><br>
+              软件AI的局限：要开手机、要联网、要主动打开App——这些在一个人最脆弱的时刻，每一步都是障碍。<br>
+              硬件AI的场景：床头柜上的盒子（催睡）· 手腕上的手表（情绪监测）· 桌上的机器人（陪伴）——<br>
+              不需要解锁手机，不需要打开App。<strong>离线。隐私。触手可及。</strong><br>
+              伦理全景：隐私·偏见·依赖·责任归属·全球监管。<br>
+              讲师硬件产品展示：AI机器人 / AI手表 / AI伴侣盒子。
+            </td>
+            <td><span class="tag lec">故事</span> <span class="tag kwt">知识</span></td>
+          </tr>
+          <tr><td class="t-time">09:20–09:35</td><td>📟 烧制演示</td><td>15min</td>
+            <td>投屏演示小智AI固件烧制全流程。学员同步操作。</td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr><td class="t-time">09:35–10:45</td><td>📟 <strong>动手烧制</strong></td><td>70min</td>
+            <td>
+              <strong>每人烧制自己的AI硬件设备：</strong><br>
+              ① 固件烧录 + 基础配置<br>
+              ② 将自己的扣子Bot与硬件打通（API/webhook）<br>
+              ③ 场景设计：如果你的Bot跑在这个硬件上——床头柜上的"催睡伴侣" / 书桌上的"考试焦虑安抚器" / 餐桌旁的"饮食记录助手"——交互逻辑应该怎么变？<br>
+              ④ 测试：按下按钮→Bot回应→硬件出声/亮灯
+            </td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr class="t-break"><td colspan="5">☕ 茶歇 15min</td></tr>
+          <tr><td class="t-time">11:00–11:45</td><td>🔗 软硬件联调</td><td>45min</td>
+            <td>豆包智能体 + 扣子Bot + 硬件设备——三端打通。组内互相测试：<em>"你的硬件在你设计的情境里，真的有用吗？"</em></td>
+            <td><span class="tag hands">联调</span></td>
+          </tr>
+          <tr><td class="t-time">11:45–12:00</td><td>📌 收束</td><td>15min</td>
+            <td>预告下午路演：<em>"下午，把你的三个作品——智能体 + Bot + 硬件——展示给所有人。"</em></td>
+            <td><span class="tag shr">预告</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Half-day 4 -->
+  <div class="halfday">
+    <div class="halfday-header h4">
+      <h3>🏆 第四个半天 · 职业发展工坊</h3>
+      <span class="meta">3h &nbsp;|&nbsp; 整合 · 路演 · 带走</span>
+    </div>
+    <div class="halfday-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">13:30–13:40</td><td>🔄 回顾</td><td>10min</td>
+            <td>三个半天的旅程回顾：豆包→扣子→硬件。<em>"第一天上午你还不知道扣子长什么样，现在你手里有三个能跑的作品。"</em></td>
+            <td><span class="tag shr">回顾</span></td>
+          </tr>
+          <tr><td class="t-time">13:40–14:30</td><td>⚔️ 攻防对抗赛</td><td>50min</td>
+            <td>
+              <strong>四轮压力测试（复用讲师验证过的赛制）：</strong><br>
+              ① 日常倾诉 ② 轻度焦虑 ③ 进食障碍触发 ④ 危机边缘<br>
+              全员打分（共情力/专业度/安全性/自然度）<strong>场景④安全失败=一票否决</strong><br>
+              软件Bot和硬件设备都要接受测试。
+            </td>
+            <td><span class="tag gam">对抗赛</span></td>
+          </tr>
+          <tr><td class="t-time">14:30–14:50</td><td>🔧 最后一轮优化</td><td>20min</td>
+            <td>根据对抗反馈做最后一次调整。<em>"好工具是调出来的。"</em></td>
+            <td><span class="tag hands">优化</span></td>
+          </tr>
+          <tr class="t-break"><td colspan="5">☕ 茶歇 15min</td></tr>
+          <tr><td class="t-time">15:05–15:50</td><td>🚀 路演展示</td><td>45min</td>
+            <td>
+              每组5分钟路演：<br>
+              ① 现场演示——智能体对话 + Bot编程 + 硬件互动<br>
+              ② 解说设计思路——你选了哪个流派？安全协议怎么设计的？<br>
+              ③ 回答——"你的作品在更好/更坏的光谱上站哪边？"<br>
+              ④ 分享一个"翻车→修复"的故事<br>
+              互评 + 最佳作品投票
+            </td>
+            <td><span class="tag shr">路演</span></td>
+          </tr>
+          <tr><td class="t-time">15:50–16:30</td><td>🏁 收官</td><td>40min</td>
+            <td>
+              ① <strong>"AI，让你变得不可替代"——两天前你听到这句话，现在你手里有三个作品。你觉得呢？</strong><br>
+              ② 两天回顾：三个作品（智能体+Bot+硬件）+ 一套方法论 + 一个判断力<br>
+              ③ 伦理底线重申<br>
+              ④ 个人30天行动计划<br>
+              ⑤ 资源包 + 社群 + 证书 + 合影
+            </td>
+            <td><span class="tag shr">总结</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="footer">
+  AI，让你变得不可替代 · 两天项目式工作坊 · 2026年5月<br>
+  四个半天 · 三项技术 · 无限可能 · 三个作品 · 你的专业能力 + AI = 不可替代
+</div>
+
+</div><!-- page -->
+</body>
+</html>

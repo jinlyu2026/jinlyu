@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理咨询技术闯关游戏 / Counseling Techniques Challenge Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .level-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .level-card.locked {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .level-card.locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .level-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .level-title {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .level-title-en {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .score-badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .question-container {
+            margin: 30px 0;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .question-text-en {
+            font-size: 1em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .feedback-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .result-screen {
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 5em;
+            margin: 20px 0;
+        }
+
+        .certificate {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            color: #333;
+        }
+
+        .certificate h2 {
+            margin-bottom: 20px;
+        }
+
+        .home-button {
+            background: #28a745;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 开始界面 -->
+        <div id="startScreen" class="screen active">
+            <div class="header">
+                <h1>🧠 心理咨询技术闯关游戏</h1>
+                <p>Counseling Techniques Challenge Game</p>
+                <p style="margin-top: 10px; color: #999;">
+                    掌握心理咨询核心技能，成为优秀的咨询师<br>
+                    Master core counseling skills and become an excellent counselor
+                </p>
+            </div>
+            <div style="text-align: center;">
+                <button class="button" onclick="showLevelSelect()">开始游戏 / Start Game</button>
+            </div>
+        </div>
+
+        <!-- 关卡选择界面 -->
+        <div id="levelScreen" class="screen">
+            <div class="header">
+                <h1>选择关卡 / Select Level</h1>
+                <p>完成前一关才能解锁下一关 / Complete previous level to unlock next</p>
+            </div>
+            <div class="level-grid" id="levelGrid"></div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="button" onclick="showStart()">返回首页 / Back to Home</button>
+            </div>
+        </div>
+
+        <!-- 游戏界面 -->
+        <div id="gameScreen" class="screen">
+            <div class="header">
+                <h1 id="levelTitle">关卡 1</h1>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="question-container">
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question-text" id="questionText"></div>
+                <div class="question-text-en" id="questionTextEn"></div>
+                <div class="options" id="options"></div>
+            </div>
+            <div class="feedback" id="feedback">
+                <div class="feedback-title" id="feedbackTitle"></div>
+                <div id="feedbackText"></div>
+            </div>
+            <div style="text-align: center;">
+                <button class="button" id="nextButton" onclick="nextQuestion()" style="display: none;">下一题 / Next</button>
+            </div>
+        </div>
+
+        <!-- 结果界面 -->
+        <div id="resultScreen" class="screen">
+            <div class="result-screen">
+                <div class="result-icon" id="resultIcon"></div>
+                <h1 id="resultTitle"></h1>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="correctCount">0</div>
+                        <div class="stat-label">答对 / Correct</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalCount">0</div>
+                        <div class="stat-label">总数 / Total</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="percentage">0%</div>
+                        <div class="stat-label">正确率 / Accuracy</div>
+                    </div>
+                </div>
+                <div id="certificateContainer"></div>
+                <div>
+                    <button class="button home-button" onclick="showLevelSelect()">继续闯关 / Continue</button>
+                    <button class="button" onclick="showStart()">返回首页 / Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 游戏数据
+        const gameData = {
+            levels: [
+                {
+                    id: 1,
+                    title: "积极倾听",
+                    titleEn: "Active Listening",
+                    questions: [
+                        {
+                            question: "当来访者说：'我真的很困扰，不知道该怎么办。'，作为咨询师，最合适的回应是？",
+                            questionEn: "When the client says: 'I'm really troubled and don't know what to do.', what's the most appropriate response as a counselor?",
+                            options: [
+                                "你应该试着冷静下来，想想解决办法。 (You should try to calm down and think of solutions.)",
+                                "听起来你感到很困扰，能跟我多说说吗？ (It sounds like you're feeling very troubled. Can you tell me more?)",
+                                "为什么你会觉得困扰呢？ (Why do you feel troubled?)",
+                                "每个人都有困扰的时候，这很正常。 (Everyone has troubles sometimes, it's normal.)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！积极倾听要求咨询师关注来访者的感受，并通过开放式问题鼓励其进一步表达。",
+                            explanationEn: "Correct! Active listening requires the counselor to focus on the client's feelings and encourage further expression through open-ended questions."
+                        },
+                        {
+                            question: "积极倾听的核心要素不包括以下哪项？",
+                            questionEn: "Which of the following is NOT a core element of active listening?",
+                            options: [
+                                "眼神接触 (Eye contact)",
+                                "肢体语言 (Body language)",
+                                "立即给出建议 (Giving advice immediately)",
+                                "口头回应 (Verbal responses)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！积极倾听强调的是理解和关注，而不是立即给出建议。建议通常在建立了良好关系并充分理解问题后才提出。",
+                            explanationEn: "Correct! Active listening emphasizes understanding and attention, not giving advice immediately. Advice is usually given after establishing a good relationship and fully understanding the problem."
+                        },
+                        {
+                            question: "以下哪种回应最能体现积极倾听？",
+                            questionEn: "Which of the following responses best demonstrates active listening?",
+                            options: [
+                                "我完全知道你的感受。 (I completely know how you feel.)",
+                                "所以你的意思是，你觉得工作压力让你感到焦虑，对吗？ (So what you mean is, you feel work pressure makes you anxious, right?)",
+                                "你应该请假休息一下。 (You should take leave and rest.)",
+                                "别想太多了，工作就是这样。 (Don't think too much, work is just like that.)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！这是对来访者内容的反射性总结，确认理解，是积极倾听的重要技巧。",
+                            explanationEn: "Correct! This is a reflective summary of the client's content, confirming understanding, which is an important technique of active listening."
+                        },
+                        {
+                            question: "在积极倾听中，'嗯'、'我明白'等回应被称为：",
+                            questionEn: "In active listening, responses like 'Hmm', 'I understand' are called:",
+                            options: [
+                                "建议 (Advice)",
+                                "最小鼓励 (Minimal encouragers)",
+                                "解释 (Interpretation)",
+                                "面质 (Confrontation)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！最小鼓励是使用简短的言语或非言语信号，鼓励来访者继续表达。",
+                            explanationEn: "Correct! Minimal encouragers are brief verbal or non-verbal signals that encourage the client to continue expressing."
+                        },
+                        {
+                            question: "当来访者长时间沉默时，咨询师应该：",
+                            questionEn: "When a client is silent for a long time, the counselor should:",
+                            options: [
+                                "立即打破沉默，说点什么 (Immediately break the silence, say something)",
+                                "耐心等待，给予空间 (Wait patiently, give space)",
+                                "告诉来访者沉默是不礼貌的 (Tell the client silence is impolite)",
+                                "结束咨询 (End the counseling)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！沉默是咨询中的重要部分，给予来访者空间去思考和感受是积极倾听的一部分。",
+                            explanationEn: "Correct! Silence is an important part of counseling. Giving clients space to think and feel is part of active listening."
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "共情表达",
+                    titleEn: "Empathic Expression",
+                    questions: [
+                        {
+                            question: "共情（Empathy）与同情（Sympathy）的主要区别是？",
+                            questionEn: "What is the main difference between Empathy and Sympathy?",
+                            options: [
+                                "共情更专业 (Empathy is more professional)",
+                                "共情是理解并分享感受，同情是感到遗憾或怜悯 (Empathy is understanding and sharing feelings, sympathy is feeling sorry or pity)",
+                                "没有区别 (No difference)",
+                                "同情更适合咨询 (Sympathy is more suitable for counseling)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！共情是站在对方角度理解其感受，而同情是对对方处境感到遗憾或怜悯，两者有本质区别。",
+                            explanationEn: "Correct! Empathy is understanding and sharing feelings from the other's perspective, while sympathy is feeling sorry or pity for the other's situation. They are essentially different."
+                        },
+                        {
+                            question: "来访者说：'我觉得自己一无是处。' 以下哪个是共情回应？",
+                            questionEn: "Client says: 'I feel worthless.' Which of the following is an empathic response?",
+                            options: [
+                                "别这么说，你很棒的！ (Don't say that, you're great!)",
+                                "听起来你对自己感到非常失望和沮丧。 (It sounds like you feel very disappointed and depressed about yourself.)",
+                                "每个人都有自己的价值。 (Everyone has their own value.)",
+                                "为什么你会这么想？ (Why do you think so?)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！这个回应准确地反映了来访者的情绪状态，体现了共情理解。",
+                            explanationEn: "Correct! This response accurately reflects the client's emotional state, demonstrating empathic understanding."
+                        },
+                        {
+                            question: "共情表达的三个层次中，最高层次是？",
+                            questionEn: "Among the three levels of empathic expression, the highest level is?",
+                            options: [
+                                "理解来访者的感受 (Understanding the client's feelings)",
+                                "表达对来访者感受的理解 (Expressing understanding of the client's feelings)",
+                                "帮助来访者理解自己未意识到的感受 (Helping the client understand feelings they're not aware of)",
+                                "告诉来访者应该有什么感受 (Telling the client what they should feel)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！最高层次的共情是帮助来访者觉察自己可能未意识到的深层感受，促进自我探索。",
+                            explanationEn: "Correct! The highest level of empathy is helping clients become aware of deep feelings they may not be conscious of, promoting self-exploration."
+                        },
+                        {
+                            question: "以下哪种情况最能体现共情？",
+                            questionEn: "Which of the following situations best demonstrates empathy?",
+                            options: [
+                                "咨询师告诉来访者自己有过类似经历 (The counselor tells the client they had similar experiences)",
+                                "咨询师准确说出来访者此时的感受 (The counselor accurately names the client's feelings at the moment)",
+                                "咨询师给来访者一个拥抱 (The counselor gives the client a hug)",
+                                "咨询师告诉来访者不要难过 (The counselor tells the client not to be sad)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！准确识别和表达来访者的感受是共情的核心，这让来访者感到被理解。",
+                            explanationEn: "Correct! Accurately identifying and expressing the client's feelings is the core of empathy, which makes the client feel understood."
+                        },
+                        {
+                            question: "共情疲劳（Compassion Fatigue）是指？",
+                            questionEn: "Compassion Fatigue refers to:",
+                            options: [
+                                "对来访者缺乏共情能力 (Lack of empathy ability towards clients)",
+                                "因长期共情他人而导致的情绪耗竭 (Emotional exhaustion from long-term empathizing with others)",
+                                "共情技巧使用过度 (Overuse of empathy techniques)",
+                                "来访者对共情产生抗拒 (Client's resistance to empathy)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！共情疲劳是助人者因长期投入共情而出现的情绪耗竭状态，是职业倦怠的一种表现。",
+                            explanationEn: "Correct! Compassion fatigue is an emotional exhaustion state that helpers experience from long-term investment in empathy, a form of burnout."
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "提问技巧",
+                    titleEn: "Questioning Skills",
+                    questions: [
+                        {
+                            question: "开放式提问的主要特点是？",
+                            questionEn: "What is the main characteristic of open-ended questions?",
+                            options: [
+                                "只能用'是'或'否'回答 (Can only be answered with 'yes' or 'no')",
+                                "有固定答案 (Has a fixed answer)",
+                                "鼓励详细回答，无法简单回答 (Encourages detailed answers, cannot be answered simply)",
+                                "快速获取信息 (Quickly obtain information)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！开放式提问鼓励来访者详细表达，通常以'什么'、'如何'、'为什么'等词开头。",
+                            explanationEn: "Correct! Open-ended questions encourage clients to express in detail, usually starting with words like 'what', 'how', 'why', etc."
+                        },
+                        {
+                            question: "以下哪个是开放式提问？",
+                            questionEn: "Which of the following is an open-ended question?",
+                            options: [
+                                "你今年多大了？ (How old are you this year?)",
+                                "你结婚了吗？ (Are you married?)",
+                                "能告诉我更多关于你家庭的情况吗？ (Can you tell me more about your family situation?)",
+                                "你是哪里人？ (Where are you from?)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！这个问题鼓励来访者详细描述，无法用简单的是/否或单词回答。",
+                            explanationEn: "Correct! This question encourages the client to describe in detail and cannot be answered with a simple yes/no or single word."
+                        },
+                        {
+                            question: "封闭式提问最适合用于什么情况？",
+                            questionEn: "When is closed-ended questioning most appropriate?",
+                            options: [
+                                "探索深层情感 (Exploring deep emotions)",
+                                "获取具体信息 (Obtaining specific information)",
+                                "建立咨询关系 (Building counseling relationship)",
+                                "促进自我探索 (Promoting self-exploration)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！封闭式提问适合快速获取具体、明确的信息，如 demographics、症状频率等。",
+                            explanationEn: "Correct! Closed-ended questions are suitable for quickly obtaining specific, clear information such as demographics, symptom frequency, etc."
+                        },
+                        {
+                            question: "在咨询初期，应该更多地使用：",
+                            questionEn: "In the early stage of counseling, one should use more:",
+                            options: [
+                                "封闭式提问 (Closed-ended questions)",
+                                "开放式提问 (Open-ended questions)",
+                                "反问 (Counter-questions)",
+                                "质问 (Interrogation)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！咨询初期使用开放式提问有助于建立关系，鼓励来访者自由表达，收集全面信息。",
+                            explanationEn: "Correct! Using open-ended questions in the early stage of counseling helps build rapport, encourages free expression, and gathers comprehensive information."
+                        },
+                        {
+                            question: "以下哪种提问方式最不推荐？",
+                            questionEn: "Which of the following questioning styles is least recommended?",
+                            options: [
+                                "开放式提问 (Open-ended questions)",
+                                "封闭式提问 (Closed-ended questions)",
+                                "连续提问（连珠炮式）(Rapid-fire questions)",
+                                "温和的探究性提问 (Gentle exploratory questions)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！连续提问会让来访者感到压力，像被审讯，破坏咨询关系的建立。",
+                            explanationEn: "Correct! Rapid-fire questions make clients feel pressured, like being interrogated, which damages the building of counseling relationship."
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "反射技巧",
+                    titleEn: "Reflection Skills",
+                    questions: [
+                        {
+                            question: "反射性倾听（Reflective Listening）的主要目的是？",
+                            questionEn: "What is the main purpose of Reflective Listening?",
+                            options: [
+                                "显示咨询师很聪明 (Show the counselor is smart)",
+                                "帮助来访者听到自己说的话，促进觉察 (Help clients hear what they said, promote awareness)",
+                                "加快咨询进程 (Speed up the counseling process)",
+                                "展示咨询师的共情能力 (Demonstrate the counselor's empathy ability)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！反射性倾听让来访者有机会听到自己的话被反映出来，有助于进一步觉察和探索。",
+                            explanationEn: "Correct! Reflective listening gives clients the opportunity to hear their own words reflected back, which helps with further awareness and exploration."
+                        },
+                        {
+                            question: "内容反射（Content Reflection）主要关注：",
+                            questionEn: "Content Reflection mainly focuses on:",
+                            options: [
+                                "来访者的情绪感受 (Client's emotional feelings)",
+                                "来访者传达的事实信息 (Factual information conveyed by the client)",
+                                "来访者的肢体语言 (Client's body language)",
+                                "来访者的潜意识 (Client's subconscious)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！内容反射是重复或重新表述来访者传达的事实信息，确认理解。",
+                            explanationEn: "Correct! Content reflection is repeating or rephrasing factual information conveyed by the client to confirm understanding."
+                        },
+                        {
+                            question: "情感反射（Emotional Reflection）的例子是：",
+                            questionEn: "An example of Emotional Reflection is:",
+                            options: [
+                                "你说你上周去了三次医院。 (You said you went to the hospital three times last week.)",
+                                "听起来你对这件事感到非常愤怒。 (It sounds like you feel very angry about this matter.)",
+                                "你能举个例子吗？ (Can you give an example?)",
+                                "我明白了。 (I understand.)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！情感反射是识别并表达来访者的情绪感受，帮助其觉察情感。",
+                            explanationEn: "Correct! Emotional reflection is identifying and expressing the client's emotional feelings, helping them become aware of their emotions."
+                        },
+                        {
+                            question: "当进行反射时，咨询师应该：",
+                            questionEn: "When doing reflection, the counselor should:",
+                            options: [
+                                "使用完全相同的词语 (Use exactly the same words)",
+                                "添加自己的解释 (Add their own interpretation)",
+                                "用稍微不同的方式重新表述 (Rephrase in a slightly different way)",
+                                "直接纠正来访者的错误 (Directly correct the client's mistakes)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！有效的反射是用略微不同的方式重新表述，既确认理解，又提供新的视角。",
+                            explanationEn: "Correct! Effective reflection is rephrasing in a slightly different way, both confirming understanding and providing a new perspective."
+                        },
+                        {
+                            question: "反射技巧使用不当可能导致：",
+                            questionEn: "Inappropriate use of reflection skills may lead to:",
+                            options: [
+                                "来访者感到被理解 (Client feels understood)",
+                                "咨询关系加深 (Counseling relationship deepens)",
+                                "来访者感到被模仿或嘲讽 (Client feels mimicked or mocked)",
+                                "来访者更愿意表达 (Client is more willing to express)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！如果反射过于机械或频繁，来访者可能感到被模仿甚至嘲讽，应自然、适度地使用。",
+                            explanationEn: "Correct! If reflection is too mechanical or frequent, clients may feel mimicked or even mocked. It should be used naturally and moderately."
+                        }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "高级技术",
+                    titleEn: "Advanced Techniques",
+                    questions: [
+                        {
+                            question: "面质（Confrontation）在咨询中的目的是？",
+                            questionEn: "What is the purpose of Confrontation in counseling?",
+                            options: [
+                                "批评来访者的错误 (Criticize the client's mistakes)",
+                                "指出来访者言行中的矛盾，促进觉察 (Point out inconsistencies in the client's words/actions to promote awareness)",
+                                "展示咨询师的专业权威 (Demonstrate the counselor's professional authority)",
+                                "加快改变的过程 (Accelerate the change process)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！面质是温和地指出矛盾或不一致，帮助来访者觉察，而非批评或攻击。",
+                            explanationEn: "Correct! Confrontation is gently pointing out contradictions or inconsistencies to help clients become aware, not to criticize or attack."
+                        },
+                        {
+                            question: "自我表露（Self-disclosure）的使用原则是？",
+                            questionEn: "The principle of using Self-disclosure is:",
+                            options: [
+                                "尽可能多地分享个人经历 (Share personal experiences as much as possible)",
+                                "只分享与来访者经历相似的经历 (Only share experiences similar to the client's)",
+                                "以促进来访者利益为目的，适度使用 (Use moderately with the purpose of promoting the client's benefit)",
+                                "避免任何个人信息的分享 (Avoid sharing any personal information)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！自我表露应该以促进来访者福祉为目的，适度、有策略地使用，而非随意分享。",
+                            explanationEn: "Correct! Self-disclosure should be used moderately and strategically with the purpose of promoting client welfare, not shared casually."
+                        },
+                        {
+                            question: "解释（Interpretation）是指：",
+                            questionEn: "Interpretation refers to:",
+                            options: [
+                                "解释咨询的流程 (Explaining the counseling process)",
+                                "将来访者的行为与其潜意识动机联系起来 (Connecting the client's behavior with their unconscious motivations)",
+                                "告诉来访者该怎么办 (Telling the client what to do)",
+                                "重新表述来访者的话 (Rephrasing the client's words)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！解释是帮助来访者理解其行为、感受与深层动机或模式之间的联系。",
+                            explanationEn: "Correct! Interpretation helps clients understand the connection between their behaviors, feelings, and deeper motivations or patterns."
+                        },
+                        {
+                            question: "在以下哪种情况下，使用高级技术（如面质、解释）是不合适的？",
+                            questionEn: "In which of the following situations is it inappropriate to use advanced techniques (like confrontation, interpretation)?",
+                            options: [
+                                "咨询关系稳固，来访者准备就绪 (Counseling relationship is solid, client is ready)",
+                                "来访者主动寻求深层探索 (Client actively seeks deep exploration)",
+                                "咨询初期，关系尚未建立 (Early stage of counseling, relationship not yet established)",
+                                "来访者表现出强烈的改变动机 (Client shows strong motivation for change)"
+                            ],
+                            correct: 2,
+                            explanation: "正确！高级技术需要在坚实的咨询关系基础上使用，否则可能引起抗拒或伤害。",
+                            explanationEn: "Correct! Advanced techniques need to be used on the basis of a solid counseling relationship, otherwise they may cause resistance or harm."
+                        },
+                        {
+                            question: "以下哪个是恰当的自我表露？",
+                            questionEn: "Which of the following is appropriate self-disclosure?",
+                            options: [
+                                "我去年也离婚了，我完全理解你的痛苦。 (I also got divorced last year, I completely understand your pain.)",
+                                "许多人在面对类似情况时会有这样的感受，这很正常。 (Many people have such feelings when facing similar situations, it's normal.)",
+                                "我有一个朋友也遇到过这个问题，他是这样解决的... (I have a friend who also encountered this problem, he solved it like this...)",
+                                "看起来你现在的感受很复杂，能多说说吗？ (It seems like your feelings are very complex now, can you say more?)"
+                            ],
+                            correct: 1,
+                            explanation: "正确！这个回应通过普遍性(normalization)来帮助来访者，而非不恰当的自我表露。真正的自我表露应该简洁、相关且以来访者利益为中心。",
+                            explanationEn: "Correct! This response helps the client through normalization, not inappropriate self-disclosure. True self-disclosure should be brief, relevant, and centered on the client's benefit."
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // 游戏状态
+        let currentLevel = null;
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let unlockedLevels = 1;
+        let levelScores = {};
+
+        // 初始化
+        function init() {
+            loadGameState();
+            showStart();
+        }
+
+        // 加载游戏状态
+        function loadGameState() {
+            const saved = localStorage.getItem('counselingGameState');
+            if (saved) {
+                const state = JSON.parse(saved);
+                unlockedLevels = state.unlockedLevels || 1;
+                levelScores = state.levelScores || {};
+            }
+        }
+
+        // 保存游戏状态
+        function saveGameState() {
+            const state = {
+                unlockedLevels: unlockedLevels,
+                levelScores: levelScores
+            };
+            localStorage.setItem('counselingGameState', JSON.stringify(state));
+        }
+
+        // 显示开始界面
+        function showStart() {
+            hideAllScreens();
+            document.getElementById('startScreen').classList.add('active');
+        }
+
+        // 显示关卡选择
+        function showLevelSelect() {
+            hideAllScreens();
+            document.getElementById('levelScreen').classList.add('active');
+            renderLevelGrid();
+        }
+
+        // 渲染关卡网格
+        function renderLevelGrid() {
+            const grid = document.getElementById('levelGrid');
+            grid.innerHTML = '';
+            
+            gameData.levels.forEach(level => {
+                const isUnlocked = level.id <= unlockedLevels;
+                const bestScore = levelScores[level.id];
+                
+                const card = document.createElement('div');
+                card.className = `level-card ${isUnlocked ? '' : 'locked'}`;
+                card.onclick = isUnlocked ? () => startLevel(level.id) : null;
+                
+                card.innerHTML = `
+                    <div class="level-number">${isUnlocked ? level.id : '🔒'}</div>
+                    <div class="level-title">${level.title}</div>
+                    <div class="level-title-en">${level.titleEn}</div>
+                    ${bestScore !== undefined ? `<div class="score-badge">最佳: ${bestScore}分</div>` : ''}
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // 开始关卡
+        function startLevel(levelId) {
+            currentLevel = gameData.levels.find(l => l.id === levelId);
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            
+            hideAllScreens();
+            document.getElementById('gameScreen').classList.add('active');
+            document.getElementById('levelTitle').textContent = `关卡 ${levelId}: ${currentLevel.title} / ${currentLevel.titleEn}`;
+            
+            loadQuestion();
+        }
+
+        // 加载题目
+        function loadQuestion() {
+            const question = currentLevel.questions[currentQuestion];
+            
+            document.getElementById('questionNumber').textContent = `题目 ${currentQuestion + 1} / ${currentLevel.questions.length}`;
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('questionTextEn').textContent = question.questionEn;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('nextButton').style.display = 'none';
+            
+            updateProgressBar();
+        }
+
+        // 选择选项
+        function selectOption(index) {
+            const question = currentLevel.questions[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            // 禁用所有选项
+            options.forEach(opt => {
+                opt.onclick = null;
+                opt.style.cursor = 'default';
+            });
+            
+            // 显示正确/错误
+            options.forEach((opt, i) => {
+                if (i === question.correct) {
+                    opt.classList.add('correct');
+                } else if (i === index && i !== question.correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // 记录答案
+            const isCorrect = index === question.correct;
+            if (isCorrect) score++;
+            userAnswers.push({
+                question: currentQuestion,
+                selected: index,
+                correct: question.correct,
+                isCorrect: isCorrect
+            });
+            
+            // 显示反馈
+            const feedback = document.getElementById('feedback');
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            document.getElementById('feedbackTitle').textContent = isCorrect ? '✓ 正确 / Correct!' : '✗ 错误 / Incorrect';
+            document.getElementById('feedbackText').innerHTML = `
+                <div>${question.explanation}</div>
+                <div style="margin-top: 10px; font-style: italic;">${question.explanationEn}</div>
+            `;
+            feedback.style.display = 'block';
+            
+            // 显示下一题按钮
+            document.getElementById('nextButton').style.display = 'inline-block';
+        }
+
+        // 下一题
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < currentLevel.questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // 显示结果
+        function showResult() {
+            hideAllScreens();
+            document.getElementById('resultScreen').classList.add('active');
+            
+            const total = currentLevel.questions.length;
+            const percentage = Math.round((score / total) * 100);
+            
+            document.getElementById('correctCount').textContent = score;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('percentage').textContent = percentage + '%';
+            
+            // 设置结果图标和标题
+            const icon = document.getElementById('resultIcon');
+            const title = document.getElementById('resultTitle');
+            
+            if (percentage >= 80) {
+                icon.textContent = '🏆';
+                title.textContent = '优秀！/ Excellent!';
+            } else if (percentage >= 60) {
+                icon.textContent = '👍';
+                title.textContent = '良好！/ Good!';
+            } else {
+                icon.textContent = '💪';
+                title.textContent = '继续加油！/ Keep trying!';
+            }
+            
+            // 显示证书（如果80分以上）
+            const certContainer = document.getElementById('certificateContainer');
+            if (percentage >= 80) {
+                certContainer.innerHTML = `
+                    <div class="certificate">
+                        <h2>🎓 通关证书 / Completion Certificate</h2>
+                        <p>恭喜你完成了「${currentLevel.title} / ${currentLevel.titleEn}」关卡！</p>
+                        <p>Congratulations on completing the "${currentLevel.title} / ${currentLevel.titleEn}" level!</p>
+                        <p style="margin-top: 15px; font-size: 1.2em;">
+                            得分 / Score: ${score}/${total} (${percentage}%)
+                        </p>
+                    </div>
+                `;
+                
+                // 解锁下一关
+                if (currentLevel.id >= unlockedLevels && currentLevel.id < gameData.levels.length) {
+                    unlockedLevels = currentLevel.id + 1;
+                }
+                
+                // 保存最佳成绩
+                if (!levelScores[currentLevel.id] || score > levelScores[currentLevel.id]) {
+                    levelScores[currentLevel.id] = score;
+                }
+                
+                saveGameState();
+            } else {
+                certContainer.innerHTML = `
+                    <p style="color: #666; margin: 20px 0;">
+                        需要80分以上才能解锁下一关。再试一次吧！<br>
+                        Need 80% or above to unlock the next level. Try again!<br>
+                        <button class="button" onclick="startLevel(${currentLevel.id})" style="margin-top: 15px;">
+                            重新挑战 / Retry
+                        </button>
+                    </p>
+                `;
+            }
+        }
+
+        // 更新进度条
+        function updateProgressBar() {
+            const progress = (currentQuestion / currentLevel.questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // 隐藏所有界面
+        function hideAllScreens() {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+        }
+
+        // 页面加载时初始化
+        window.onload = init;
+    </script>
+</body>
+</html>
