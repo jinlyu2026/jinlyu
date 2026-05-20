@@ -2,67 +2,65 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心理咨询术语连连看 / Counseling Terms Match</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>心理咨询术语连连看</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'Segoe UI', 'Microsoft YaHei', -apple-system, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
+        /* ===== 头部 ===== */
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 16px;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 1.4em;
+            margin-bottom: 4px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         .header p {
-            font-size: 1.2em;
+            font-size: 0.85em;
             opacity: 0.9;
         }
 
+        /* ===== 模式切换 ===== */
         .mode-selector {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .mode-btn {
             background: white;
             color: #667eea;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
-            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.95em;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
 
         .mode-btn.active {
@@ -70,6 +68,7 @@
             color: #333;
         }
 
+        /* ===== 游戏区域通用 ===== */
         .game-area {
             display: none;
         }
@@ -78,21 +77,47 @@
             display: block;
         }
 
-        /* 单人模式样式 */
-        .single-player {
+        .panel {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
         }
 
+        /* ===== 关卡选择 ===== */
+        .level-selector {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .level-btn {
+            background: #f0edff;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .level-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* ===== 游戏信息栏 ===== */
         .game-info {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 12px;
+            padding: 10px 8px;
             background: #f8f9fa;
-            border-radius: 15px;
+            border-radius: 12px;
         }
 
         .info-item {
@@ -100,162 +125,186 @@
         }
 
         .info-label {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 5px;
+            color: #999;
+            font-size: 0.75em;
+            margin-bottom: 2px;
         }
 
         .info-value {
-            font-size: 2em;
+            font-size: 1.4em;
             font-weight: bold;
             color: #667eea;
         }
 
+        /* ===== 卡片网格 ===== */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin: 30px 0;
+            gap: 8px;
+            margin: 12px 0;
         }
 
         .card {
-            aspect-ratio: 1;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            transform-style: preserve-3d;
-            font-size: 1.1em;
+            transition: all 0.25s;
             font-weight: bold;
             color: white;
             text-align: center;
-            padding: 10px;
+            padding: 6px 4px;
             word-break: break-word;
+            min-height: 60px;
+            font-size: 0.8em;
+            line-height: 1.2;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        .card:active {
+            transform: scale(0.96);
         }
 
         .card.selected {
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
             color: #333;
-            transform: scale(1.05);
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
         }
 
         .card.matched {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             cursor: default;
-            animation: matchPulse 0.5s;
-        }
-
-        .card.matched:hover {
-            transform: none;
+            animation: matchPulse 0.4s;
+            opacity: 0.85;
         }
 
         @keyframes matchPulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.08); }
         }
 
-        /* 团队模式样式 */
-        .team-mode {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        /* 中英文卡片区分样式 */
+        .card[data-type="zh"] {
+            font-size: 0.95em;
+            font-weight: 700;
         }
 
+        .card[data-type="en"] {
+            font-size: 0.7em;
+            font-weight: 600;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        /* ===== 团队模式 ===== */
         .team-setup {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+        }
+
+        .team-setup h2 {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 16px;
         }
 
         .team-input {
-            margin: 20px 0;
-        }
-
-        .team-input input {
-            padding: 10px 20px;
-            font-size: 1.1em;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            width: 80px;
-            text-align: center;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .team-input label {
-            font-size: 1.2em;
+            font-size: 1em;
             color: #333;
-            margin-right: 10px;
+        }
+
+        .team-input input {
+            padding: 8px 16px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            width: 70px;
+            text-align: center;
         }
 
         .team-scores {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .team-score-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 12px 8px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            transition: all 0.3s;
         }
 
         .team-score-card.active-team {
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
             color: #333;
             transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
         }
 
         .team-name {
-            font-size: 1.5em;
+            font-size: 1em;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
 
         .team-score {
-            font-size: 3em;
+            font-size: 2em;
             font-weight: bold;
         }
 
         .current-turn {
             text-align: center;
-            font-size: 1.5em;
+            font-size: 1.1em;
             color: #667eea;
-            margin: 20px 0;
+            margin: 12px 0;
             font-weight: bold;
+            padding: 8px;
+            background: #f0edff;
+            border-radius: 10px;
         }
 
+        /* ===== 按钮 ===== */
         .controls {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.1em;
-            border-radius: 25px;
+            padding: 12px 28px;
+            font-size: 1em;
+            border-radius: 22px;
             cursor: pointer;
             transition: all 0.3s;
-            margin: 0 10px;
+            font-weight: bold;
         }
 
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        .btn:active {
+            transform: scale(0.96);
         }
 
         .btn-success {
@@ -267,6 +316,15 @@
             color: #333;
         }
 
+        /* ===== 获胜弹窗 ===== */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 999;
+        }
+
         .winner-announcement {
             display: none;
             position: fixed;
@@ -274,61 +332,114 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 50px;
+            padding: 30px 24px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             text-align: center;
             z-index: 1000;
-            animation: popIn 0.5s;
+            width: 90%;
+            max-width: 360px;
+            animation: popIn 0.4s;
         }
 
         @keyframes popIn {
-            from { transform: translate(-50%, -50%) scale(0); }
-            to { transform: translate(-50%, -50%) scale(1); }
+            from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         .winner-announcement h2 {
-            font-size: 3em;
+            font-size: 2.5em;
             color: #ffd700;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .winner-announcement p {
-            font-size: 1.5em;
+            font-size: 1.2em;
             color: #333;
+            white-space: pre-line;
         }
 
-        .overlay {
+        /* ===== 通关弹窗 ===== */
+        .complete-modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 999;
-        }
-
-        .level-selector {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .level-btn {
-            background: #f8f9fa;
-            border: 2px solid #667eea;
-            color: #667eea;
-            padding: 10px 30px;
-            margin: 0 10px;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px 24px;
             border-radius: 20px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            text-align: center;
+            z-index: 1001;
+            width: 90%;
+            max-width: 360px;
+            animation: popIn 0.4s;
         }
 
-        .level-btn:hover, .level-btn.active {
-            background: #667eea;
-            color: white;
+        .complete-modal h2 {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .complete-modal p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .complete-modal .highlight {
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* ===== 平板适配 (≥480px) ===== */
+        @media (min-width: 480px) {
+            body { padding: 20px; }
+            .header h1 { font-size: 1.8em; }
+            .card {
+                min-height: 70px;
+                font-size: 0.9em;
+                padding: 8px 6px;
+            }
+            .card[data-type="en"] { font-size: 0.78em; }
+            .card[data-type="zh"] { font-size: 1.05em; }
+            .card-grid { gap: 10px; }
+            .panel { padding: 24px; }
+        }
+
+        /* ===== 桌面适配 (≥768px) ===== */
+        @media (min-width: 768px) {
+            body { padding: 30px; }
+            .header h1 { font-size: 2.2em; }
+            .header p { font-size: 1.1em; }
+            .mode-btn { padding: 12px 32px; font-size: 1.05em; }
+            .card {
+                min-height: 80px;
+                font-size: 1em;
+                padding: 10px 8px;
+                border-radius: 14px;
+            }
+            .card[data-type="en"] { font-size: 0.82em; }
+            .card[data-type="zh"] { font-size: 1.15em; }
+            .card-grid { gap: 14px; margin: 20px 0; }
+            .game-info { padding: 16px; margin-bottom: 20px; }
+            .info-value { font-size: 1.8em; }
+            .panel { padding: 30px; }
+            .team-scores { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+            .team-score { font-size: 2.5em; }
+        }
+
+        /* ===== 大屏适配 (≥1024px) ===== */
+        @media (min-width: 1024px) {
+            .card {
+                min-height: 90px;
+                font-size: 1.1em;
+            }
+            .card[data-type="en"] { font-size: 0.88em; }
+            .card[data-type="zh"] { font-size: 1.2em; }
+            .card-grid { gap: 16px; }
         }
     </style>
 </head>
@@ -340,30 +451,30 @@
         </div>
 
         <div class="mode-selector">
-            <button class="mode-btn active" onclick="switchMode('single')">👤 单人模式 / Single Player</button>
-            <button class="mode-btn" onclick="switchMode('team')">👥 团队竞赛 / Team Competition</button>
+            <button class="mode-btn active" onclick="switchMode('single')">👤 单人模式</button>
+            <button class="mode-btn" onclick="switchMode('team')">👥 团队竞赛</button>
         </div>
 
         <!-- 单人模式 -->
         <div id="singleMode" class="game-area active">
-            <div class="single-player">
-                <div class="level-selector">
-                    <button class="level-btn active" onclick="loadLevel(1)">基础术语 / Basic</button>
-                    <button class="level-btn" onclick="loadLevel(2)">咨询技术 / Techniques</button>
-                    <button class="level-btn" onclick="loadLevel(3)">高级概念 / Advanced</button>
+            <div class="panel">
+                <div class="level-selector" id="levelSelector">
+                    <button class="level-btn active" data-level="1">基础术语</button>
+                    <button class="level-btn" data-level="2">咨询技术</button>
+                    <button class="level-btn" data-level="3">高级概念</button>
                 </div>
 
                 <div class="game-info">
                     <div class="info-item">
-                        <div class="info-label">得分 / Score</div>
+                        <div class="info-label">得分</div>
                         <div class="info-value" id="singleScore">0</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">剩余配对 / Pairs Left</div>
+                        <div class="info-label">剩余配对</div>
                         <div class="info-value" id="singlePairs">8</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">时间 / Time</div>
+                        <div class="info-label">用时</div>
                         <div class="info-value" id="singleTime">0:00</div>
                     </div>
                 </div>
@@ -371,33 +482,30 @@
                 <div class="card-grid" id="singleGrid"></div>
 
                 <div class="controls">
-                    <button class="btn" onclick="resetSingleGame()">重新开始 / Reset</button>
+                    <button class="btn" onclick="resetSingleGame()">重新开始</button>
                 </div>
             </div>
         </div>
 
         <!-- 团队模式 -->
         <div id="teamMode" class="game-area">
-            <div class="team-mode">
-                <div class="team-setup">
-                    <h2>团队设置 / Team Setup</h2>
+            <div class="panel">
+                <div class="team-setup" id="teamSetup">
+                    <h2>团队设置</h2>
                     <div class="team-input">
-                        <label>团队数量 / Number of Teams:</label>
-                        <input type="number" id="teamCount" value="2" min="2" max="6" onchange="setupTeams()">
+                        <label>团队数量</label>
+                        <input type="number" id="teamCount" value="2" min="2" max="6">
                     </div>
-                    <button class="btn btn-success" onclick="startTeamGame()">开始竞赛 / Start Competition</button>
+                    <button class="btn btn-success" onclick="startTeamGame()">开始竞赛</button>
                 </div>
 
                 <div id="teamGameArea" style="display: none;">
                     <div class="team-scores" id="teamScores"></div>
-                    
                     <div class="current-turn" id="currentTurn"></div>
-
                     <div class="card-grid" id="teamGrid"></div>
-
                     <div class="controls">
-                        <button class="btn btn-warning" onclick="nextTeam()">下一个团队 / Next Team</button>
-                        <button class="btn" onclick="resetTeamGame()">重新开始 / Reset</button>
+                        <button class="btn btn-warning" onclick="nextTeam()">换下一组</button>
+                        <button class="btn" onclick="resetTeamGame()">重新开始</button>
                     </div>
                 </div>
             </div>
@@ -405,17 +513,26 @@
     </div>
 
     <!-- 获胜弹窗 -->
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay" id="overlay" onclick="closeWinner()"></div>
     <div class="winner-announcement" id="winnerAnnouncement">
         <h2>🏆</h2>
         <p id="winnerText"></p>
-        <button class="btn" onclick="closeWinner()" style="margin-top: 30px;">关闭 / Close</button>
+        <button class="btn" onclick="closeWinner()" style="margin-top: 20px;">关闭</button>
+    </div>
+
+    <!-- 通关弹窗 -->
+    <div class="overlay" id="completeOverlay"></div>
+    <div class="complete-modal" id="completeModal">
+        <h2>🎉 恭喜通关！</h2>
+        <p>得分：<span class="highlight" id="finalScore">0</span></p>
+        <p>用时：<span class="highlight" id="finalTime">0:00</span></p>
+        <button class="btn" onclick="closeComplete()" style="margin-top: 20px;">继续</button>
     </div>
 
     <script>
-        // 游戏数据 - 心理咨询术语
+        // 游戏数据
         const wordData = {
-            1: [ // 基础术语
+            1: [
                 { zh: "共情", en: "Empathy" },
                 { zh: "倾听", en: "Listening" },
                 { zh: "信任", en: "Trust" },
@@ -425,9 +542,9 @@
                 { zh: "理解", en: "Understanding" },
                 { zh: "支持", en: "Support" }
             ],
-            2: [ // 咨询技术
+            2: [
                 { zh: "积极倾听", en: "Active Listening" },
-                { zh: "开放式提问", en: "Open-ended Question" },
+                { zh: "开放式提问", en: "Open-ended Q." },
                 { zh: "反射技巧", en: "Reflection" },
                 { zh: "面质", en: "Confrontation" },
                 { zh: "解释", en: "Interpretation" },
@@ -435,9 +552,9 @@
                 { zh: "即时性", en: "Immediacy" },
                 { zh: "沉默", en: "Silence" }
             ],
-            3: [ // 高级概念
+            3: [
                 { zh: "移情", en: "Transference" },
-                { zh: "反移情", en: "Countertransference" },
+                { zh: "反移情", en: "Counter-transference" },
                 { zh: "阻抗", en: "Resistance" },
                 { zh: "无条件积极关注", en: "Unconditional Positive Regard" },
                 { zh: "一致性", en: "Congruence" },
@@ -455,34 +572,36 @@
         let timer = 0;
         let timerInterval = null;
         let currentMode = 'single';
+        let isChecking = false; // 防止快速连点
 
-        // 团队模式变量
+        // 团队变量
         let teams = [];
         let currentTeamIndex = 0;
         let teamGameActive = false;
+
+        // 关卡按钮事件委托
+        document.getElementById('levelSelector').addEventListener('click', function(e) {
+            if (e.target.classList.contains('level-btn')) {
+                currentLevel = parseInt(e.target.dataset.level);
+                document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                resetSingleGame();
+            }
+        });
 
         // 切换模式
         function switchMode(mode) {
             currentMode = mode;
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
+
             document.querySelectorAll('.game-area').forEach(area => area.classList.remove('active'));
             if (mode === 'single') {
                 document.getElementById('singleMode').classList.add('active');
-                loadLevel(currentLevel);
+                resetSingleGame();
             } else {
                 document.getElementById('teamMode').classList.add('active');
             }
-        }
-
-        // 加载关卡
-        function loadLevel(level) {
-            currentLevel = level;
-            document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            resetSingleGame();
         }
 
         // 重置单人游戏
@@ -491,25 +610,24 @@
             matchedPairs = 0;
             score = 0;
             timer = 0;
-            
+            isChecking = false;
+
             if (timerInterval) clearInterval(timerInterval);
             startTimer();
-            
+
             document.getElementById('singleScore').textContent = '0';
             document.getElementById('singlePairs').textContent = wordData[currentLevel].length;
             totalPairs = wordData[currentLevel].length;
-            
+
             createCards('singleGrid', wordData[currentLevel]);
         }
 
-        // 开始计时器
         function startTimer() {
             timerInterval = setInterval(() => {
                 timer++;
-                const minutes = Math.floor(timer / 60);
-                const seconds = timer % 60;
-                document.getElementById('singleTime').textContent = 
-                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                const m = Math.floor(timer / 60);
+                const s = timer % 60;
+                document.getElementById('singleTime').textContent = m + ':' + String(s).padStart(2, '0');
             }, 1000);
         }
 
@@ -517,232 +635,199 @@
         function createCards(gridId, words) {
             const grid = document.getElementById(gridId);
             grid.innerHTML = '';
-            
-            // 创建配对卡片
+
             let cards = [];
-            words.forEach((word, index) => {
-                cards.push({
-                    id: index,
-                    text: word.zh,
-                    type: 'zh',
-                    matchId: index
-                });
-                cards.push({
-                    id: index + words.length,
-                    text: word.en,
-                    type: 'en',
-                    matchId: index
-                });
+            words.forEach((word, i) => {
+                cards.push({ id: i, text: word.zh, type: 'zh', matchId: i });
+                cards.push({ id: i + words.length, text: word.en, type: 'en', matchId: i });
             });
-            
-            // 洗牌
+
             cards = shuffle(cards);
-            
-            // 创建卡片元素
+
             cards.forEach(card => {
-                const cardEl = document.createElement('div');
-                cardEl.className = 'card';
-                cardEl.textContent = card.text;
-                cardEl.dataset.id = card.id;
-                cardEl.dataset.matchId = card.matchId;
-                cardEl.dataset.type = card.type;
-                cardEl.onclick = () => selectCard(cardEl);
-                grid.appendChild(cardEl);
+                const el = document.createElement('div');
+                el.className = 'card';
+                el.textContent = card.text;
+                el.dataset.id = card.id;
+                el.dataset.matchId = card.matchId;
+                el.dataset.type = card.type;
+                el.addEventListener('click', () => selectCard(el));
+                grid.appendChild(el);
             });
         }
 
         // 选择卡片
-        function selectCard(cardEl) {
-            if (cardEl.classList.contains('matched') || cardEl.classList.contains('selected')) {
-                return;
-            }
+        function selectCard(el) {
+            if (isChecking) return;
+            if (el.classList.contains('matched') || el.classList.contains('selected')) return;
+            if (currentMode === 'team' && !teamGameActive) return;
 
-            if (currentMode === 'team' && !teamGameActive) {
-                return;
-            }
-
-            cardEl.classList.add('selected');
-            selectedCards.push(cardEl);
+            el.classList.add('selected');
+            selectedCards.push(el);
 
             if (selectedCards.length === 2) {
+                isChecking = true;
                 checkMatch();
             }
         }
 
         // 检查匹配
         function checkMatch() {
-            const [card1, card2] = selectedCards;
-            const match1 = card1.dataset.matchId;
-            const match2 = card2.dataset.matchId;
-            const type1 = card1.dataset.type;
-            const type2 = card2.dataset.type;
+            const [c1, c2] = selectedCards;
+            const m1 = c1.dataset.matchId;
+            const m2 = c2.dataset.matchId;
+            const t1 = c1.dataset.type;
+            const t2 = c2.dataset.type;
 
-            // 必须是不同类型的卡片且matchId相同
-            if (match1 === match2 && type1 !== type2) {
+            if (m1 === m2 && t1 !== t2) {
                 // 匹配成功
                 setTimeout(() => {
-                    card1.classList.add('matched');
-                    card2.classList.add('matched');
-                    card1.classList.remove('selected');
-                    card2.classList.remove('selected');
-                    
+                    c1.classList.add('matched');
+                    c2.classList.add('matched');
+                    c1.classList.remove('selected');
+                    c2.classList.remove('selected');
                     selectedCards = [];
-                    
+                    isChecking = false;
+
                     if (currentMode === 'single') {
                         score += 10;
                         matchedPairs++;
                         document.getElementById('singleScore').textContent = score;
                         document.getElementById('singlePairs').textContent = totalPairs - matchedPairs;
-                        
+
                         if (matchedPairs === totalPairs) {
                             clearInterval(timerInterval);
-                            setTimeout(() => {
-                                alert(`🎉 恭喜通关！\n得分: ${score}\n时间: ${document.getElementById('singleTime').textContent}`);
-                            }, 500);
+                            setTimeout(showComplete, 400);
                         }
                     } else {
-                        // 团队模式加分
                         teams[currentTeamIndex].score += 10;
                         matchedPairs++;
                         updateTeamScores();
-                        
                         if (matchedPairs === totalPairs) {
                             endTeamGame();
                         }
                     }
-                }, 500);
+                }, 400);
             } else {
-                // 匹配失败
+                // 不匹配
                 setTimeout(() => {
-                    card1.classList.remove('selected');
-                    card2.classList.remove('selected');
+                    c1.classList.remove('selected');
+                    c2.classList.remove('selected');
                     selectedCards = [];
-                    
+                    isChecking = false;
+
                     if (currentMode === 'team') {
-                        // 团队模式自动切换
-                        setTimeout(() => nextTeam(), 1000);
+                        setTimeout(() => nextTeam(), 600);
                     }
-                }, 1000);
+                }, 800);
             }
         }
 
-        // 洗牌函数
-        function shuffle(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
+        // 洗牌
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                [a[i], a[j]] = [a[j], a[i]];
             }
-            return newArray;
+            return a;
         }
 
-        // 设置团队
+        // 通关弹窗
+        function showComplete() {
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalTime').textContent = document.getElementById('singleTime').textContent;
+            document.getElementById('completeOverlay').style.display = 'block';
+            document.getElementById('completeModal').style.display = 'block';
+        }
+
+        function closeComplete() {
+            document.getElementById('completeOverlay').style.display = 'none';
+            document.getElementById('completeModal').style.display = 'none';
+        }
+
+        // 团队功能
         function setupTeams() {
-            const count = parseInt(document.getElementById('teamCount').value);
+            const count = Math.min(6, Math.max(2, parseInt(document.getElementById('teamCount').value) || 2));
+            document.getElementById('teamCount').value = count;
             teams = [];
             for (let i = 0; i < count; i++) {
-                teams.push({
-                    name: `团队 ${String.fromCharCode(65 + i)}`,
-                    score: 0
-                });
+                teams.push({ name: '团队 ' + String.fromCharCode(65 + i), score: 0 });
             }
         }
 
-        // 开始团队游戏
         function startTeamGame() {
             setupTeams();
             currentTeamIndex = 0;
             matchedPairs = 0;
             teamGameActive = true;
-            
+            isChecking = false;
+            selectedCards = [];
+
+            document.getElementById('teamSetup').style.display = 'none';
             document.getElementById('teamGameArea').style.display = 'block';
-            
+
             updateTeamScores();
             updateCurrentTurn();
-            createCards('teamGrid', wordData[1]); // 团队模式使用基础术语
+            createCards('teamGrid', wordData[1]);
         }
 
-        // 更新团队分数显示
         function updateTeamScores() {
-            const container = document.getElementById('teamScores');
-            container.innerHTML = '';
-            
-            teams.forEach((team, index) => {
-                const card = document.createElement('div');
-                card.className = `team-score-card ${index === currentTeamIndex ? 'active-team' : ''}`;
-                card.innerHTML = `
-                    <div class="team-name">${team.name}</div>
-                    <div class="team-score">${team.score}</div>
-                `;
-                container.appendChild(card);
+            const c = document.getElementById('teamScores');
+            c.innerHTML = '';
+            teams.forEach((team, i) => {
+                const d = document.createElement('div');
+                d.className = 'team-score-card' + (i === currentTeamIndex ? ' active-team' : '');
+                d.innerHTML = '<div class="team-name">' + team.name + '</div><div class="team-score">' + team.score + '</div>';
+                c.appendChild(d);
             });
         }
 
-        // 更新当前回合显示
         function updateCurrentTurn() {
-            document.getElementById('currentTurn').textContent = 
-                `当前回合 / Current Turn: ${teams[currentTeamIndex].name}`;
+            document.getElementById('currentTurn').textContent = '当前回合：' + teams[currentTeamIndex].name;
         }
 
-        // 下一个团队
         function nextTeam() {
             if (!teamGameActive) return;
-            
             currentTeamIndex = (currentTeamIndex + 1) % teams.length;
             updateTeamScores();
             updateCurrentTurn();
         }
 
-        // 结束团队游戏
         function endTeamGame() {
             teamGameActive = false;
-            
-            // 找出获胜团队
-            let maxScore = 0;
-            let winners = [];
-            teams.forEach(team => {
-                if (team.score > maxScore) {
-                    maxScore = team.score;
-                    winners = [team];
-                } else if (team.score === maxScore) {
-                    winners.push(team);
-                }
+            let maxScore = 0, winners = [];
+            teams.forEach(t => {
+                if (t.score > maxScore) { maxScore = t.score; winners = [t]; }
+                else if (t.score === maxScore) { winners.push(t); }
             });
-            
-            // 显示获胜者
-            const overlay = document.getElementById('overlay');
-            const announcement = document.getElementById('winnerAnnouncement');
-            
-            if (winners.length === 1) {
-                document.getElementById('winnerText').textContent = 
-                    `恭喜 ${winners[0].name} 获胜！\n得分: ${winners[0].score}`;
-            } else {
-                document.getElementById('winnerText').textContent = 
-                    `平局！${winners.map(w => w.name).join(' 和 ')} 得分相同: ${winners[0].score}`;
-            }
-            
-            overlay.style.display = 'block';
-            announcement.style.display = 'block';
+
+            const text = winners.length === 1
+                ? '恭喜 ' + winners[0].name + ' 获胜！\n得分: ' + winners[0].score
+                : '平局！' + winners.map(w => w.name).join(' 和 ') + '\n得分: ' + winners[0].score;
+
+            document.getElementById('winnerText').textContent = text;
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('winnerAnnouncement').style.display = 'block';
         }
 
-        // 关闭获胜弹窗
         function closeWinner() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('winnerAnnouncement').style.display = 'none';
         }
 
-        // 重置团队游戏
         function resetTeamGame() {
             document.getElementById('teamGameArea').style.display = 'none';
+            document.getElementById('teamSetup').style.display = 'block';
             teams = [];
             currentTeamIndex = 0;
             matchedPairs = 0;
             teamGameActive = false;
         }
 
-        // 页面加载时初始化
+        // 初始化
         window.onload = () => {
-            loadLevel(1);
+            resetSingleGame();
             setupTeams();
         };
     </script>
