@@ -3,352 +3,696 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jin</title>
+    <title>Jin · AI 心理健康与教育</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         :root {
-            --bg: #ffffff;
-            --sidebar: #f7f6f3;
-            --text: #37352f;
-            --text-secondary: #9ca3af;
-            --text-tertiary: #d1d5db;
-            --border: #e5e7eb;
-            --hover-bg: #f5f5f4;
-            --accent: #37352f;
-            --link: #6b7280;
+            --bg: #faf9f7;
+            --surface: #ffffff;
+            --text: #2c2c2c;
+            --text-secondary: #787878;
+            --text-tertiary: #b0b0b0;
+            --border: #e8e4df;
+            --accent: #4a7b7a;
+            --accent-light: #e8f2f1;
+            --accent-dark: #3a6564;
+            --warm: #b8916a;
+            --warm-light: #f5efe8;
+            --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --radius: 10px;
+            --radius-sm: 6px;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.5;
-            min-height: 100vh;
-            font-size: 15px;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .page {
-            max-width: 900px;
+        /* ========== Container ========== */
+        .container {
+            max-width: 1040px;
             margin: 0 auto;
-            padding: 0 96px;
+            padding: 0 32px;
         }
 
-        @media (max-width: 768px) {
-            .page { padding: 0 24px; }
+        @media (max-width: 640px) {
+            .container { padding: 0 20px; }
         }
 
-        /* Header */
-        header {
-            padding: 80px 0 40px;
+        /* ========== Navigation ========== */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .page-icon {
-            font-size: 64px;
-            line-height: 1;
-            margin-bottom: 16px;
-            user-select: none;
-        }
-
-        h1 {
-            font-size: 36px;
-            font-weight: 700;
+        .nav-brand {
+            font-size: 18px;
+            font-weight: 600;
             color: var(--text);
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-            margin-bottom: 8px;
-            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
+            text-decoration: none;
+            letter-spacing: -0.3px;
         }
 
-        .subtitle {
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
             color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
         }
 
-        .tags {
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+        }
+
+        /* ========== Hero ========== */
+        .hero {
+            padding: 80px 0 60px;
+        }
+
+        .hero-name {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .hero-name .chinese {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 32px;
+        }
+
+        .hero-tagline {
+            font-size: 20px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .hero-tagline .highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .hero-creds {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
+            margin-bottom: 32px;
         }
 
-        .tag {
-            background: var(--hover-bg);
-            color: var(--text);
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-size: 13px;
+        .cred-badge {
+            background: var(--surface);
             border: 1px solid var(--border);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
         }
 
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 0;
-            border: none;
+        .cred-badge.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+            color: var(--accent-dark);
         }
 
-        /* Section */
-        section {
-            padding: 32px 0;
+        .hero-bio {
+            max-width: 680px;
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 640px) {
+            .hero { padding: 48px 0 40px; }
+            .hero-name { font-size: 36px; }
+            .hero-name .chinese { font-size: 24px; display: block; margin-top: 2px; }
+            .hero-tagline { font-size: 17px; }
+        }
+
+        /* ========== Section ========== */
+        .section {
+            padding: 48px 0;
         }
 
         .section-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 500;
+            margin-bottom: 28px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.5px;
+            color: var(--text-tertiary);
+            margin-bottom: 8px;
         }
 
-        .toggle-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 2px;
-            display: flex;
-            align-items: center;
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            font-size: 15px;
             color: var(--text-secondary);
-            font-size: 13px;
-            transition: transform 0.2s;
+            margin-top: 6px;
         }
 
-        .toggle-btn.collapsed {
-            transform: rotate(-90deg);
+        @media (max-width: 640px) {
+            .section { padding: 36px 0; }
+            .section-title { font-size: 24px; }
         }
 
-        /* Notion-style list */
-        .notion-list {
-            list-style: none;
-            padding: 0;
+        hr.divider {
+            border: none;
+            height: 1px;
+            background: var(--border);
         }
 
-        .notion-item {
+        /* ========== Pillars ========== */
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .pillar-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            border: 1px solid var(--border);
+            transition: all 0.25s;
+        }
+
+        .pillar-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .pillar-icon {
+            font-size: 32px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .pillar-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pillar-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .pillar-tags {
             display: flex;
-            align-items: flex-start;
-            padding: 6px 0;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 12px;
+        }
+
+        .pillar-tag {
+            font-size: 12px;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 2px 8px;
             border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.1s;
+        }
+
+        @media (max-width: 768px) {
+            .pillars { grid-template-columns: 1fr; }
+        }
+
+        /* ========== Project Grid ========== */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 24px;
+            border: 1px solid var(--border);
             text-decoration: none;
             color: inherit;
+            display: block;
+            transition: all 0.25s;
+            position: relative;
         }
 
-        .notion-item:hover {
-            background: var(--hover-bg);
+        .project-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
         }
 
-        .notion-bullet {
-            width: 24px;
-            min-width: 24px;
-            text-align: center;
+        .project-card:hover .project-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .project-emoji {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .project-title {
             font-size: 16px;
-            line-height: 1.5;
-            margin-top: -1px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .notion-text {
-            flex: 1;
-            min-width: 0;
+        .project-arrow {
+            opacity: 0;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: var(--text-tertiary);
         }
 
-        .notion-title {
-            font-size: 15px;
-            color: var(--text);
-            line-height: 1.5;
-        }
-
-        .notion-desc {
+        .project-desc {
             font-size: 13px;
             color: var(--text-secondary);
-            margin-top: 2px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
-        .notion-arrow {
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 10px;
+        }
+
+        .project-meta-tag {
+            font-size: 11px;
             color: var(--text-tertiary);
-            font-size: 13px;
-            margin-left: 8px;
-            opacity: 0;
-            transition: opacity 0.15s;
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
         }
 
-        .notion-item:hover .notion-arrow {
+        .project-card.external .project-arrow {
+            opacity: 0.3;
+        }
+
+        .project-card.external:hover .project-arrow {
             opacity: 1;
         }
 
-        /* Callout block (Notion style) */
-        .callout {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            background: var(--sidebar);
-            border-radius: 4px;
-            padding: 16px;
-            margin: 24px 0;
+        @media (max-width: 640px) {
+            .project-grid { grid-template-columns: 1fr; }
         }
 
-        .callout-icon {
-            font-size: 20px;
-            line-height: 1.4;
+        /* ========== Highlight Section ========== */
+        .highlight-section {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
         }
 
-        .callout-text {
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .highlight-item {
+            padding: 28px 24px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .highlight-item:nth-child(2n) {
+            border-right: none;
+        }
+
+        .highlight-item:nth-last-child(-n+2) {
+            border-bottom: none;
+        }
+
+        .highlight-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .highlight-title {
             font-size: 15px;
-            color: var(--text);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .highlight-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
             line-height: 1.5;
         }
 
-        .callout-text a {
-            color: var(--text);
-            text-decoration: underline;
-            text-underline-offset: 2px;
+        @media (max-width: 640px) {
+            .highlight-grid { grid-template-columns: 1fr; }
+            .highlight-item { border-right: none; }
+            .highlight-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+            .highlight-item:last-child { border-bottom: none; }
         }
 
-        /* Footer */
+        /* ========== Footer ========== */
         footer {
-            padding: 32px 0 80px;
-            text-align: left;
+            padding: 40px 0 64px;
+            border-top: 1px solid var(--border);
+            margin-top: 16px;
         }
 
-        footer p {
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copy {
             color: var(--text-tertiary);
-            font-size: 12px;
+            font-size: 13px;
         }
 
-        footer a {
+        .footer-copy a {
             color: var(--text-secondary);
             text-decoration: none;
         }
 
-        footer a:hover {
-            text-decoration: underline;
+        .footer-copy a:hover {
+            color: var(--accent);
         }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 640px) {
+            .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+        }
+
+        /* ========== Animations ========== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeUp 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
-    <div class="page">
-        <header>
-            <div class="page-icon">👤</div>
-            <h1>Jin</h1>
-            <p class="subtitle">复旦大学 · 应用心理学 · AI教育</p>
-            <div class="tags">
-                <span class="tag">🎓 K-12/AI教育</span>
-                <span class="tag">💬 心理健康</span>
-                <span class="tag">🤖 教育科技</span>
-                <span class="tag">📊 临床咨询</span>
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <a href="/" class="nav-brand">Jin</a>
+            <ul class="nav-links">
+                <li><a href="#work">作品</a></li>
+                <li><a href="#research">研究</a></li>
+                <li><a href="#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <!-- Hero -->
+        <header class="hero animate-in">
+            <h1 class="hero-name">
+                Jin
+                <span class="chinese">吕晋</span>
+            </h1>
+            <p class="hero-tagline">
+                AI 心理健康实践者 · 教育者 · <span class="highlight">临床咨询师</span>
+            </p>
+            <div class="hero-creds">
+                <span class="cred-badge accent">🎓 复旦大学 12年</span>
+                <span class="cred-badge accent">🌐 WashU Brown School</span>
+                <span class="cred-badge">MSW · MSP</span>
+                <span class="cred-badge">🏆 心理健康实习杰出奖</span>
+                <span class="cred-badge">💡 20+ AI 产品</span>
             </div>
+            <p class="hero-bio">
+                专注于 AI 与心理健康的交叉领域——从临床咨询到教师培训，从 AI 产品设计到沉浸式工作坊。
+                独创「理论→实操→反馈」闭环工作坊方法论，致力于让 AI 真正服务于教育与人。
+            </p>
         </header>
 
-        <hr class="divider">
-
-        <section>
+        <!-- Three Pillars -->
+        <section class="section animate-in delay-1">
             <div class="section-header">
-                <button class="toggle-btn" onclick="toggleSection(this)">▼</button>
-                <span>互动工具</span>
+                <div class="section-label">核心领域</div>
+                <h2 class="section-title">AI + 心理健康的实践图景</h2>
             </div>
-            <ul class="notion-list">
-                <li>
-                    <a class="notion-item" href="/counseling-game/">
-                        <span class="notion-bullet">🧠</span>
-                        <div class="notion-text">
-                            <div class="notion-title">心理咨询术语连连看 <span class="notion-arrow">→</span></div>
-                            <div class="notion-desc">中英文配对游戏，支持团队竞赛模式，帮助学生快速记忆咨询专业术语</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a class="notion-item" href="https://jin-207672506292.us-west1.run.app/" target="_blank">
-                        <span class="notion-bullet">🤖</span>
-                        <div class="notion-text">
-                            <div class="notion-title">JIN · Your Digital Soul Companion <span class="notion-arrow">→</span></div>
-                            <div class="notion-desc">AI数字灵魂伴侣，情感陪伴与心理健康支持</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a class="notion-item" href="/ai-mental-health-workshop/">
-                        <span class="notion-bullet">🏠</span>
-                        <div class="notion-text">
-                            <div class="notion-title">AI心理健康工作坊 <span class="notion-arrow">→</span></div>
-                            <div class="notion-desc">AI伴侣与亲密关系支持系统、DBT自我安抚、睡眠行为干预等互动展示</div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+            <div class="pillars">
+                <div class="pillar-card">
+                    <span class="pillar-icon">🤖</span>
+                    <h3 class="pillar-name">AI · 心理健康</h3>
+                    <p class="pillar-desc">AI 数字灵魂伴侣「JIN」、心理咨询术语连连看、沉浸式 AI 工作坊——用技术拓展心理服务的边界。</p>
+                    <div class="pillar-tags">
+                        <span class="pillar-tag">JIN</span>
+                        <span class="pillar-tag">连连看</span>
+                        <span class="pillar-tag">DBT</span>
+                    </div>
+                </div>
+                <div class="pillar-card">
+                    <span class="pillar-icon">🎓</span>
+                    <h3 class="pillar-name">教师 AI 培训</h3>
+                    <p class="pillar-desc">复旦《金课》主讲，独创「理论→实操→反馈」闭环工作坊方法论。WorkBuddy 实训、校本课程定制。</p>
+                    <div class="pillar-tags">
+                        <span class="pillar-tag">复旦金课</span>
+                        <span class="pillar-tag">WorkBuddy</span>
+                        <span class="pillar-tag">校本课程</span>
+                    </div>
+                </div>
+                <div class="pillar-card">
+                    <span class="pillar-icon">💬</span>
+                    <h3 class="pillar-name">临床咨询与科研</h3>
+                    <p class="pillar-desc">WashU Brown School「Chat with Alan」亲子对话 AI 项目（DBT 技术），情境干预三层框架，12 年一线咨询经验。</p>
+                    <div class="pillar-tags">
+                        <span class="pillar-tag">Chat with Alan</span>
+                        <span class="pillar-tag">情境干预</span>
+                        <span class="pillar-tag">DBT</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <hr class="divider">
 
-        <section>
+        <!-- Projects -->
+        <section class="section animate-in delay-2" id="work">
             <div class="section-header">
-                <button class="toggle-btn" onclick="toggleSection(this)">▼</button>
-                <span>项目与报告</span>
+                <div class="section-label">作品与工具</div>
+                <h2 class="section-title">从想法到可用的产品</h2>
+                <p class="section-subtitle">互动工具、AI 应用与教学资源</p>
             </div>
-            <ul class="notion-list">
-                <li>
-                    <a class="notion-item" href="/jin-story-collection/">
-                        <span class="notion-bullet">📚</span>
-                        <div class="notion-text">
-                            <div class="notion-title">铁粉故事集 <span class="notion-arrow">→</span></div>
-                            <div class="notion-desc">AI教育产品的用户故事与粘性分析，投资人路演材料</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a class="notion-item" href="/ai-mental-health-proposal/">
-                        <span class="notion-bullet">💡</span>
-                        <div class="notion-text">
-                            <div class="notion-title">AI心理健康提案 <span class="notion-arrow">→</span></div>
-                            <div class="notion-desc">AI+心理健康领域项目计划书与发展蓝图</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a class="notion-item" href="/teaching-statement/">
-                        <span class="notion-bullet">📖</span>
-                        <div class="notion-text">
-                            <div class="notion-title">教学理念 <span class="notion-arrow">→</span></div>
-                            <div class="notion-desc">个人教学声明与教育理念阐述</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a class="notion-item" href="/jinlyu-resume/">
-                        <span class="notion-bullet">📋</span>
-                        <div class="notion-text">
-                            <div class="notion-title">个人简历 <span class="notion-arrow">→</span></div>
-                            <div class="notion-desc">教育背景、研究经历与专业资质</div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+            <div class="project-grid">
+                <a class="project-card" href="/counseling-game/">
+                    <span class="project-emoji">🧠</span>
+                    <div class="project-title">
+                        心理咨询术语连连看
+                        <span class="project-arrow">→</span>
+                    </div>
+                    <p class="project-desc">中英文配对游戏，支持单人/团队竞赛模式，三个难度级别。用游戏化方式帮助学生记忆咨询专业术语。</p>
+                    <div class="project-meta">
+                        <span class="project-meta-tag">互动工具</span>
+                        <span class="project-meta-tag">教学游戏</span>
+                    </div>
+                </a>
+
+                <a class="project-card external" href="https://jin-207672506292.us-west1.run.app/" target="_blank">
+                    <span class="project-emoji">🤖</span>
+                    <div class="project-title">
+                        JIN · Your Digital Soul Companion
+                        <span class="project-arrow">↗</span>
+                    </div>
+                    <p class="project-desc">AI 数字灵魂伴侣，基于情境干预三层框架，提供情感陪伴与心理健康支持。</p>
+                    <div class="project-meta">
+                        <span class="project-meta-tag">AI 产品</span>
+                        <span class="project-meta-tag">Google Cloud</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="/ai-mental-health-workshop/">
+                    <span class="project-emoji">🏠</span>
+                    <div class="project-title">
+                        AI 心理健康工作坊
+                        <span class="project-arrow">→</span>
+                    </div>
+                    <p class="project-desc">AI 伴侣与亲密关系支持系统、DBT 自我安抚、睡眠行为干预等互动展示。</p>
+                    <div class="project-meta">
+                        <span class="project-meta-tag">工作坊</span>
+                        <span class="project-meta-tag">DBT</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="/jin-story-collection/">
+                    <span class="project-emoji">📚</span>
+                    <div class="project-title">
+                        铁粉故事集
+                        <span class="project-arrow">→</span>
+                    </div>
+                    <p class="project-desc">AI 教育产品的用户故事与粘性分析。记录真实用户的使用体验与成长轨迹。</p>
+                    <div class="project-meta">
+                        <span class="project-meta-tag">案例分析</span>
+                        <span class="project-meta-tag">路演材料</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="/ai-mental-health-proposal/">
+                    <span class="project-emoji">💡</span>
+                    <div class="project-title">
+                        AI 心理健康提案
+                        <span class="project-arrow">→</span>
+                    </div>
+                    <p class="project-desc">AI + 心理健康领域的项目计划书与发展蓝图，涵盖技术方案、应用场景与实施路径。</p>
+                    <div class="project-meta">
+                        <span class="project-meta-tag">方案</span>
+                        <span class="project-meta-tag">规划</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="/teaching-statement/">
+                    <span class="project-emoji">📖</span>
+                    <div class="project-title">
+                        教学理念
+                        <span class="project-arrow">→</span>
+                    </div>
+                    <p class="project-desc">个人教学声明与教育理念阐述——从育人视角出发的 AI 教育实践哲学。</p>
+                    <div class="project-meta">
+                        <span class="project-meta-tag">教学</span>
+                    </div>
+                </a>
+            </div>
         </section>
 
-        <div class="callout">
-            <span class="callout-icon">💡</span>
-            <div class="callout-text">
-                所有页面均托管于 <a href="https://pages.github.com" target="_blank">GitHub Pages</a>，免费、快速、自动部署。
-            </div>
-        </div>
+        <hr class="divider">
 
+        <!-- Research & Training Highlights -->
+        <section class="section animate-in delay-3" id="research">
+            <div class="section-header">
+                <div class="section-label">研究与培训</div>
+                <h2 class="section-title">项目与实践</h2>
+                <p class="section-subtitle">科研项目、培训课程与方法论</p>
+            </div>
+            <div class="highlight-section">
+                <div class="highlight-grid">
+                    <div class="highlight-item">
+                        <span class="highlight-icon">🏆</span>
+                        <h3 class="highlight-title">复旦《金课》主讲</h3>
+                        <p class="highlight-desc">独创「理论→实操→反馈」闭环工作坊方法论。先讲动作要领 → 下水练 → 教练实时纠正，确保学完就能用。</p>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">🌐</span>
+                        <h3 class="highlight-title">Chat with Alan</h3>
+                        <p class="highlight-desc">WashU Brown School 亲子对话 AI 项目，基于 DBT 技术。获研究生院 Fellowship 资助及心理健康实习杰出奖。</p>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">🏗️</span>
+                        <h3 class="highlight-title">情境干预三层框架</h3>
+                        <p class="highlight-desc">情境搭建 → 个性化干预 → 被动监测。JIN 产品的核心技术架构，兼顾主动干预与隐私保护。</p>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">🏫</span>
+                        <h3 class="highlight-title">庄行学校 AI 教育研究</h3>
+                        <p class="highlight-desc">上海市家庭教育研究项目「生成式 AI 助力导师亲子冲突解决能力」，提供技术方案与培训体系设计。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- About / Contact -->
+        <section class="section animate-in delay-4" id="about">
+            <div class="section-header">
+                <div class="section-label">关于</div>
+                <h2 class="section-title">从临床到 AI 的跨界轨迹</h2>
+            </div>
+            <div style="max-width: 720px;">
+                <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 20px;">
+                    心理咨询师出身，在复旦大学从事学生工作与心理咨询 12 年，后赴 Washington University in St. Louis Brown School 攻读社会工作与心理学双硕士（MSW + MSP）。
+                </p>
+                <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 20px;">
+                    回国后专注于 AI + 心理健康的交叉领域——从 JIN 数字灵魂伴侣到教师 AI 培训工作坊，从心理咨询术语连连看到沉浸式 AI 工作坊。始终在做同一件事：<strong style="color: var(--text);">让 AI 有温度地服务于人的成长</strong>。
+                </p>
+                <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.8;">
+                    深度体验 20+ AI 产品，持续探索 AI 在教育、心理健康与临床咨询中的落地场景。
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
         <footer>
-            <p>© 2026 Jin · <a href="https://jinlyu.com">jinlyu.com</a></p>
+            <div class="footer-inner">
+                <div class="footer-copy">
+                    © 2026 Jin · <a href="https://jinlyu.com">jinlyu.com</a>
+                    <span style="color: var(--text-tertiary); margin-left: 8px;">· 托管于 GitHub Pages</span>
+                </div>
+                <div class="footer-links">
+                    <a href="/counseling-game/">连连看</a>
+                    <a href="/jinlyu-resume/">简历</a>
+                    <a href="https://github.com/jinlyu2026" target="_blank">GitHub</a>
+                </div>
+            </div>
         </footer>
     </div>
-
-    <script>
-        function toggleSection(btn) {
-            const section = btn.closest('section');
-            const list = section.querySelector('.notion-list');
-            btn.classList.toggle('collapsed');
-            list.style.display = btn.classList.contains('collapsed') ? 'none' : 'block';
-        }
-    </script>
 </body>
 </html>
