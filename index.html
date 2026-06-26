@@ -341,38 +341,6 @@
             opacity: 1;
         }
 
-        /* ── Embedded project iframe ── */
-        .embed-card {
-            margin-top: 20px;
-            background: var(--surface);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-        .embed-card-header {
-            padding: 20px 24px 10px;
-        }
-        .embed-card-header .project-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text);
-        }
-        .embed-card-header .project-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-            line-height: 1.6;
-        }
-        .embed-card-body {
-            padding: 0;
-        }
-        .embed-card-body iframe {
-            display: block;
-            width: 100%;
-            height: 680px;
-            border: none;
-        }
-
         @media (max-width: 640px) {
             .project-grid { grid-template-columns: 1fr; }
         }
@@ -681,21 +649,19 @@
                     </div>
                 </a>
 
-                <!-- Embedded Coze App -->
-                <div class="embed-card">
-                    <div class="embed-card-header">
-                        <div class="project-title">教师谈心模拟器 <span class="project-meta-tag" style="margin-left:8px; font-size:10px; font-weight:500; background:var(--accent-light); color:var(--accent); padding:2px 8px; border-radius:4px;">Coze</span></div>
-                        <p class="project-desc">沉浸式学生沟通训练——选择学生类型，进入真实谈心场景，AI 实时扮演学生并给出反思指导。</p>
+                <!-- 教师谈心模拟器 -->
+                <a class="project-card external" href="https://cgtp8xbvnx.coze.site/" target="_blank" style="border-left: 3px solid #8b6b4a;">
+                    <span class="project-emoji">🎓</span>
+                    <div class="project-title">
+                        教师谈心模拟器
+                        <span class="project-arrow">↗</span>
                     </div>
-                    <div class="embed-card-body">
-                        <iframe src="https://cgtp8xbvnx.coze.site/"
-                                title="教师谈心模拟器"
-                                loading="lazy"
-                                style="width:100%; height:680px; border:none;">
-                        </iframe>
+                    <p class="project-desc">沉浸式学生沟通训练工具——选择学生类型，进入真实谈心场景，AI 实时扮演学生角色并提供反思指导。</p>
+                    <div class="project-meta">
+                        <span class="project-meta-tag">Coze</span>
+                        <span class="project-meta-tag">AI 培训</span>
                     </div>
-                </div>
-
+                </a>
             </div>
         </section>
 
