@@ -203,6 +203,27 @@
     .skill-chip { border-color: #ddd; }
   }
 
+  /* ── Project embed ── */
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 28px;
+  }
+
+  .project-body {
+    padding: 0;
+  }
+
+  .project-body iframe {
+    display: block;
+    width: 100%;
+    height: 720px;
+    border: none;
+  }
+
   /* ── Footer ── */
   .footer {
     margin-top: 48px;
@@ -232,6 +253,29 @@
   <!-- ═══════════════ SUMMARY ═══════════════ -->
   <div class="summary">
     Bilingual (English/Mandarin) mental health clinician and experienced university instructor with over a decade of teaching at Fudan University, where I developed and taught the institution's <strong>Golden Course</strong> in Happiness Psychology. MSW-trained at Washington University in St. Louis with 600+ clinical hours integrating DBT, CBT, and evidence-based interventions. Innovator in AI-powered mental health—built 20+ AI therapeutic tools, developed an original theoretical framework for AI-assisted psychological intervention, and active presenter at mental health forums across China and the United States. Currently delivering professional development training for K–12 educators. Seeking to bring an interdisciplinary, practice-grounded perspective to CIIS as an Adjunct Professor in Applied Psychology.
+  </div>
+
+  <!-- ═══════════════ FEATURED ═══════════════ -->
+  <div class="section">
+    <div class="section-title">Featured Project</div>
+
+    <div class="project-card">
+      <div class="entry" style="margin:0; padding:24px 28px 18px;">
+        <div class="entry-header">
+          <span class="entry-title">教师谈心模拟器 <span class="tag">Coze</span></span>
+        </div>
+        <p style="font-size:14px; color:#555; margin:6px 0 0; line-height:1.65;">
+          沉浸式学生沟通训练工具——选择学生类型，进入真实的谈心场景，AI 实时扮演学生角色并提供反思指导。
+        </p>
+      </div>
+      <div class="project-body">
+        <iframe src="https://cgtp8xbvnx.coze.site/"
+                title="教师谈心模拟器"
+                loading="lazy"
+                style="width:100%; height:720px; border:none;">
+        </iframe>
+      </div>
+    </div>
   </div>
 
   <!-- ═══════════════ EDUCATION ═══════════════ -->
