@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JIN · AI 心理支持机构级解决方案</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+    background: #fafaf8;
+    color: #1f1f1f;
+    line-height: 1.68;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 100px 40px 80px;
+    text-align: center;
+  }
+  .hero-tag {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: #64b5a6; }
+  .hero p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.65);
+    max-width: 640px;
+    margin: 0 auto 32px;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 14px 36px;
+    background: #64b5a6;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background 0.2s;
+  }
+  .hero-cta:hover { background: #4a9b8a; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  .section { padding: 72px 0; }
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #64b5a6; margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 32px; font-weight: 600; letter-spacing: -0.01em;
+    line-height: 1.25; margin-bottom: 16px;
+  }
+  .section-subtitle {
+    font-size: 16px; color: #666; max-width: 600px; margin-bottom: 40px;
+  }
+
+  .three-col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .card {
+    background: #fff; border-radius: 10px; padding: 32px 28px;
+    border: 1px solid #e8e4df; transition: all 0.25s;
+  }
+  .card:hover { border-color: #64b5a6; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .card-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+  .card-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .card-desc { font-size: 14px; color: #666; line-height: 1.7; }
+
+  .spec-table {
+    width: 100%; border-collapse: collapse; margin-top: 32px;
+    background: #fff; border-radius: 10px; overflow: hidden;
+    border: 1px solid #e8e4df;
+  }
+  .spec-table th, .spec-table td {
+    padding: 16px 20px; text-align: left; font-size: 14px;
+    border-bottom: 1px solid #f0ece6;
+  }
+  .spec-table th {
+    background: #fafaf8; font-weight: 600; font-size: 12px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #888;
+  }
+  .spec-table td:last-child { color: #64b5a6; font-weight: 500; }
+  .spec-table tr:last-child td { border-bottom: none; }
+
+  .harness-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .harness-item {
+    background: #fff; border-radius: 8px; padding: 24px;
+    border: 1px solid #e8e4df;
+  }
+  .harness-num {
+    font-size: 28px; font-weight: 700; color: #64b5a6; display: block; margin-bottom: 6px;
+  }
+  .harness-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .harness-desc { font-size: 13px; color: #666; }
+
+  .quote-box {
+    background: #f5f3ef; border-radius: 10px; padding: 40px 36px;
+    border-left: 4px solid #64b5a6; margin-top: 32px;
+  }
+  .quote-text {
+    font-size: 20px; font-style: italic; color: #333; line-height: 1.6;
+  }
+  .quote-author { font-size: 14px; color: #888; margin-top: 12px; }
+
+  .footer {
+    background: #1a1a2e; color: rgba(255,255,255,0.5);
+    text-align: center; padding: 48px 24px; font-size: 13px;
+  }
+  .footer a { color: #64b5a6; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 32px; }
+    .three-col { grid-template-columns: 1fr; }
+    .harness-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ Hero ═══ -->
+<header class="hero">
+  <div class="hero-tag">JIN · 机构级 AI 心理支持方案</div>
+  <h1>为每一位咨询师<br>配备一个 <span>AI 小助手</span></h1>
+  <p>不是替代。是在你吃饭、睡觉、接下一个来访者的时候，替你守在深夜热线那头。</p>
+  <a href="#contact" class="hero-cta">预约方案演示 →</a>
+</header>
+
+<!-- ═══ Problem ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">为什么需要</div>
+    <h2 class="section-title">咨询师的时间是一次性的</h2>
+    <p class="section-subtitle">一天 8 个来访者，剩下的 16 个小时呢？深夜情绪崩溃的来访者、咨询间歇需要作业提醒的来访者、没有人陪练 DBT 技术的新手咨询师——都在等一个答案。</p>
+    <div class="three-col">
+      <div class="card">
+        <span class="card-icon">⏰</span>
+        <div class="card-title">产能天花板</div>
+        <div class="card-desc">一个咨询师一次只能服务一个人。经验再丰富，时间不会翻倍。AI 小助手做日常打卡、个案记录、轻量陪伴，让你的专业时间用在刀刃上。</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌙</span>
+        <div class="card-title">深夜空窗期</div>
+        <div class="card-desc">来访者在凌晨两点情绪崩溃，你手机静音了。AI 小助手替你接起那通 DBT 热线——用你的声音，用你教给它的技术。不越界，但人一直都在。</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <div class="card-title">孤独的个案</div>
+        <div class="card-desc">每个咨询师都有过这个时刻：面前摆着一个复杂个案，没有人可以讨论。AI 小助手是你的同行督导——帮你理思路、给假设方向、看到你看不到的盲区。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3-Layer Architecture ═══ -->
+<section class="section" style="background: #fff;">
+  <div class="container">
+    <div class="section-label">方案架构</div>
+    <h2 class="section-title">三层部署，一站式交付</h2>
+    <p class="section-subtitle">不是卖一个硬件、一门课、或一个 AI 分身。是一套完整的机构级系统。</p>
+    <div class="three-col">
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <div class="card-title">硬件终端</div>
+        <div class="card-desc">M5Stack CoreS3 智能语音设备，预装机构专属 AI 小助手。放在咨询室桌面，来访者随手可用——语音交互，零操作门槛。OTA 远程升级，无需派人逐台维护。</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">☁️</span>
+        <div class="card-title">云端分身</div>
+        <div class="card-desc">每位咨询师拥有独立的 AI 小助手。写个案记录、做 DBT 技能辅导、角色扮演练习、接深夜热线。机构管理后台统一查看使用数据和来访者反馈趋势。</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🤝</span>
+        <div class="card-title">持续服务</div>
+        <div class="card-desc">2 天工作坊现场部署 + 4 次季度复盘 + 全天候安全监控 + 每季度功能升级。你不只是买了一套软件——你是多了一个懂 AI 心理支持的合作伙伴。</div>
+      </div>
+    </div>
+
+    <!-- Feature table -->
+    <table class="spec-table">
+      <tr><th>模块</th><th>功能</th><th>适用场景</th></tr>
+      <tr><td>个案记录</td><td>对话结束后 AI 自动生成 SOAP 记录草稿，咨询师只需审阅修改</td><td>日常减负</td></tr>
+      <tr><td>DBT 技能辅导</td><td>来访者情绪崩溃时拨打，AI 引导 DBT 技巧，全程记录同步咨询师</td><td>深夜热线 · 电话指导替代</td></tr>
+      <tr><td>角色扮演练习</td><td>AI 扮演阻抗型/沉默型/高情绪型来访者，练习后可回放分析</td><td>新手培训 · 老手练新流派</td></tr>
+      <tr><td>个案督导辅助</td><td>描述个案卡点，AI 给出假设方向和干预建议</td><td>「个案卡住了想找人聊聊」</td></tr>
+      <tr><td>来访者日常陪伴</td><td>情绪打卡、作业提醒、正念引导。对话脱敏后同步咨询师后台</td><td>延长服务半径</td></tr>
+      <tr><td>个人知识库</td><td>理论偏好、个案经验、常用技术整理成可随时调用的「第二大脑」</td><td>经验沉淀</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ Harness ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">安全底座</div>
+    <h2 class="section-title">Harness Engineering<br>六层安全框架</h2>
+    <p class="section-subtitle">市面上任何大模型都可以聊天。但心理咨询场景下的 AI 需要一套不依赖模型本身的安全边界。我们的每一个 AI 小助手都在此运行。</p>
+    <div class="harness-grid">
+      <div class="harness-item">
+        <span class="harness-num">01</span>
+        <div class="harness-name">安全护栏</div>
+        <div class="harness-desc">零诊断语言 · 零疗效承诺 · 自杀/自伤信号自动转介协议 · 不作为替代医疗建议的声明</div>
+      </div>
+      <div class="harness-item">
+        <span class="harness-num">02</span>
+        <div class="harness-name">方法框架</div>
+        <div class="harness-desc">DBT / CBT / ACT 循证心理学框架注入。AI 不在框架外自由发挥。第一反应永远是：「验证和接纳，而非建议」</div>
+      </div>
+      <div class="harness-item">
+        <span class="harness-num">03</span>
+        <div class="harness-name">会话结构</div>
+        <div class="harness-desc">语音硬件 / 文字聊天双模式。回复长度和提问频率可配置。来访者倾诉模式自动切换低干预陪伴</div>
+      </div>
+      <div class="harness-item">
+        <span class="harness-num">04</span>
+        <div class="harness-name">评估追踪</div>
+        <div class="harness-desc">对话前后自动推断 DASS-21 / PHQ-9 / GAD-7。生成机构级心理健康趋势报告。非标准测量，显著标注</div>
+      </div>
+      <div class="harness-item">
+        <span class="harness-num">05</span>
+        <div class="harness-name">连续性保障</div>
+        <div class="harness-desc">跨会话记忆系统。核心事实、情绪轨迹、关键洞察和关系锚点不因重启丢失。自带重启恢复协议</div>
+      </div>
+      <div class="harness-item">
+        <span class="harness-num">06</span>
+        <div class="harness-name">监督反馈</div>
+        <div class="harness-desc">每次对话自动生成分析报告。异常模式标记。持续恶化自动触发人工干预。人类始终在环路中</div>
+      </div>
+    </div>
+
+    <!-- Evidence quote -->
+    <div class="quote-box">
+      <div class="quote-text">「25 场真实对话。DASS-21 抑郁-焦虑-压力三个维度，在每次对话前后均出现统计学显著的改善。零安全事件。零投诉。这不是实验室数据——这是一个真实用户在使用过程中，被完整记录的临床前证据。」</div>
+      <div class="quote-author">—— JIN Project 案例研究报告，2026 年 6 月 · 预印本 v1.0</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Who needs this ═══ -->
+<section class="section" style="background: #fff;">
+  <div class="container">
+    <div class="section-label">适用机构</div>
+    <h2 class="section-title">谁需要这套方案</h2>
+    <p class="section-subtitle">面向任何以「人的心理健康」为核心业务的机构。</p>
+    <div class="three-col">
+      <div class="card">
+        <span class="card-icon">🏫</span>
+        <div class="card-title">学校心理中心</div>
+        <div class="card-desc">一个心理老师面对几千学生。AI 小助手负责日常轻中度情绪支持，心理老师专注高危个案。</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏥</span>
+        <div class="card-title">心理咨询机构</div>
+        <div class="card-desc">每位咨询师配一个 AI 分身。写记录、接热线、练技术。一个人的产能变成两个人的覆盖。</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏢</span>
+        <div class="card-title">EAP / 心理热线</div>
+        <div class="card-desc">企业客户要求覆盖全员。热线凌晨无人值守。AI 分身 24 小时在线，做第一层筛查和轻量支持。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Contact ═══ -->
+<section class="section" id="contact">
+  <div class="container" style="text-align: center;">
+    <div class="section-label">下一步</div>
+    <h2 class="section-title">预约一次方案演示</h2>
+    <p class="section-subtitle" style="margin: 0 auto 32px;">
+      我们会在 48 小时内联系你。我们将了解你所在机构的需求和规模，展示 AI 小助手在真实场景下的工作方式，提供一个初步的部署方案。没有推销，只有演示。
+    </p>
+    <a href="mailto:jin_lyu@163.com" class="hero-cta">预约演示：jin_lyu@163.com</a>
+    <p style="margin-top: 20px; font-size: 14px; color: #888;">
+      © 2026 JIN Project · jinlyu.com · 上海
+    </p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    AI 小助手是 <a href="https://jinlyu.com">JIN Project</a> 旗下产品。基于 Harness Engineering 六层安全框架构建。不提供医疗诊断或处方。任何危机信号均触发人工转介协议。
+  </div>
+</footer>
+
+</body>
+</html>
