@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>带走你的心理小助手 · AI 心理工作坊</title>
+<style>
+  :root {
+    --c1: #4361ee; --c2: #7209b7; --c3: #f77f00; --c4: #06d6a0;
+    --gold: #e9b741; --red: #ef476f;
+    --ink: #1a1a2e; --muted: #5a6c7d; --bg: #f8f9fc;
+    --card-bg: #ffffff; --border: #e8ecf1;
+    --radius: 16px; --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,.06);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,.10);
+    --font: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", -apple-system, sans-serif;
+    --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family:var(--font); background:var(--bg); color:var(--ink);
+    line-height:1.75; padding:0; -webkit-font-smoothing:antialiased;
+  }
+  .page { max-width:1000px; margin:0 auto; padding:0 24px 80px; }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #0a0a1a 0%, #12122a 25%, #0d1b3e 50%, #051a2e 100%);
+    color:#fff; border-radius:0 0 32px 32px;
+    padding:72px 52px 56px; margin:0 -24px 52px;
+    position:relative; overflow:hidden;
+  }
+  .hero::after {
+    content:""; position:absolute; top:-120px; right:-80px;
+    width:420px; height:420px;
+    background:radial-gradient(circle, rgba(67,97,238,.25) 0%, transparent 70%);
+    border-radius:50%; animation: float 12s ease-in-out infinite;
+  }
+  .hero::before {
+    content:""; position:absolute; bottom:-100px; left:-60px;
+    width:340px; height:340px;
+    background:radial-gradient(circle, rgba(6,214,160,.2) 0%, transparent 70%);
+    border-radius:50%; animation: float 15s ease-in-out infinite reverse;
+  }
+  @keyframes float {
+    0%,100% { transform:translate(0,0) scale(1); }
+    33% { transform:translate(20px,-20px) scale(1.05); }
+    66% { transform:translate(-10px,15px) scale(0.97); }
+  }
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .hero-inner { position:relative; z-index:1; max-width:860px; }
+  .hero h1 {
+    font-size:clamp(32px,5vw,52px); font-weight:900; letter-spacing:-1px;
+    line-height:1.15; animation: fadeInUp .8s ease-out;
+    background: linear-gradient(135deg, #fff 0%, #c0d0ff 50%, #9df0d0 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero .oneliner {
+    font-size:clamp(16px,2vw,19px); margin-top:18px;
+    color:rgba(255,255,255,.62); line-height:1.7; animation: fadeInUp .8s ease-out .15s both;
+  }
+  .hero .oneliner em { color:#f0c060; font-style:normal; font-weight:600; }
+  .hero-meta {
+    display:flex; gap:10px; flex-wrap:wrap; margin-top:28px;
+    animation: fadeInUp .8s ease-out .3s both;
+  }
+  .hero-meta span {
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+    padding:8px 18px; border-radius:24px; font-size:14px;
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    transition:var(--transition);
+  }
+  .hero-meta span:hover { background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.25); }
+
+  /* ── Section ── */
+  .sec { margin-bottom:60px; }
+  .sec-h {
+    font-size:clamp(20px,3vw,26px); font-weight:800; margin-bottom:22px;
+    display:flex; align-items:center; gap:10px; letter-spacing:-0.5px;
+  }
+  .card {
+    background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:30px 34px; margin-bottom:18px; transition:var(--transition);
+  }
+  .card:hover { box-shadow:var(--shadow-lg); transform:translateY(-1px); }
+
+  /* ── Big statement ── */
+  .big-statement {
+    background: linear-gradient(160deg, #fefdf8, #fdf6e8, #fef9f0);
+    border: 2px solid #e8d5a8; border-radius: var(--radius);
+    padding:44px 40px; margin-bottom:52px; text-align: center;
+    box-shadow: 0 8px 40px rgba(180,130,40,.08);
+  }
+  .big-statement .q { font-size:clamp(22px,3.5vw,32px); font-weight:900; color:#4a3000; margin-bottom:16px; letter-spacing:-0.5px; }
+  .big-statement .sub { font-size:15px; color:#7a5820; line-height:1.8; }
+
+  /* ── Steps ── */
+  .step {
+    display:flex; gap:20px; margin-bottom:28px; align-items:flex-start;
+  }
+  .step-num {
+    flex-shrink:0; width:48px; height:48px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:20px; color:#fff;
+  }
+  .step-num.s1 { background:var(--c1); } .step-num.s2 { background:var(--c2); }
+  .step-num.s3 { background:var(--c3); } .step-num.s4 { background:var(--c4); }
+  .step-num.s5 { background:var(--red); }
+  .step-body { flex:1; }
+  .step-body h3 { font-size:20px; font-weight:800; margin-bottom:4px; }
+  .step-body .subtitle { font-size:14px; color:var(--muted); margin-bottom:10px; font-style:italic; }
+  .step-body .before-after { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+  .step-body .ba-tag {
+    padding:6px 14px; border-radius:14px; font-size:13px; font-weight:600;
+  }
+  .step-body .ba-tag.before { background:#fff0f0; color:var(--red); }
+  .step-body .ba-tag.after { background:#e8f8f0; color:#0d9e6c; }
+  .step-body .action { font-size:15px; color:var(--ink); line-height:1.7; }
+  .step-body .action strong { color:var(--c1); }
+
+  /* ── Courses ── */
+  .course-option {
+    background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    margin-bottom:24px; overflow:hidden; transition:var(--transition);
+  }
+  .course-option:hover { box-shadow:var(--shadow-lg); }
+  .course-header {
+    padding:20px 30px; color:#fff; display:flex;
+    justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+  }
+  .course-header.online {
+    background:linear-gradient(135deg, #4361ee, #3a56d4);
+  }
+  .course-header.offline {
+    background:linear-gradient(135deg, #7209b7, #5a078f);
+  }
+  .course-header h3 { font-size:19px; font-weight:700; }
+  .course-header .meta { font-size:13px; opacity:.85; font-weight:500; }
+  .course-body { padding:0; }
+
+  /* ── Tables ── */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  thead th {
+    background:#f6f8fa; padding:12px 14px; text-align:left;
+    font-weight:700; font-size:12px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.5px; border-bottom:2px solid #e4e8ec;
+  }
+  tbody td { padding:12px 14px; border-bottom:1px solid #f2f4f6; vertical-align:top; }
+  tbody tr { transition:background .15s; }
+  tbody tr:hover { background:#fafbfc; }
+  tbody tr:last-child td { border-bottom:none; }
+  .t-time {
+    white-space:nowrap; color:var(--muted);
+    font-family:"SF Mono","Menlo","Consolas",monospace; font-size:13px; font-weight:600;
+  }
+  .t-break td {
+    background:#fafbfb; color:#bbb; text-align:center;
+    font-size:13px; font-style:italic; padding:8px;
+  }
+
+  /* ── Tags ── */
+  .tag {
+    display:inline-block; font-size:11px; padding:4px 10px;
+    border-radius:12px; font-weight:700; white-space:nowrap;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .tag.dem { background:#fff3e0; color:#e67e22; }
+  .tag.hands { background:#e0f7ef; color:#0d9e6c; }
+  .tag.lec { background:#e3ecff; color:#4361ee; }
+  .tag.shr { background:#f3e5f7; color:#7209b7; }
+  .tag.gam { background:#fff9e6; color:#f77f00; }
+  .tag.kwt { background:#fef9f0; color:#b8860b; border:1px solid #e8d5a8; }
+  .tag.exp { background:#ffe8ec; color:#ef476f; }
+
+  /* ── Audience ── */
+  .audience-grid { display:flex; gap:14px; flex-wrap:wrap; }
+  .aud-card {
+    flex:1; min-width:170px; background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:22px 16px; text-align:center; transition:var(--transition);
+    position:relative; overflow:hidden;
+  }
+  .aud-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+  .aud-card .icon { font-size:30px; margin-bottom:6px; }
+  .aud-card .label { font-weight:700; font-size:15px; }
+  .aud-card .pain { font-size:13px; color:var(--muted); margin-top:6px; line-height:1.5; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align:center; color:#bbb; font-size:12px;
+    margin-top:64px; padding-top:28px; border-top:1px solid var(--border);
+    letter-spacing:.5px;
+  }
+
+  @media (max-width:640px) {
+    .hero { padding:44px 24px 36px; border-radius:0 0 20px 20px; }
+    .hero h1 { font-size:28px; }
+    .card { padding:20px 18px; }
+    .step { flex-direction:column; gap:12px; }
+    table { font-size:11px; }
+    thead th, tbody td { padding:8px 6px; }
+    .big-statement { padding:28px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+  <h1>带走你的心理小助手</h1>
+  <p class="oneliner">
+    <strong>一个人，在 AI 的加持下，用心理学知识，帮助现实中的自己实现梦想。</strong><br>
+    你不需要先成为更好的自己，才配拥有帮助。<br>
+    夫妻分居三年，独自带娃，赴美攻读心理学硕士——作业、实习、育儿、亲密关系的重压同时砸下来。<br>
+    她用 AI 和心理学撑过了那段一个人根本做不完的日子。<br>
+    <em>现在她想带你，让心理学的力量在你最需要的时刻接住你。</em>
+  </p>
+  <div class="hero-meta">
+    <span>🧠 心理学 + AI</span>
+    <span>🤖 带走两个属于你的心理小助手</span>
+    <span>🖥 线上 6h / 线下 1.5 天可选</span>
+  </div>
+</div>
+
+<!-- ═══════ 核心理念 ═══════ -->
+<div class="sec">
+  <div class="big-statement">
+    <div class="q">心理咨询帮助人的方式没有变。<br>变的是——AI 让它从<strong>每周一小时</strong>，变成了<strong>每天 24 小时</strong>。</div>
+    <div class="sub">
+      建立关系、被听懂、看到模式、练习新反应、生活兜底——<br>
+      这五步，以前锁在咨询室里。现在每一步都有 AI，每一刻都能用上。
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 两个支柱 ═══════ -->
+<div class="sec">
+  <div style="display:flex;gap:20px;flex-wrap:wrap;">
+    <div class="card" style="flex:1;min-width:280px;text-align:center;border-top:4px solid var(--c1);">
+      <div style="font-size:36px;margin-bottom:10px;">🎭</div>
+      <div style="font-weight:800;font-size:18px;margin-bottom:8px;">搭建虚拟情境</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.7;">
+        在安全可控的环境里反复练习——<br>
+        暴露疗法、角色扮演、亲子沟通模拟。<br>
+        AI 扮演那个让你紧张的人，<br>
+        直到你在现实中也能应对自如。
+      </div>
+    </div>
+    <div class="card" style="flex:1;min-width:280px;text-align:center;border-top:4px solid var(--c3);">
+      <div style="font-size:36px;margin-bottom:10px;">🤝</div>
+      <div style="font-weight:800;font-size:18px;margin-bottom:8px;">成为真实情境中的陪伴</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.7;">
+        走出咨询室之后，AI 还在——<br>
+        凌晨三点、通勤路上、情绪上来的那一刻。<br>
+        它不是咨询师，但它是那个<strong>在</strong>的人，<br>
+        是随身携带的伙伴与支持。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 应用场景 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🎯 AI + 心理健康 · 你可以用它做什么</div>
+  <p style="font-size:15px;color:var(--muted);margin-bottom:22px;line-height:1.8;">
+    每个人走进来的时候，脑子里都有一个具体的痛点。<strong>你对上号了，就知道今天要做什么。</strong>
+  </p>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;">
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">👨‍👩‍👧</div>
+      <div style="font-weight:700;font-size:16px;">亲子关系</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">跟孩子说话总是吼完就后悔<br>做一个能帮你慢下来的 AI<br>在你想发火的时候，先问一句<br><br><em>讲师自己给儿子做了一个<br>"假妈妈"——Chat with Alan</em></div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">💑</div>
+      <div style="font-weight:700;font-size:16px;">亲密关系</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">那些说不出口的、一开口就吵的<br>先用 AI 练一遍<br>练到能好好说话为止<br><br><em>讲师做的 JIN，朋友用了说<br>是她的"电子闺蜜"</em></div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">😰</div>
+      <div style="font-weight:700;font-size:16px;">社交恐惧</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">面试、汇报、跟权威说话就紧张<br>做一个暴露陪练<br>在安全环境里一步步脱敏</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">🍽️</div>
+      <div style="font-weight:700;font-size:16px;">情绪性进食</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">半夜打开冰箱不是因为饿<br>AI 在冲动来临的瞬间问你一句<br>「你现在是什么感受？」</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">🌱</div>
+      <div style="font-weight:700;font-size:16px;">好习惯养成</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">早睡早起、按时写作业、坚持运动<br>知道要做但做不到<br>AI 不骂你，只是温柔地提醒</div>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:18px;font-size:14px;color:var(--muted);">
+    这五类只是起点。今天学会方法之后，你想做什么场景都可以。
+  </p>
+</div>
+
+<!-- ═══════ 五步 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🧭 五步：心理咨询的自然流程 × AI</div>
+
+  <!-- Step 1 -->
+  <div class="step">
+    <div class="step-num s1">1</div>
+    <div class="step-body">
+      <h3>建立一个安全的关系</h3>
+      <div class="subtitle">传统缺口：安全、不评判的关系，只有在咨询室的四面墙里才存在。走出那扇门，你很难找到一个不打断、不说教、不急着给建议的人。</div>
+      <div class="before-after">
+        <span class="ba-tag before">以前：只有咨询室里那个受过训练的人，能给你无条件积极关注</span>
+        <span class="ba-tag after">AI 填上了：24 小时可用，零门槛。一个温和的、不插嘴的、不问「你为什么不」的对话对象</span>
+      </div>
+      <div class="action">
+        <strong>你会学到：</strong>用提示词设定一个人格——它不是咨询师，只是一个<strong>会好好听你说话的东西</strong>。你怎么写它怎么听。
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step">
+    <div class="step-num s2">2</div>
+    <div class="step-body">
+      <h3>被看见、被听懂</h3>
+      <div class="subtitle">传统缺口：来访者一周只有一小时被真正听懂。剩下的 167 小时里，情绪来了，只能自己消化——说不清、理不明、越想越乱。</div>
+      <div class="before-after">
+        <span class="ba-tag before">以前：靠自己硬扛，或者找朋友倾诉但对方只会说「别想太多」</span>
+        <span class="ba-tag after">AI 填上了：被提示词引导，先复述你说了什么，确认它真的听懂了，再回应</span>
+      </div>
+      <div class="action">
+        <strong>你会学到：</strong>怎么让 AI 不只是回一句「别难过了」，而是<strong>把你刚才说的那团乱麻，理成一个你能看清的样子</strong>。反馈感受、确认需求、不急着跳到解决方案。
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step">
+    <div class="step-num s3">3</div>
+    <div class="step-body">
+      <h3>看到自己的模式</h3>
+      <div class="subtitle">传统缺口：识别一个行为模式可能需要数周甚至数月。咨询师只能依赖你每周一小时的叙述，中间发生了什么全凭回忆——而且记忆是有偏差的。</div>
+      <div class="before-after">
+        <span class="ba-tag before">以前：几周才看清一个模式，中间的情绪波动已经忘了一半</span>
+        <span class="ba-tag after">AI 填上了：每次情绪波动后立刻陪你复盘——发生了什么、触发点在哪、以前也这样过吗</span>
+      </div>
+      <div class="action">
+        <strong>你会学到：</strong>用扣子编程搭一个简单的<strong>情绪记录 + 趋势回顾工具</strong>。不是诊断你，是帮你看到——「每次跟这类人说这类话，你都会先暴怒再自责」。看到了，就是改变的开始。
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step">
+    <div class="step-num s4">4</div>
+    <div class="step-body">
+      <h3>在安全的环境里练习新反应</h3>
+      <div class="subtitle">传统缺口：角色扮演只能发生在咨询室里，一周练一次，练完回到旧环境，恢复旧模式。暴露疗法受限于场地、道具和随时可用的陪练——VR 太贵，真人不可能随时待命。</div>
+      <div class="before-after">
+        <span class="ba-tag before">以前：在咨询室里假装对面坐着那个人，一周一次，出门就忘</span>
+        <span class="ba-tag after">AI 填上了：随时随地当你的陪练——难搞的老板、让你紧张的人、你想说「不」却说不出口的对象</span>
+      </div>
+      <div class="action">
+        <strong>你会学到：</strong>做一个<strong>暴露陪练智能体</strong>。你设它的性格、语气、口头禅，然后你跟它练。太假？改。太凶？调低。练到在现实里也能说出口为止。
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step">
+    <div class="step-num s5">5</div>
+    <div class="step-body">
+      <h3>回到生活中，有东西兜底</h3>
+      <div class="subtitle">传统缺口：心理咨询最大的结构性缺陷——两次咨询之间有 167 小时的真空。来访者回到充满触发点的旧环境里，下次咨询一切从头开始。这是每周一小时的奢侈品，不是每天 24 小时的日用品。</div>
+      <div class="before-after">
+        <span class="ba-tag before">以前：咨询结束的那一刻起，来访者一个人面对一切。咨询师在睡觉，下次见面是一周后</span>
+        <span class="ba-tag after">AI 填上了：你亲手做的 AI 在兜底——凌晨三点、通勤路上、情绪上来的那一刻。它只是「在」</span>
+      </div>
+      <div class="action">
+        <strong>你会带走：</strong>一个属于你自己的 AI 工具。它不是咨询师，不替你解决问题——它只是<strong>在</strong>。在你最需要但最找不到人的时刻，它在那里。
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;margin-bottom:52px;font-size:15px;color:var(--muted);line-height:1.8;">
+  💡 这一天你做的每一个心理小助手，本质上都在做同一件事——<strong>能力固化</strong>。<br>
+  把一个好咨询师的对话能力，浓缩成一段提示词，变成一个稳定、可复制、24 小时不掉线的工具。<br>
+  你不是在写代码。你是在把「好的对话」变成不累的东西。
+</div>
+
+<!-- ═══════ 适合谁 ═══════ -->
+<div class="sec">
+  <div class="sec-h">👋 适合谁</div>
+  <p style="font-size:16px;color:var(--muted);line-height:2;margin-bottom:22px;">
+    来这个工作坊的人，有一个共同点：<strong style="color:var(--ink);">她们想成为更好的人，尤其是更好的女人。</strong><br>
+    二胎妈妈想科学育儿。律师想从根源解决纠纷。HR 想提升共情。法务副总裁想转型。<br>
+    她们不是来学一门技术——她们是来<strong style="color:var(--ink);">成为更好的自己</strong>。
+  </p>
+  <div class="audience-grid">
+    <div class="aud-card">
+      <div class="icon">🪴</div>
+      <div class="label">心理学爱好者</div>
+      <div class="pain">喜欢心理学，想要自我成长<br>→ 把书上的理论变成能用的工具</div>
+    </div>
+    <div class="aud-card">
+      <div class="icon">🔄</div>
+      <div class="label">想转型的人</div>
+      <div class="pain">想进入心理行业但不知道怎么开始<br>→ 两天做出第一个作品，迈出第一步</div>
+    </div>
+    <div class="aud-card">
+      <div class="icon">🤝</div>
+      <div class="label">想帮助别人的人</div>
+      <div class="pain">身边有人需要情绪支持，自己不知道怎么做<br>→ 做一个能帮你接住他们的工具</div>
+    </div>
+    <div class="aud-card">
+      <div class="icon">🧑‍⚕️</div>
+      <div class="label">心理咨询从业者</div>
+      <div class="pain">想探索 AI 怎么辅助自己的工作<br>→ 把专业判断变成不累的工具</div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;margin-bottom:52px;font-size:15px;color:var(--muted);line-height:2;">
+  <strong>有些人是来成为更好的自己。有些人就是来做一个能替自己干活的工具。</strong><br>
+  就像「假妈妈」Chat with Alan——它不教你怎么育儿，它替你给孩子讲故事，让你喘十分钟。<br>
+  你不需要先变好，才配拥有帮助。AI 不要求你改变，它只是多给你一双手。
+</p>
+
+<!-- ═══════ 线上 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🖥 线上版 · 一天 6 小时</div>
+
+  <div class="course-option">
+    <div class="course-header online">
+      <h3>上午 · 接住情绪 —— 做一个属于自己的心理小助手</h3>
+      <span class="meta">3h &nbsp;|&nbsp; 第1-3步 · 情绪工作</span>
+    </div>
+    <div class="course-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">09:00–09:20</td><td>🧵 开场</td><td>20min</td>
+            <td>
+              <strong>"带走你的心理小助手"</strong> —— 讲师的初心：<br>
+              和大家一样，我也在读心理学硕士。作业堆成山，实习压力很大，又想活出自己。不同的是——<strong>夫妻分居三年，我独自带着娃，亲自去美国读。</strong>育儿、学业、亲密关系的重压同时砸下来，那段日子真的撑不住。<br>
+              AI 帮我写论文、管时间、处理情绪。心理学帮我理解自己在经历什么、为什么痛、怎么往前走。两个东西合在一起，帮我在异国他乡撑过了一个人根本做不完的日子。<br>
+              也是在那时候我开始想：做心理咨询师这些年，我最深的体会是<strong>问题从现实中来，还是要回到现实中去。</strong>但咨询师手里的工具太少了——谈话治疗、沙盘、艺术表达……都是咨询室里的事。走出咨询室，来访者还是一个人面对一切。<br>
+              如果 AI 和心理学能帮一个分居带娃的妈妈完成留学和创业，<strong>它能不能帮更多人？</strong>能不能让角色扮演更真实、让暴露练习随时能做、让来访者在两次咨询之间还有人陪着？<br>
+              答案是能。<strong>技术可以加强心理咨询的效果。</strong>这就是今天我想和你们分享的。<br>
+              引出五步框架：建立关系 → 被听懂 → 看到模式 → 练习新反应 → 生活兜底。
+            </td>
+            <td><span class="tag lec">故事</span></td>
+          </tr>
+          <tr><td class="t-time">09:20–09:50</td><td>📖 知识窗</td><td>30min</td>
+            <td>
+              <strong>心理咨询的旧工具与旧局限：</strong><br>
+              · 谈话治疗——有效，但只发生在咨询室的四面墙里<br>
+              · 沙盘与艺术表达——好的媒介，但需要咨询师在场引导<br>
+              · 角色扮演——一周练一次，练完出门就忘<br>
+              · 家庭作业——布置了，但没人陪着做<br>
+              <strong>走出咨询室之后，来访者一个人面对一切。这是结构性的缺口。</strong><br><br>
+              <strong>通用大模型 vs 自己做的心理小助手——怎么选？</strong><br>
+              你可能已经在用豆包、DeepSeek、Gemini 聊天了——我自己平时也直接拿 Gemini 写小说，省钱、方便，日常完全够用。<br>
+              <strong>不是一定要做智能体。</strong>只是当你在某些时候需要更专业、更定制化的陪伴——比如你希望它用你习惯的方式倾听、不打岔、按你的节奏走——一个你亲手搭建的心理小助手，就是<strong>你自己的房间</strong>：语气你定、节奏你调、什么时候该说话什么时候该闭嘴全是你教的。它按<strong>你的方式</strong>陪着你。<br>
+              做好之后是一个链接。放手机桌面、发给想帮的朋友、凌晨三点打开——不用每次重新说「你今晚当我的倾听者好吗」。<strong>它已经在了。</strong><br><br>
+              AI 带来了新的可能：<br>
+              第一步：安全的关系——AI 可以做一个不评判、不打断的对话对象。<br>
+              第二步：被听懂——提示词引导 AI 先复述再回应，确认它理解了你的意思。<br>
+              第三步：模式被看见——每次情绪波动后，AI 陪你复盘。
+            </td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr class="t-break"><td colspan="5">☕ 休息 10min</td></tr>
+          <tr><td class="t-time">10:00–10:30</td><td>🎬 Demo</td><td>30min</td>
+            <td>
+              <strong>讲师现场演示：</strong><br>
+              先说用通用大模型直接聊，大家感受一下——它也在听，但总觉得哪里不对；然后打开扣子编程（code.coze.cn），新建一个心理小助手，注入同样的提示词，同样的对话——让大家自己感受那个<strong>定制感</strong>的区别。<br>
+              演示三步：①设定人格——不急着解决问题，先让对方说完 ②复述确认——「你刚才说的，我听到了这几层…」 ③跟随节奏——不催促，不问「你为什么不」。
+            </td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr><td class="t-time">10:30–11:40</td><td>🛠 <strong>动手搭建</strong></td><td>70min</td>
+            <td>
+              <strong>创建你自己的心理小助手：</strong><br>
+              ① 打开扣子编程（code.coze.cn），新建 Bot，用提示词设定人格——你想被怎样陪伴？温和的、幽默的、坚定有力的？<br>
+              ② 测试——跟它说一件你今天真实的心情。看看它的回应，你觉得被听到了吗？<br>
+              ③ 调整——哪里不对改哪里。太冷漠？加一点温度。太爱给建议？告诉它「不要急着出主意，先听」。<br>
+              ④ 发布——点击发布，生成链接。扫码存手机，这就是你的 24 小时心理小助手。
+            </td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">11:40–12:00</td><td>📌 收束</td><td>20min</td>
+            <td>上午小结：你刚才完成了三步——建立关系、被听懂、看到模式。你的心理小助手已经有了情绪的底色。<strong>下午，我们做行为层面的事——改变。</strong></td>
+            <td><span class="tag shr">收束</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="course-option">
+    <div class="course-header" style="background:linear-gradient(135deg, #f77f00, #e06e00);">
+      <h3>下午 · 改变行为 —— 角色扮演与行为练习</h3>
+      <span class="meta">3h &nbsp;|&nbsp; 第4-5步 · 行为工作</span>
+    </div>
+    <div class="course-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">13:30–14:00</td><td>📖 知识窗</td><td>30min</td>
+            <td>
+              <strong>传统行为治疗的局限：</strong><br>
+              · 暴露疗法——原理有效，但受限于场地、道具和随时可用的陪练。VR 太贵，真人不可能 24 小时待命<br>
+              · 角色扮演——在咨询室里对着空椅子假装那个人，跟面对真实的那个人，完全是两回事<br>
+              · 行为链打断——暴食、冲动消费、熬夜……冲动来临的瞬间，咨询师不在你身边<br>
+              · 饮食、运动等日常行为干预——布置了就忘，没人盯着做<br><br>
+              <strong>AI 带来了新可能：</strong><br>
+              第四步：角色扮演平台——你设它的性格、语气、口头禅，然后跟它练。太假改，太凶调低。直到「像真的，但又不至于让你想跑」。暴露疗法的原理没变，但 AI 把它变得随时随地。<br>
+              第五步：行为练习。饮食健康、睡眠干预、冲动阻断——把行为治疗的方法装进 AI，在冲动来临的那个瞬间给你一个替代路径。
+            </td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr><td class="t-time">14:00–14:20</td><td>🎬 Demo</td><td>20min</td>
+            <td>
+              <strong>讲师演示：</strong>现场搭建一个角色扮演平台——设定一个「让你紧张但不会伤害你」的角色。<br>
+              展示分级暴露：同样的人格，「今天温和一点」vs「今天火力全开」——提示词怎么控制难度。也展示行为干预场景：比如情绪性进食，AI 怎么在冲动来临的瞬间问你一句。
+            </td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr class="t-break"><td colspan="5">☕ 休息 10min</td></tr>
+          <tr><td class="t-time">14:30–15:30</td><td>🛠 <strong>动手搭建</strong></td><td>60min</td>
+            <td>
+              <strong>搭建你的角色扮演平台：</strong><br>
+              ① 在扣子编程上新建 Bot，选场景——你想练习应对谁？难搞的人 / 想道歉但说不出口的人 / 让你焦虑的场合<br>
+              ② 设定人格——它用什么语气？爱说什么话？什么时候会突然让你不舒服？<br>
+              ③ 分级——「今天先聊几句试试」vs「来真的」。你自己调。<br>
+              ④ 测试→调整→再测试——直到它既真实又安全。<br>
+              ⑤（可选）行为干预场景——如果你的痛点跟饮食、睡眠、冲动有关，也可以搭一个行为链打断工具。<br>
+              ⑥ 发布——生成链接。你的角色扮演平台，随时随地打开就能练。
+            </td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">15:30–16:00</td><td>🔄 交换测试</td><td>30min</td>
+            <td>把工具分享给别人——「你试试我这个，它像不像？」互相打分，互相出主意。</td>
+            <td><span class="tag gam">练习</span></td>
+          </tr>
+          <tr><td class="t-time">16:00–16:30</td><td>🏁 收官</td><td>30min</td>
+            <td>
+              回顾五步：建立关系 → 被听懂 → 看到模式 → 练习新反应 → 生活兜底。<br>
+              <strong>"今天你带走了两样东西：一个 24 小时心理小助手的链接，按你喜欢的方式接住你；一个角色扮演平台的链接，让你在安全环境里反复练到能说出口。都存到手机桌面了。你做到了。"</strong><br>
+              后续学习路径 + 社群 + 作品分享。
+            </td>
+            <td><span class="tag shr">总结</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 线下 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🏠 线下一半 · 一天半沉浸版</div>
+  <div class="card">
+    <p style="font-size:15px;color:var(--muted);line-height:2;">
+      <strong>跟线上版一样的内容骨架</strong>——五步流程、上午接住情绪、下午改变行为。<br><br>
+      <strong>多了什么：</strong><br>
+      · 面对面互动——你的 AI 好不好用，旁边的人立刻给你反馈<br>
+      · 硬件体验——摸到跑着 AI 的实体小盒子（CoreS3），看到心理学怎么装进一个能拿在手里的东西<br>
+      · 第二天上午半天——深度互评、答疑、讲师分享「我做 AI 心理产品的这 200 个小时学到了什么」<br>
+      · 更多练习时间——每一步都更从容，做到满意为止<br><br>
+      <strong>时间：</strong>周六全天 9:00-17:00 + 周日上午 9:00-12:00
+    </p>
+  </div>
+</div>
+
+<!-- ═══════ 你带走什么 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🎁 你带走什么</div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;">
+    <div class="card" style="flex:1;min-width:200px;text-align:center;border-top:4px solid var(--c1);">
+      <div style="font-size:36px;margin-bottom:8px;">🤖</div>
+      <div style="font-weight:700;font-size:16px;">24 小时心理小助手</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:6px;">上午的产出<br>你说怎么听它就怎么听<br>凌晨三点也在</div>
+    </div>
+    <div class="card" style="flex:1;min-width:200px;text-align:center;border-top:4px solid var(--c3);">
+      <div style="font-size:36px;margin-bottom:8px;">🎭</div>
+      <div style="font-weight:700;font-size:16px;">角色扮演平台</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:6px;">下午的产出<br>你设人格、定难度<br>在安全环境里反复练</div>
+    </div>
+    <div class="card" style="flex:1;min-width:200px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:8px;">🧭</div>
+      <div style="font-weight:700;font-size:16px;">一套方法论</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:6px;">五步框架——心理学+AI<br>以后你自己也能做更多</div>
+    </div>
+    <div class="card" style="flex:1;min-width:200px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:8px;">👥</div>
+      <div style="font-weight:700;font-size:16px;">一群同路人</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:6px;">和你有同样方向的人<br>一起走，走更远</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 反思 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🪞 诚实地说——AI 不能做什么</div>
+  <div class="card" style="border-left:4px solid var(--red);">
+    <p style="font-size:15px;color:var(--muted);line-height:2;">
+      <strong>AI 很难拥有人类那样的小心眼。</strong><br>
+      一个真人咨询师，可以在咨询室里把自己的感受拿出来讨论——「你刚才那句话让我有点难过」「我不确定我理解对了，但我想试试」「我在想，如果我是你，我可能会觉得……」——这种<strong>真实的、当下的、带着小心思的情感交换</strong>，本身就是治疗的一部分。<br><br>
+      当然，你可以通过提示词设计，让 AI 也表现出类似的情感反应。但它终究没有真正的小心眼——没有嫉妒、没有不安、没有「嘴上说没事其实心里在意得要命」。而这些微妙的人性，恰恰是咨询室里最珍贵的材料。<br><br>
+      <strong>所以，AI 不是咨询师的替代品。</strong>它是一个工具——在你需要的时候，做咨询师不在身边时的那个过渡。真正的疗愈，永远发生在人与人的连接里。学完这一天，我们希望你带走的是<strong>会用 AI 的能力</strong>，而不是「AI 可以取代人」的错觉。<br><br>
+      AI 是桥，不是岸。
+    </p>
+  </div>
+</div>
+
+<!-- ═══════ 关于讲师 ═══════ -->
+<div class="sec">
+  <div class="sec-h">👤 关于讲师</div>
+  <div class="card">
+    <p style="font-size:15px;color:var(--muted);line-height:2;">
+      <strong>Jin Lyu（吕晋）</strong><br>
+      夫妻分居三年，独自带娃赴美留学。在那段一个人根本做不完的日子里，她用 AI 和心理学撑了过来。<br>
+      复旦大学 12 年心理咨询师 · 华盛顿大学 MSW/MSP 双硕士<br>
+      600+ 临床小时（DBT/CBT/ACT 循证取向）<br>
+      亲手做了 20+ 个 AI 心理产品，其中「顾老师」已在自己身上良好运行了两个多月<br>
+      300+ 场教师 AI 培训经验<br>
+      相信一件事：<strong>心理学不该只锁在咨询室里。</strong><br><br>
+      她不是站在讲台上教你怎么做。<br>
+      她是走过这条路的人，回头跟你说：<strong>「来，我带你走一段。」</strong>
+    </p>
+  </div>
+</div>
+
+<div class="footer">
+  带走你的心理小助手 · 让心理学变成日用品 · 2026 年 7 月
+</div>
+
+</div><!-- page -->
+</body>
+</html>
