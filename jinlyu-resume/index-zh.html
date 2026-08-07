@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吕晋 — 个人简历</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --text: #1f1f1f;
+    --text-secondary: #5c5c5c;
+    --text-muted: #8c8273;
+    --accent: #9a7d4e;
+    --accent-light: #f5f0e8;
+    --border: #e8e3db;
+    --rule: #e0dbd2;
+  }
+
+  body {
+    font-family: 'Inter', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 64px 40px 80px;
+  }
+
+  h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #1a1a1a;
+    line-height: 1.1;
+  }
+
+  .contact-bar {
+    display: flex; flex-wrap: wrap; gap: 6px 20px;
+    margin-top: 14px; font-size: 13px; color: var(--text-secondary);
+  }
+  .contact-bar span { white-space: nowrap; }
+  .contact-bar .sep { color: #ccc; }
+
+  .summary {
+    font-size: 15px; color: #3a3a3a; line-height: 1.9;
+    margin-bottom: 48px; padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section { margin-bottom: 42px; }
+
+  .section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
+  }
+
+  .entry { margin-bottom: 28px; }
+
+  .entry-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; margin-bottom: 6px;
+  }
+
+  .entry-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 19px; font-weight: 600; color: #1a1a1a;
+  }
+
+  .entry-sub { font-size: 14px; font-weight: 500; color: #3a3a3a; }
+
+  .entry-date { font-size: 12.5px; color: var(--text-muted); font-weight: 400; white-space: nowrap; }
+
+  .entry-location { font-size: 12.5px; color: var(--text-muted); font-style: italic; }
+
+  .entry ul { list-style: none; padding: 0; margin-top: 7px; }
+
+  .entry li {
+    position: relative; padding-left: 16px; font-size: 14px;
+    color: #444; margin-bottom: 4px; line-height: 1.75;
+  }
+
+  .entry li::before {
+    content: '—'; position: absolute; left: 0; color: #c4b99a;
+  }
+
+  .tag {
+    display: inline-block; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.06em; color: var(--accent);
+    background: var(--accent-light); padding: 2px 10px;
+    border-radius: 2px; margin-left: 8px; vertical-align: middle;
+  }
+
+  .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .skill-chip {
+    font-size: 12px; color: #555; background: #fff;
+    border: 1px solid var(--border); padding: 5px 14px;
+    border-radius: 3px; white-space: nowrap;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 36px 40px; }
+
+  .project-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04); margin-bottom: 28px;
+  }
+
+  .project-body iframe {
+    display: block; width: 100%; height: 720px; border: none;
+  }
+
+  .footer {
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 11px; color: var(--text-muted); text-align: center;
+  }
+
+  @media (max-width: 680px) {
+    .two-col { grid-template-columns: 1fr; }
+    .page { padding: 40px 20px 56px; }
+    h1 { font-size: 34px; }
+    .entry-header { flex-direction: column; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { max-width: 100%; padding: 0; }
+    .skill-chip { border-color: #ddd; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="header">
+    <h1>吕晋</h1>
+    <div class="contact-bar">
+      <span>jin_lyu@163.com</span><span class="sep">|</span>
+      <span>中国 · 上海</span><span class="sep">|</span>
+      <span>中英双语</span>
+    </div>
+  </div>
+
+  <div class="summary">
+    双语（英文/中文）心理健康临床工作者与资深高校讲师。复旦大学十余年教学经验，自主开发并讲授该校<strong>精品课程</strong>《幸福心理学》。华盛顿大学圣路易斯分校社会工作硕士（MSW），600+ 临床小时，整合 DBT、CBT 等循证干预方法。AI 心理健康领域的创新实践者——自研 20+ 个 AI 心理工具，原创 AI 辅助心理干预理论框架，活跃于中美心理健康论坛。目前为 K-12 教育工作者提供专业发展培训。寻求将跨学科、实践导向的视角带入应用心理学教学。
+  </div>
+
+  <!-- 特色项目 -->
+  <div class="section">
+    <div class="section-title">特色项目</div>
+    <div class="project-card">
+      <div class="entry" style="margin:0; padding:24px 28px 18px;">
+        <div class="entry-header">
+          <span class="entry-title">教师谈心模拟器 <span class="tag">Coze</span></span>
+        </div>
+        <p style="font-size:14px; color:#555; margin:6px 0 0; line-height:1.8;">
+          沉浸式学生沟通训练工具——选择学生类型，进入真实的谈心场景，AI 实时扮演学生角色并提供反思指导。
+        </p>
+      </div>
+      <div class="project-body">
+        <iframe src="https://cgtp8xbvnx.coze.site/"
+                title="教师谈心模拟器" loading="lazy"
+                style="width:100%; height:720px; border:none;">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- 教育背景 -->
+  <div class="section">
+    <div class="section-title">教育背景</div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">社会工作硕士 (MSW)</span>
+        <span class="entry-date">2025年8月</span>
+      </div>
+      <div class="entry-sub">华盛顿大学圣路易斯分校 <span class="entry-location">— 密苏里州圣路易斯</span></div>
+      <ul><li>心理健康方向</li></ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">社会政策硕士 (MSP)</span>
+        <span class="entry-date">2023年8月</span>
+      </div>
+      <div class="entry-sub">华盛顿大学圣路易斯分校 <span class="entry-location">— 密苏里州圣路易斯</span></div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">管理学硕士</span>
+        <span class="entry-date">2009年6月</span>
+      </div>
+      <div class="entry-sub">复旦大学 <span class="entry-location">— 上海</span></div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">理学学士，环境科学</span>
+        <span class="entry-date">2005年6月</span>
+      </div>
+      <div class="entry-sub">复旦大学 <span class="entry-location">— 上海</span></div>
+    </div>
+  </div>
+
+  <!-- 教学与培训 -->
+  <div class="section">
+    <div class="section-title">教学与培训经验</div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">讲师 &amp; 教育顾问</span>
+        <span class="entry-date">2025年8月 – 至今</span>
+      </div>
+      <div class="entry-sub">上海及长三角地区</div>
+      <ul>
+        <li>为 K-12 教育工作者开发并实施专业发展培训，涵盖教育心理学、心理健康、社会情感学习（SEL）、家校沟通及课堂实践策略。</li>
+        <li>主导 AI 赋能教育工作坊，内容包括智能体开发、氛围编程、教师 AI 素养及AI辅助课程设计。</li>
+        <li>与心理健康机构合作，共同开发 AI 赋能培训系列工作坊，主导课程设计与内容研发。</li>
+        <li>自主开发 20+ 个 AI 心理产品，包括智能陪伴助手、DBT 自我安抚系统、暴露疗法练习工具等，并在工作坊场景中部署使用。</li>
+        <li>原创「三层情境干预框架」（情境搭建 → 个性化干预 → 智能监测），为 AI 与心理健康实践的整合提供理论模型。</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">讲师 &amp; 课程开发 <span class="tag">精品课程</span></span>
+        <span class="entry-date">2015年9月 – 2022年6月</span>
+      </div>
+      <div class="entry-sub">复旦大学 <span class="entry-location">— 上海</span></div>
+      <ul>
+        <li>设计并讲授<strong>《幸福心理学》</strong>，获评复旦大学"精品课程"——学校最高课程荣誉，连续开设六个学年。</li>
+        <li>连续十二个学期讲授<strong>《大学生心理健康与发展》</strong>，持续获得学生高评价。</li>
+        <li>开发并讲授<strong>《大学生生涯规划》</strong>，整合系统思维与优势导向方法。</li>
+        <li>两次提名复旦大学最佳教师奖（2011年、2013年）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 临床与咨询 -->
+  <div class="section">
+    <div class="section-title">临床与咨询经验</div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">实习咨询师</span>
+        <span class="entry-date">2024年8月 – 2025年5月</span>
+      </div>
+      <div class="entry-sub">韦伯斯特大学，咨询与生命发展中心 (CLD) <span class="entry-location">— 密苏里州圣路易斯</span></div>
+      <ul>
+        <li>完成 600+ 临床小时，提供个体治疗服务，管理不断增长的个案量，运用 DBT、CBT 等循证干预方法。</li>
+        <li>联合带领大学生 DBT 技能小组——设计并主持心理教育课程，涵盖痛苦耐受、情绪调节及人际关系效能。</li>
+        <li>独立带领每周正念活动，引导参与者通过 DBT 核心练习提升情绪调节能力。</li>
+        <li>因在文化适应性 DBT 实践中的卓越表现，获「公平心理健康奖学金」及「Dr. Clara Louise Meyers 杰出实习学生奖」。</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">MSW 实习学生</span>
+        <span class="entry-date">2024年1月 – 2024年6月</span>
+      </div>
+      <div class="entry-sub">Artists First St. Louis <span class="entry-location">— 密苏里州圣路易斯</span></div>
+      <ul>
+        <li>开展跨文化研究，探索东方文化对西方艺术家的影响，完成纪录片式访谈作品集。</li>
+        <li>为残障人士及退伍军人提供表达性艺术项目，促进认知与情感康复。</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">心理咨询师</span>
+        <span class="entry-date">2010年8月 – 2022年7月</span>
+      </div>
+      <div class="entry-sub">复旦大学，学生心理健康中心 <span class="entry-location">— 上海</span></div>
+      <ul>
+        <li>为本科生及研究生提供一对一心理咨询，运用短期与长期（最长2年）治疗框架。</li>
+        <li>执行自杀风险筛查与评估，为高危情境提供危机干预。</li>
+        <li>每周接受个体临床督导及团队个案研讨。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 行政与领导 -->
+  <div class="section">
+    <div class="section-title">行政与领导经验</div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">学生工作办公室主任</span>
+        <span class="entry-date">2018年7月 – 2022年7月</span>
+      </div>
+      <div class="entry-sub">复旦大学，环境科学与工程系 <span class="entry-location">— 上海</span></div>
+      <ul>
+        <li>主持学生工作办公室，为学生提供全方位支持，包括资助、心理健康转介及学业指导。</li>
+        <li>处理包括自杀风险评估及危机干预在内的紧急情况。</li>
+        <li>制定并实施策略，应对学生的经济困难与心理健康需求。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 演讲 + 证书 双栏 -->
+  <div class="two-col">
+
+    <div class="section">
+      <div class="section-title">专业演讲</div>
+      <ul style="list-style: none; padding: 0; display: grid; gap: 8px;">
+        <li style="font-size: 13.5px; color: #444; padding: 0;">特邀嘉宾，李正云工作室——上海市心理名师工作室（2025年9月）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">演讲嘉宾，美国俄亥俄大学心理咨询协会 (OCCA) 线上会议（2024年5月）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">主旨演讲，第一教育线上研讨会（2022年）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">讲师，首届大学生心理健康教育课程建设论坛（2022年）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">主旨演讲，上海高校心理健康教育工作坊（2021年）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">讲师，上海高校心理咨询协会年会（2020年）</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">证书与资质</div>
+      <ul style="list-style: none; padding: 0; display: grid; gap: 8px;">
+        <li style="font-size: 13.5px; color: #444; padding: 0;"><strong>持证硕士社工 (LMSW)</strong></li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">问题解决短程家庭治疗培训（2020–2022）— 帕洛阿尔托短程治疗中心 &amp; 上海市精神卫生中心</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">美国大学心理咨询协会会员（2024年3月起）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">应用心理治疗师，编号 #2021121610W10089 — 中国心理学会（2021年12月起）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">持证学校心理咨询师 — 上海（2010年10月起）</li>
+        <li style="font-size: 13.5px; color: #444; padding: 0;">上海高校心理咨询协会会员（2010年10月起）</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- 发表 -->
+  <div class="section">
+    <div class="section-title">学术发表</div>
+    <ul style="list-style: none; padding: 0; display: grid; gap: 6px;">
+      <li style="font-size: 13.5px; color: #444; padding: 0;">吕晋.「数字时代纸质媒体的认知增强功能」.《印刷杂志》，2026(03).</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">吕晋.「3W模式：'三全育人'框架下课程思政模式探索——以通识课程《幸福心理学》为例」.《高教学刊》，2021.</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">吕晋.「萨提亚家庭治疗模式在大学生心理问题中的探索性应用」.《教育教学论坛》，2020.</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">吕晋.「基于生涯指导实效性的'三全育人'实施研究」.《科教导刊》，2020.</li>
+    </ul>
+  </div>
+
+  <!-- 技能 -->
+  <div class="section">
+    <div class="section-title">专业技能</div>
+    <div class="skill-list">
+      <span class="skill-chip">教学与公开演讲</span>
+      <span class="skill-chip">课程设计与开发</span>
+      <span class="skill-chip">混合式与在线教学</span>
+      <span class="skill-chip">学生参与及指导</span>
+      <span class="skill-chip">临床督导</span>
+      <span class="skill-chip">DBT &amp; CBT</span>
+      <span class="skill-chip">危机管理</span>
+      <span class="skill-chip">个案管理</span>
+      <span class="skill-chip">社会情感学习 (SEL)</span>
+      <span class="skill-chip">AI 与心理健康整合</span>
+      <span class="skill-chip">AI 智能体开发</span>
+      <span class="skill-chip">Python &amp; R</span>
+      <span class="skill-chip">统计与研究方法</span>
+      <span class="skill-chip">中英双语</span>
+    </div>
+  </div>
+
+  <!-- 荣誉 -->
+  <div class="section">
+    <div class="section-title">荣誉与奖项</div>
+    <ul style="list-style: none; padding: 0; display: grid; gap: 5px;">
+      <li style="font-size: 13.5px; color: #444; padding: 0;">公平心理健康奖学金 — 2025年1月</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">Dr. Clara Louise Meyers 杰出实习学生奖 — 2025年</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">孙逸仙博士奖学金 — 2023年8月</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">学生代表，布朗学院，华盛顿大学圣路易斯分校 — 2023年5月</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">王秀英硕士研究奖学金 — 2022年8月</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">布朗学院新兴政策领导者奖学金 — 2022年6月</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">上海心理健康教育十年奉献奖 — 2020年12月</li>
+      <li style="font-size: 13.5px; color: #444; padding: 0;">复旦大学最佳教师提名奖 — 2013年 &amp; 2011年</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    吕晋 &nbsp;·&nbsp; jin_lyu@163.com &nbsp;·&nbsp; 中国 · 上海
+  </div>
+
+</div>
+
+</body>
+</html>
