@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>线下工作坊 · 三个半天版 · AI+心理学，在你最需要的时刻接住你</title>
+<style>
+  :root {
+    --c1: #4361ee; --c2: #7209b7; --c3: #f77f00; --c4: #06d6a0;
+    --gold: #e9b741; --red: #ef476f;
+    --ink: #1a1a2e; --muted: #5a6c7d; --bg: #f8f9fc;
+    --card-bg: #ffffff; --border: #e8ecf1;
+    --radius: 16px; --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,.06);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,.10);
+    --font: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", -apple-system, sans-serif;
+    --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family:var(--font); background:var(--bg); color:var(--ink);
+    line-height:1.75; padding:0; -webkit-font-smoothing:antialiased;
+  }
+  .page { max-width:1000px; margin:0 auto; padding:0 24px 80px; }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #0a0a1a 0%, #12122a 25%, #0d1b3e 50%, #051a2e 100%);
+    color:#fff; border-radius:0 0 32px 32px;
+    padding:72px 52px 56px; margin:0 -24px 52px;
+    position:relative; overflow:hidden;
+  }
+  .hero::after {
+    content:""; position:absolute; top:-120px; right:-80px;
+    width:420px; height:420px;
+    background:radial-gradient(circle, rgba(67,97,238,.25) 0%, transparent 70%);
+    border-radius:50%; animation: float 12s ease-in-out infinite;
+  }
+  .hero::before {
+    content:""; position:absolute; bottom:-100px; left:-60px;
+    width:340px; height:340px;
+    background:radial-gradient(circle, rgba(6,214,160,.2) 0%, transparent 70%);
+    border-radius:50%; animation: float 15s ease-in-out infinite reverse;
+  }
+  @keyframes float {
+    0%,100% { transform:translate(0,0) scale(1); }
+    33% { transform:translate(20px,-20px) scale(1.05); }
+    66% { transform:translate(-10px,15px) scale(0.97); }
+  }
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(30px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .hero-inner { position:relative; z-index:1; max-width:860px; }
+  .hero h1 {
+    font-size:clamp(32px,5vw,52px); font-weight:900; letter-spacing:-1px;
+    line-height:1.15; animation: fadeInUp .8s ease-out;
+    background: linear-gradient(135deg, #fff 0%, #c0d0ff 50%, #9df0d0 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero .oneliner {
+    font-size:clamp(16px,2vw,19px); margin-top:18px;
+    color:rgba(255,255,255,.62); line-height:1.7; animation: fadeInUp .8s ease-out .15s both;
+  }
+  .hero .oneliner em { color:#f0c060; font-style:normal; font-weight:600; }
+  .hero-meta {
+    display:flex; gap:10px; flex-wrap:wrap; margin-top:28px;
+    animation: fadeInUp .8s ease-out .3s both;
+  }
+  .hero-meta span {
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+    padding:8px 18px; border-radius:24px; font-size:14px;
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    transition:var(--transition);
+  }
+  .hero-meta span:hover { background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.25); }
+
+  /* ── Section ── */
+  .sec { margin-bottom:60px; }
+  .sec-h {
+    font-size:clamp(20px,3vw,26px); font-weight:800; margin-bottom:22px;
+    display:flex; align-items:center; gap:10px; letter-spacing:-0.5px;
+  }
+  .card {
+    background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    padding:30px 34px; margin-bottom:18px; transition:var(--transition);
+  }
+  .card:hover { box-shadow:var(--shadow-lg); transform:translateY(-1px); }
+
+  /* ── Courses ── */
+  .course-option {
+    background:var(--card-bg); border-radius:var(--radius);
+    box-shadow:var(--shadow); border:1px solid var(--border);
+    margin-bottom:24px; overflow:hidden; transition:var(--transition);
+  }
+  .course-option:hover { box-shadow:var(--shadow-lg); }
+  .course-header {
+    padding:20px 30px; color:#fff; display:flex;
+    justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+  }
+  .course-header.online {
+    background:linear-gradient(135deg, #4361ee, #3a56d4);
+  }
+  .course-header.offline {
+    background:linear-gradient(135deg, #7209b7, #5a078f);
+  }
+  .course-header h3 { font-size:19px; font-weight:700; }
+  .course-header .meta { font-size:13px; opacity:.85; font-weight:500; }
+  .course-body { padding:0; }
+
+  /* ── Tables ── */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  thead th {
+    background:#f6f8fa; padding:12px 14px; text-align:left;
+    font-weight:700; font-size:12px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.5px; border-bottom:2px solid #e4e8ec;
+  }
+  tbody td { padding:12px 14px; border-bottom:1px solid #f2f4f6; vertical-align:top; }
+  tbody tr { transition:background .15s; }
+  tbody tr:hover { background:#fafbfc; }
+  tbody tr:last-child td { border-bottom:none; }
+  .t-time {
+    white-space:nowrap; color:var(--muted);
+    font-family:"SF Mono","Menlo","Consolas",monospace; font-size:13px; font-weight:600;
+  }
+  .t-break td {
+    background:#fafbfb; color:#bbb; text-align:center;
+    font-size:13px; font-style:italic; padding:8px;
+  }
+
+  /* ── Tags ── */
+  .tag {
+    display:inline-block; font-size:11px; padding:4px 10px;
+    border-radius:12px; font-weight:700; white-space:nowrap;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .tag.dem { background:#fff3e0; color:#e67e22; }
+  .tag.hands { background:#e0f7ef; color:#0d9e6c; }
+  .tag.lec { background:#e3ecff; color:#4361ee; }
+  .tag.shr { background:#f3e5f7; color:#7209b7; }
+  .tag.gam { background:#fff9e6; color:#f77f00; }
+  .tag.kwt { background:#fef9f0; color:#b8860b; border:1px solid #e8d5a8; }
+  .tag.exp { background:#ffe8ec; color:#ef476f; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align:center; color:#bbb; font-size:12px;
+    margin-top:64px; padding-top:28px; border-top:1px solid var(--border);
+    letter-spacing:.5px;
+  }
+
+  @media (max-width:640px) {
+    .hero { padding:44px 24px 36px; border-radius:0 0 20px 20px; }
+    .hero h1 { font-size:28px; }
+    .card { padding:20px 18px; }
+    .step { flex-direction:column; gap:12px; }
+    table { font-size:11px; }
+    thead th, tbody td { padding:8px 6px; }
+    .big-statement { padding:28px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+  <h1>AI + 心理学<br><em>在你最需要的时刻接住你</em></h1>
+  <p style="font-size:clamp(17px,2.2vw,22px);font-weight:700;color:#f0c060;margin-bottom:16px;animation: fadeInUp .8s ease-out .1s both;">
+    带走你的心理小助手 · 让心理学变成日用品
+  </p>
+  <p class="oneliner">
+    <strong>一个人，如何在 AI 的加持下，用心理学知识，帮助自己实现梦想？</strong><br>
+    从复旦大学辞职，独自带娃，赴美留学攻读心理学硕士——作业、实习、育儿、亲密关系的重压同时砸下来。<br>
+    她用 AI 和心理学撑过了那段一个人根本做不完的日子。<br>
+    <em>现在她想陪你走过这段路，让心理学的力量在你最需要的时刻接住你。</em>
+  </p>
+  <div class="hero-meta">
+    <span>🧠 心理学 + AI</span>
+    <span>🤖 带走三个属于你的心理小助手</span>
+    <span>🏠 线下 9 小时 · 三个半天 · 周末工作坊</span>
+  </div>
+</div>
+
+<!-- ═══════ 基本原则 ═══════ -->
+<div style="text-align:center;margin-bottom:52px;padding:32px 24px;background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);">
+  <p style="font-size:16px;color:var(--muted);line-height:2.2;max-width:720px;margin:0 auto;">
+    <strong style="color:var(--ink);">传统心理咨询的局限在哪里？AI 能帮什么忙？</strong><br>
+    心理学解决问题的框架没有问题——建立关系、分析讨论、介入、评估。<br>
+    问题在于<strong style="color:var(--ink);">落地</strong>。咨询室和现实生活的切换有困难。角色扮演、沙盘、艺术表达……都是咨询室里的事。走出咨询室，来访者还是一个人面对一切。<br>
+    AI 的加持，就是让咨询室和现实生活的切换变得容易。<br><br>
+    所以这门课，我们顺着<strong style="color:var(--ink);">心理学如何帮助人们解决现实问题</strong>这条线走——<br>
+    边聊心理学，边聊 AI 怎么加持。
+  </p>
+</div>
+
+<!-- ═══════ 应用场景 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🎯 AI + 心理健康 · 你可以用它做什么</div>
+  <p style="font-size:15px;color:var(--muted);margin-bottom:22px;line-height:1.8;">
+    每种痛点，都有对应的解决方案。<strong>你今天想解决什么？</strong>
+  </p>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;">
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">👨‍👩‍👧</div>
+      <div style="font-weight:700;font-size:16px;">亲子关系</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">孩子不听话、不写作业、沉迷游戏、性格冲动……<br>做一个便于和孩子沟通的 AI 小助手<br>家长也需要“被看见”<br><br><em>用 AI 小助手作为亲子沟通的桥梁<br>案例分析——Chat with Alan</em></div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">💑</div>
+      <div style="font-weight:700;font-size:16px;">亲密关系</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">沟通总是吵架、冷战、无话可说……<br>在安全的环境中练习爱的表达</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">😰</div>
+      <div style="font-weight:700;font-size:16px;">社交恐惧</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">面试、汇报、跟权威说话就紧张<br>做一个暴露陪练<br>在安全环境里一步步脱敏</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">🍽️</div>
+      <div style="font-weight:700;font-size:16px;">情绪性进食</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">甜品、烧烤、夜宵……<br>AI 在冲动来临的瞬间问你一句<br>「是肚子饿了，还是想要安抚自己的情绪？」</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">🌱</div>
+      <div style="font-weight:700;font-size:16px;">好习惯养成</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">早睡早起、按时写作业、坚持运动<br>知道要做但做不到<br>做一个温柔陪伴的 AI 小助手，陪你一起养成好习惯</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">😴</div>
+      <div style="font-weight:700;font-size:16px;">睡眠行为干预</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">躺在床上脑子关不掉<br>AI 陪你做个深呼吸<br>不是催你睡，是帮你松下来</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">🛒</div>
+      <div style="font-weight:700;font-size:16px;">冲动消费阻断</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">不开心时就想清空购物车<br>AI小助手的温柔提醒：<br>「购物，不是唯一爱自己的方式」</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">📚</div>
+      <div style="font-weight:700;font-size:16px;">考前焦虑脱敏</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">考试前心跳加速、脑子空白<br>AI 带你做一轮 DBT 自我安抚<br>让你的身体先稳下来</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">💼</div>
+      <div style="font-weight:700;font-size:16px;">职场压力倾诉</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">被老板骂了、想辞职又不敢<br>凌晨没有一个能吐槽的人<br>AI 听你说完，不插嘴、不说教</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;text-align:center;padding:24px 18px;">
+      <div style="font-size:32px;margin-bottom:8px;">🕯️</div>
+      <div style="font-weight:700;font-size:16px;">哀伤与丧失陪伴</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;">两次咨询的间隙，情绪突然的崩溃<br>7*24 小时的心理小助手永远在线<br>缓冲情绪，提供心理支持技术，一起度过难关</div>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:18px;font-size:14px;color:var(--muted);">
+    你的期待解决的场景，是什么？
+  </p>
+</div>
+
+<!-- ═══════ 线下 ═══════ -->
+<div class="sec">
+  <div class="sec-h">🏠 线下版 · 三个半天 · 9 小时</div>
+  <p style="font-size:15px;color:var(--muted);margin-bottom:22px;line-height:1.8;">
+    </strong>让心理学从每周一小时的奢侈品，变成每天 24 小时的日用品。<br>
+    两个平台（扣子编程 + WorkBuddy），同一个场景，两种产出：一个「人」——最懂你的陪伴者，一个「剧本」——沉浸式心理训练工具。加上硬件设备，全部带走。
+  </p>
+
+  <!-- Half-day 1 -->
+  <div class="course-option">
+    <div class="course-header online">
+      <h3>第一板块 · 理论 + 伦理探讨 + SHIP 框架</h3>
+      <span class="meta">半天</span>
+    </div>
+    <div class="course-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">13:00–13:10</td><td>🧵 讲师故事</td><td>10min</td>
+            <td>
+              从复旦大学辞职，一人带娃赴美留学，用 AI 和心理学撑过来的经历。<br>
+              「一个人如何在 AI 的加持下，用心理学知识，帮助自己实现梦想？」
+            </td>
+            <td><span class="tag lec">故事</span></td>
+          </tr>
+          <tr><td class="t-time">13:10–13:30</td><td>💡 Warm Up · 小组分享</td><td>20min</td>
+            <td>
+              6人一组，共5组。每个人告诉组员：你叫什么名字，你最想解决的场景是什么。每组选一个代表，分享一下本组讨论的大致情况。
+            </td>
+            <td><span class="tag gam">Warm Up</span></td>
+          </tr>
+          <tr><td class="t-time">13:30–14:30</td><td>📖 技术在心理学上的应用 · 从工具到 AI</td><td>60min</td>
+            <td>
+              <strong>心理学可以用来解决情绪及行为问题，而 AI 的赋能将加速这一切。</strong>这是贯穿今天所有内容的核心原则。<br><br>
+              <strong>引子：标记你的起点。</strong><br>
+              讲师边问边带：「谁用过豆包、DeepSeek 或 ChatGPT？」——举手。<br>
+              「有谁试过用 AI 来解决心理学相关的问题？——比如情绪困扰、人际关系、自我探索、好习惯养成、行为改变……」可能只有两三个人。所以我们需要这门课。<br>
+              每个人在笔记本上写下一行字：<strong>「我用过哪些 AI 工具，我曾经用 AI 解决过什么问题。」</strong>这是标记起点。<br><br>
+              <strong>技术一直在为心理学赋能。</strong><br>
+              从沙盘、生物反馈、VRET（虚拟现实暴露疗法），到今天的 AI——AI 不是第一个被用到心理咨询中的技术，但它是颠覆性的。<br>
+              从 ChatGPT 到 DeepSeek 到豆包——AI 从少数人的工具变成了每个人的日常。通用大模型什么都能聊，那为什么还要自己做一个？——公共广场 vs 你自己的房间。<br>
+              讲师用产品展示：JIN（情绪陪伴）、Chat with Alan（亲子沟通）、顾老师（硬件 AI）。<br>
+              心理学四步框架：建立关系、分析讨论、介入、评估——AI 让框架的落地变得容易。<br>
+              十个应用场景，请每个人选一个自己本次最想解决的，写在笔记本上。
+            </td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr class="t-break"><td colspan="5">☕ 休息 10min</td></tr>
+          <tr><td class="t-time">14:40–15:10</td><td>📖 如何渡河 · SHIP 四步法</td><td>30min</td>
+            <td>
+              <strong>目标场景已经确定好，意味着我们已经确定了对岸。岸这边的我们需要一艘船帮我们渡河。造一艘船需要四步——SHIP。</strong><br><br>
+              <strong>S · Situation 情境：</strong>你的情境是什么？你需要它帮你解决什么问题？——不开心的时候陪我聊聊、帮我在吼孩子之前慢下来、面试前带我做个深呼吸。<br>
+              <strong>H · Home 载体：</strong>用硬件、手机还是电脑？——决定了你用扣子编程、WorkBuddy 还是小智 AI。载体不同，造船的工具不同。<br>
+              <strong>I · Input 提示词：</strong>写提示词——人格设定、对话节奏、安全边界。这是船的图纸。<br>
+              <strong>P · Publish 发布：</strong>合成发布。回到需要解决问题的情境中。船下水了。<br><br>
+              讲师用产品的真实提示词做演示——每一艘已经下水的船，都是从这四步开始的。
+            </td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr><td class="t-time">15:10–15:40</td><td>⚖️ 伦理探讨</td><td>30min</td>
+            <td>
+              AI 不是咨询师——边界在哪里？数据隐私。依赖风险。危机时刻的处理。<br>
+              作为从业者，你的责任不是「AI 能不能」，而是「我怎么用它才安全」。
+            </td>
+            <td><span class="tag shr">讨论</span></td>
+          </tr>
+          <tr><td class="t-time">15:40–15:50</td><td>🛠 工具就位：扣子编程 + WorkBuddy</td><td>10min</td>
+            <td>
+              打开扣子编程（code.coze.cn）→ 注册/登录。确保每个人都有自己的扣子编程帐户。<br>
+              同时下载并注册 WorkBuddy——两个工具都就位。
+            </td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">15:50–16:00</td><td>📌 收束 + 预告</td><td>10min</td>
+            <td>「问题出在情境中，也要在情境中解决。」SHIP——情境、载体、提示词、发布。今天我们完成了情境和载体。<strong>明天，我们完成剩下的两个步骤，让船下水。</strong></td>
+            <td><span class="tag shr">收束</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Half-day 2 -->
+  <div class="course-option">
+    <div class="course-header" style="background:linear-gradient(135deg, #7209b7, #5a078f);">
+      <h3>第二板块 · 上半场：扣子编程 · 做一个「人」</h3>
+      <span class="meta">90分钟 &nbsp;|&nbsp; 心理小助手 · 对话型</span>
+    </div>
+    <div class="course-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">09:00–09:05</td><td>🔄 回顾 SHIP</td><td>5min</td>
+            <td>回顾 Situation · Home · Input · Publish。今天从 Input 开始——写提示词，造一个「人」。</td>
+            <td><span class="tag shr">回顾</span></td>
+          </tr>
+          <tr><td class="t-time">09:05–09:15</td><td>🎬 Demo</td><td>10min</td>
+            <td>讲师演示，学员同步操作：打开扣子编程（code.coze.cn），新建网页应用，写提示词，开始工作。</td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr><td class="t-time">09:15–09:35</td><td>🛠 人格层：写提示词并测试</td><td>20min</td>
+            <td>输入期待的应对方式、倾听技术、回应技术、对话节奏。测试后，开始调整。</td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">09:35–10:15</td><td>🛠 干预层 + Publish</td><td>40min</td>
+            <td>如果学员对干预方式有偏好，可以自主选择流派（如CBT/DBT/ACT）→ 或者加入一个核心干预方法（如暴露练习/角色扮演/行为链打断）→ 调整 → 发布，这样你就得到了自己的心理小助手。</td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">10:15–10:25</td><td>🔧 复盘与迭代</td><td>10min</td>
+            <td>试着和小助手聊天，根据自己的需求，手动更新自己的提示词。再次发布，你就得到了一个更符合你需求的「心理小助手」。</td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">10:25–10:30</td><td>📌 收束</td><td>5min</td>
+            <td>思考与分享：提示词怎么写最有效？</td>
+            <td><span class="tag shr">收束</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="course-option">
+    <div class="course-header" style="background:linear-gradient(135deg, #f77f00, #e06e00);">
+      <h3>第二板块 · 下半场：WorkBuddy · 做一个「剧本」</h3>
+      <span class="meta">90分钟 &nbsp;|&nbsp; 沉浸式心理训练工具</span>
+    </div>
+    <div class="course-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">10:30–10:40</td><td>📖 WorkBuddy 入门</td><td>10min</td>
+            <td>腾讯 WorkBuddy。跟扣子不同的工具，我们用它来体验沉浸式虚拟现实训练。创建页面 → CloudStudio 部署 → 生成链接。</td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr><td class="t-time">10:40–11:00</td><td>🎬 案例展示：如何用虚拟现实技术解决“女性在职场上身份的割裂感”</td><td>20min</td>
+            <td>讲师展示如何使用 WorkBuddy 生成 3D 网页，实现沉浸式心理训练。</td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr><td class="t-time">11:00–11:50</td><td>🛠 动手：给自己写一份「剧本」</td><td>50min</td>
+            <td>在 AI 的帮助下完成提示词：场景描述、阶段流程、引导方式。写完 → 测试 → 调整 → 部署。Publish。</td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">11:50–12:00</td><td>🔧 复盘与迭代</td><td>10min</td>
+            <td>思考与分享：有什么可以改进的地方？</td>
+            <td><span class="tag shr">讨论</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Half-day 3 -->
+  <div class="course-option">
+    <div class="course-header" style="background:linear-gradient(135deg, #06d6a0, #05b88a);">
+      <h3>第三板块 · AI 硬件 + 展示 + 收官</h3>
+      <span class="meta">90分钟 &nbsp;|&nbsp; 让提示词开口说话</span>
+    </div>
+    <div class="course-body">
+      <table>
+        <thead><tr><th style="width:68px">时间</th><th>环节</th><th style="width:44px">时长</th><th>内容</th><th style="width:68px">形式</th></tr></thead>
+        <tbody>
+          <tr><td class="t-time">13:00–13:10</td><td>🔄 回顾</td><td>10min</td>
+            <td><span class="tag shr">回顾</span></td>
+          </tr>
+          <tr><td class="t-time">13:10–13:20</td><td>📖 硬件为什么重要</td><td>10min</td>
+            <td>要开手机、要联网、要主动打开 App——这些在一个人最脆弱的时刻，每一步都是障碍。硬件 AI：触手可及，不需要打开手机。硬件让交流更加专注，不受其他 app 的干扰，更加可视化。</td>
+            <td><span class="tag kwt">知识</span></td>
+          </tr>
+          <tr><td class="t-time">13:20–13:30</td><td>🎬 讲师演示</td><td>10min</td>
+            <td>展示 CoreS3 顾老师 + 小智 AI 饮食调节产品。</td>
+            <td><span class="tag dem">演示</span></td>
+          </tr>
+          <tr><td class="t-time">13:30–14:00</td><td>📟 动手：把提示词装进硬件</td><td>30min</td>
+            <td>每人一个已烧制好的小智 AI 设备。把自己的提示词装进去 → 调声音 → 测试出声。</td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">14:00–14:10</td><td>☕ 休息</td><td>10min</td>
+            <td></td>
+            <td><span class="t-break"></span></td>
+          </tr>
+          <tr><td class="t-time">14:10–14:30</td><td>🎪 布置展台</td><td>20min</td>
+            <td>每一组生成一个展台——桌上摆着小智 AI 设备、电脑屏幕上打开扣子编程的心理小助手链接和 WorkBuddy 的沉浸式工具链接。旁边放一张白纸，写一行字：本组的场景和作品。每组留一名讲解员。</td>
+            <td><span class="tag hands">动手</span></td>
+          </tr>
+          <tr><td class="t-time">14:30–14:50</td><td>🔍 自由参观</td><td>20min</td>
+            <td>所有人离开座位，像逛展一样到处走动。可以跟 AI 对话、试玩 WorkBuddy 上的沉浸式工具。每组留一名讲解员。</td>
+            <td><span class="tag gam">展示</span></td>
+          </tr>
+          <tr><td class="t-time">14:50–15:00</td><td>🏁 收官</td><td>10min</td>
+            <td>你的船已经做好，它将带着你驶往彼岸。你将拥有自己的三个作品——扣子编程上的心理小助手、WorkBuddy 上的沉浸式训练工具、硬件里的 AI 伙伴。恭喜你，你已经成为所选场景的心理专家。</td>
+            <td><span class="tag shr">总结</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  带走你的心理小助手 · 让心理学变成日用品 · 2026 年 8 月
+</div>
+
+</div><!-- page -->
+</body>
+</html>
